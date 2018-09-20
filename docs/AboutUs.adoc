@@ -28,7 +28,7 @@ Responsibilities: Managing subjects + exams
 === Meghana Narayanan
 image::Meg1456.jpg[width="150", align="left"]
 
-Role: Deliverables and Deadlines In-charge
+Role: Deliverables and Deadlines In-charge + 
 Responsibilities: Ensuring work is completed on time
 
 '''
