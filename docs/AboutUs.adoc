@@ -25,12 +25,11 @@ Responsibilities: Managing subjects + exams
 
 '''
 
-=== Johnny Doe
-image::yijinl.jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+=== Meghana Narayanan
+image::Meg1456.jpg[width="150", align="left"]
 
-Role: Developer +
-Responsibilities: Data
+Role: Deliverables and Deadlines In-charge
+Responsibilities: Ensuring work is completed on time
 
 '''
 
