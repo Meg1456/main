@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<StatisticsBook>
+    <statisticsList isPrivate="false">
+        <subjectName>Mathematics</subjectName>
+        <examName>Midterm</examName>
+        <topScorer>John Doe</topScorer>
+        <averageScore>21.5</averageScore>
+        <totalExamTakers>86</totalExamTakers>
+        <numberAbsent>4</numberAbsent>
+        <totalPass>83</totalPass>
+        <maxMin>35 98</maxMin>
+    </statisticsList>
+</StatisticsBook>

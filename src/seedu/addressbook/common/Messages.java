@@ -16,4 +16,5 @@ public class Messages {
     public static final String MESSAGE_INSUFFICIENT_PRIVILEGE = "Insufficient Privilege.\n"
             + "Requires privilege level of %s, but current level is %s";
     public static final String MESSAGE_USING_EXAMS_FILE = "Using exams file : %1$s";
+    public static final String MESSAGE_USING_STATISTICS_FILE = "Using statistics file : %1$s";
 }

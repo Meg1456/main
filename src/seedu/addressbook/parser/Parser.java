@@ -10,12 +10,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.ChangePasswordCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.CreateExamCommand;
-import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
@@ -132,7 +132,7 @@ public class Parser {
             return prepareCreateExam(arguments);
 
         case AddAssignmentStatistics.COMMAND_WORD:
-             return prepareCreateStatistics(arguments);
+            return prepareCreateStatistics(arguments);
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
         default:
@@ -350,7 +350,8 @@ public class Parser {
         final Matcher matcher = STATISTICS_DATA_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
         if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAssignmentStatistics.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddAssignmentStatistics.MESSAGE_USAGE));
         }
         try {
             return new AddAssignmentStatistics(
@@ -362,7 +363,7 @@ public class Parser {
                     matcher.group("numberAbsent"),
                     matcher.group("totalPass"),
                     matcher.group("maxMin"),
-                    isPrivatePrefixPresent(matcher.group("isPrivate"))
+                    isPrivatePrefixPresent(matcher.group("isExamPrivate"))
             );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());

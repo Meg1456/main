@@ -133,8 +133,7 @@ public class PrivilegeTest {
 
     @Test
     public void executeTutorCommandsInsufficientPrivilege() throws Exception {
-        final String[] inputs = {"add Valid Name p/12345 e/valid@e.mail a/valid, address ",
-                "delete 1"};
+        final String[] inputs = {"add Valid Name p/12345 e/valid@e.mail a/valid, address ", "delete 1"};
         assertCommandsInsufficientPrivilege(inputs);
     }
 

@@ -69,7 +69,8 @@ public class AdaptedStatistics {
      * so we check for that.
      */
     public boolean isAnyRequiredFieldMissing() {
-        return Utils.isAnyNull(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent, totalPass, maxMin, isPrivate);
+        return Utils.isAnyNull(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
+                totalPass, maxMin, isPrivate);
     }
 
     /**
@@ -87,6 +88,7 @@ public class AdaptedStatistics {
         final String totalPass = this.totalPass;
         final String maxMin = this.maxMin;
         final boolean isPrivate = this.isPrivate;
-        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent, totalPass, maxMin, isPrivate);
+        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
+                totalPass, maxMin, isPrivate);
     }
 }

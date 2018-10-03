@@ -182,7 +182,8 @@ public class StorageFile extends Storage {
         return pathExam.toString();
     }
 
-    public String getPathStatistics() {return pathStatistics.toString(); }
+    public String getPathStatistics() {
+        return pathStatistics.toString(); }
 
     /**
      * Saves all data to this storage file.
@@ -259,7 +260,8 @@ public class StorageFile extends Storage {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(toSave, fileWriter);
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + pathStatistics + " error: " + ioe.getMessage());
+            throw new StorageOperationException("Error writing to file: " + pathStatistics + " error: "
+                    + ioe.getMessage());
         } catch (JAXBException jaxbe) {
             throw new StorageOperationException("Error converting statistics book into storage format");
         }
@@ -272,7 +274,7 @@ public class StorageFile extends Storage {
      */
     public StatisticsBook loadStatistics() throws StorageOperationException {
         try (final Reader fileReader = new BufferedReader(new FileReader(pathStatistics.toFile()))) {
-            final Unmarshaller unmarshaller = jaxbContext2.createUnmarshaller();
+            final Unmarshaller unmarshaller = jaxbContext3.createUnmarshaller();
             final AdaptedStatisticsBook loaded = (AdaptedStatisticsBook) unmarshaller.unmarshal(fileReader);
             // manual check for missing elements
             if (loaded.isAnyRequiredFieldMissing()) {

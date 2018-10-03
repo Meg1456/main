@@ -60,22 +60,20 @@ public abstract class Command {
     /**
      * Supplies the data the command will operate on.
      */
-    public void setData(AddressBook addressBook, StatisticsBook statisticsBook, List<? extends ReadOnlyPerson> relevantPersons, Privilege privilege) {
+    public void setData(AddressBook addressBook, StatisticsBook statisticsBook, List<? extends ReadOnlyPerson>
+            relevantPersons, Privilege privilege) {
         this.addressBook = addressBook;
         this.statisticsBook = statisticsBook;
         this.relevantPersons = relevantPersons;
         this.privilege = privilege;
     }
 
-    public void setData(AddressBook addressBook,
-                        List<? extends ReadOnlyPerson> relevantPersons,
-                        Privilege privilege,
-                        ExamBook exambook,
-                        StatisticsBook statisticsBook) {
+    public void setData(AddressBook addressBook, List<? extends ReadOnlyPerson> relevantPersons, Privilege privilege,
+                        ExamBook exambook, StatisticsBook statisticsBook) {
         setData(addressBook, statisticsBook, relevantPersons, privilege);
         this.examBook = exambook;
         this.statisticsBook = statisticsBook;
-}
+    }
 
     /**
      * Extracts the the target person in the last shown list from the given arguments.

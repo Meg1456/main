@@ -1,7 +1,8 @@
 package seedu.addressbook.storage;
 import seedu.addressbook.data.AddressBook;
-import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.StatisticsBook;
+
 
 /**
  *  This is the abstract class in charge of Storage.

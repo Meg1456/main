@@ -1,6 +1,7 @@
 package seedu.addressbook.data.person;
 
 import java.util.Objects;
+
 import seedu.addressbook.data.exception.IllegalValueException;
 /**
  * Represents a exam in the exam book.
@@ -14,14 +15,6 @@ public class Results implements Printable {
     public static final String EXAMTOTAL_EXAMPLE = "30";
     public static final String MAXMIN_EXMAPLE = "27 10"; //maximum score and minimum score
 
-    private String subjectName;
-    private String examName;
-    private String percentile;
-    private String marksScored;
-    private String examTotal;
-    private String maxMin;
-    private boolean isPrivate;
-
     public static final String PERCENTILE_CONSTRAINTS = "Percentile must only contain whole numbers";
     public static final String PERCENTILE_VALIDATION_REGEX = "\\d+";
 
@@ -34,6 +27,13 @@ public class Results implements Printable {
     public static final String MAX_MIN_CONSTRAINTS = "Max-Min value can contain two whole numbers separated by a space";
     public static final String MAX_MIN_VALIDATION_REGEX = ".+";
 
+    private String subjectName;
+    private String examName;
+    private String percentile;
+    private String marksScored;
+    private String examTotal;
+    private String maxMin;
+    private boolean isPrivate;
 
     public Results() {}
 
@@ -79,7 +79,7 @@ public class Results implements Printable {
      * Checks if a given string is a valid percentile.
      */
     public static boolean isValidPercentile(String value) {
-            return value.matches(PERCENTILE_VALIDATION_REGEX);
+        return value.matches(PERCENTILE_VALIDATION_REGEX);
     }
 
     /**

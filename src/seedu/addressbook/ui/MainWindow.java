@@ -2,6 +2,7 @@ package seedu.addressbook.ui;
 
 import static seedu.addressbook.common.Messages.MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE;
 import static seedu.addressbook.common.Messages.MESSAGE_USING_EXAMS_FILE;
+import static seedu.addressbook.common.Messages.MESSAGE_USING_STATISTICS_FILE;
 import static seedu.addressbook.common.Messages.MESSAGE_USING_STORAGE_FILE;
 import static seedu.addressbook.common.Messages.MESSAGE_WELCOME;
 
@@ -64,10 +65,13 @@ public class MainWindow {
         display(result.feedbackToUser);
     }
     /** Displays the welcome message**/
-    public void displayWelcomeMessage(String version, String storageFilePath, String examsFilePath) {
+    public void displayWelcomeMessage(String version, String storageFilePath, String examsFilePath,
+                                      String statisticsFilePath) {
         String storageFileInfo = String.format(MESSAGE_USING_STORAGE_FILE, storageFilePath);
         String examsFileInfo = String.format(MESSAGE_USING_EXAMS_FILE, examsFilePath);
-        display(MESSAGE_WELCOME, version, MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE, storageFileInfo, examsFileInfo);
+        String statisticsFileInfo = String.format(MESSAGE_USING_STATISTICS_FILE, statisticsFilePath);
+        display(MESSAGE_WELCOME, version, MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE, storageFileInfo, examsFileInfo,
+                statisticsFileInfo);
     }
 
     /**

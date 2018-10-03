@@ -11,9 +11,10 @@ import seedu.addressbook.data.person.UniqueStatisticsList;
 public class AddAssignmentStatistics extends Command {
     public static final String COMMAND_WORD = "addstatistics";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds a new assignment statistic to the StatisticsBook. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds new statistic to the StatisticsBook. "
             + "Statistics can be marked private by prepending 'p' to the prefix of the field.\n\t"
-            + "Parameters: SUBJECTNAME [p]en/EXAMNAME [p]ts/TOP SCORER [p]av/AVERAGE [p]te/TOTAL EXAM TAKERS [p]ab/TOTAL NUMBER ABSENT [p]tp/ TOTAL PASS [p]mm/MAX MIN\n\t"
+            + "Parameters: SUBJECTNAME [p]en/EXAMNAME [p]ts/TOP SCORER [p]av/AVERAGE [p]te/TOTAL EXAM TAKERS "
+            + "[p]ab/TOTAL NUMBER ABSENT [p]tp/ TOTAL PASS [p]mm/MAX MIN\n\t"
             + "Example: " + COMMAND_WORD
             + " Mathematics en/Midterm ts/John Doe av/21.5 te/86 ab/4 tp/83 mm/35 98";
 
@@ -30,8 +31,8 @@ public class AddAssignmentStatistics extends Command {
     public AddAssignmentStatistics (String subjectName, String examName, String topScorer, String averageScore,
                              String totalExamTakers, String numberAbsent, String totalPass, String maxMin,
                              boolean isPrivate) throws IllegalValueException {
-        this.toAdd = new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
-                totalPass, maxMin, isPrivate);
+        this.toAdd = new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers,
+                numberAbsent, totalPass, maxMin, isPrivate);
     }
 
     public AssignmentStatistics getAssignmentStatistics() {

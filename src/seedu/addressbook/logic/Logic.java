@@ -41,9 +41,11 @@ public class Logic {
         setStorage(initializeStorage());
         setAddressBook(storage.load());
         setExamBook(storage.loadExam());
+        setStatisticsBook(storage.loadStatistics());
     }
 
-    Logic(Storage storageFile, AddressBook addressBook, ExamBook examBook, StatisticsBook statisticsBook, Privilege privilege) {
+    Logic(Storage storageFile, AddressBook addressBook, ExamBook examBook, StatisticsBook statisticsBook, Privilege
+            privilege) {
         this(storageFile, addressBook, examBook, statisticsBook);
         setPrivilege(privilege);
     }
@@ -93,7 +95,9 @@ public class Logic {
         return storage.getPathExam();
     }
 
-    public String getStorageFilePathStatistics() {return storage.getPathStatistics(); }
+    public String getStorageFilePathStatistics() {
+        return storage.getPathStatistics();
+    }
 
     /**
      * Unmodifiable view of the current last shown list.

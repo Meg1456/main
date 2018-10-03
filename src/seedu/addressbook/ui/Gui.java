@@ -32,7 +32,8 @@ public class Gui {
     public void start(Stage stage, Stoppable mainApp) throws IOException {
         MainWindow mainWindow;
         mainWindow = createMainWindow(stage, mainApp);
-        mainWindow.displayWelcomeMessage(version, logic.getStorageFilePath(), logic.getStorageFilePathExam());
+        mainWindow.displayWelcomeMessage(version, logic.getStorageFilePath(), logic.getStorageFilePathExam(),
+                logic.getStorageFilePathStatistics());
     }
 
     /** Create the GUI window **/

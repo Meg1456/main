@@ -1,6 +1,7 @@
 package seedu.addressbook.data.person;
 
 import java.util.Objects;
+
 import seedu.addressbook.data.exception.IllegalValueException;
 /**
  * Represents a exam in the exam book.
@@ -14,7 +15,20 @@ public class AssignmentStatistics implements Printable {
     public static final String TOTALEXAMTAKERS_EXAMPLE = "84"; //Number of students who attended test
     public static final String NUMBERABSENT_EXAMPLE = "4"; //Number of students who were absent
     public static final String TOTALPASS_EXAMPLE = "82"; //Number os students who passed the test
-    public static final String MAXMIN_EXAMAPLE = "27 10";//maximum score and minimum score
+    public static final String MAXMIN_EXAMAPLE = "27 10"; //maximum score and minimum score
+
+    public static final String AVERAGE_SCORE_CONSTRAINTS = "May include up to decimal places only";
+    public static final String TOTAL_EXAM_TAKERS_CONSTRAINTS = "Number of total exam takers must only contain whole "
+           + "numbers";
+    public static final String NUMBER_ABSENT_CONSTRAINTS = "Number of absentees must only contain whole numbers";
+    public static final String TOTAL_PASS_CONSTRAINTS = "Number of students who passed must only contain whole numbers";
+    public static final String MAX_MIN_CONSTRAINTS = "Max-Min value can contain two whole numbers separated by a space";
+
+    public static final String AVERAGE_SCORE_VALIDATION_REGEX = "\\d+(\\.\\d+)?";
+    public static final String TOTAL_EXAM_TAKERS_REGEX = "\\d+";
+    public static final String NUMBER_ABSENT_REGEX = "\\d+";
+    public static final String TOTAL_PASS_REGEX = "\\d+";
+    public static final String MAX_MIN_VALIDATION_REGEX = ".+";
 
     private String subjectName;
     private String examName;
@@ -26,24 +40,8 @@ public class AssignmentStatistics implements Printable {
     private String maxMin;
     private boolean isPrivate;
 
-
-    public static final String AVERAGE_SCORE_CONSTRAINTS = "May include up to decimal places only";
-    public static final String AVERAGE_SCORE_VALIDATION_REGEX = "\\d+(\\.\\d+)?";
-
-    public static final String TOTAL_EXAM_TAKERS_CONSTRAINTS = "Number of total exam takers must only contain whole numbers";
-    public static final String TOTAL_EXAM_TAKERS_REGEX = "\\d+";
-
-    public static final String NUMBER_ABSENT_CONSTRAINTS = "Number of absentees must only contain whole numbers";
-    public static final String NUMBER_ABSENT_REGEX = "\\d+";
-
-    public static final String TOTAL_PASS_CONSTRAINTS = "Number of students who passed must only contain whole numbers";
-    public static final String TOTAL_PASS_REGEX = "\\d+";
-
-    public static final String MAX_MIN_CONSTRAINTS = "Max-Min value can contain two whole numbers separated by a space";
-    public static final String MAX_MIN_VALIDATION_REGEX = ".+";
-
-
     public AssignmentStatistics() {}
+
 
     /**
      * Validates given statistics.
@@ -130,7 +128,7 @@ public class AssignmentStatistics implements Printable {
     public String toString() {
         return subjectName + " - " + examName + " Top Scorer: " + topScorer
                 + " Average Score: " + averageScore + " Total Exam Takers: " + totalExamTakers
-                + " Total Absentees: " + numberAbsent +  " Total Pass: " + totalPass
+                + " Total Absentees: " + numberAbsent + " Total Pass: " + totalPass
                 + " Max-Min Score: " + maxMin;
     }
 
@@ -153,7 +151,7 @@ public class AssignmentStatistics implements Printable {
             if (showPrivate) {
                 return "{private Results: " + subjectName + " " + examName + " " + topScorer + " "
                         + averageScore + " " + totalExamTakers + " " + numberAbsent + totalPass + " "
-                        + maxMin + " " +"}";
+                        + maxMin + " " + "}";
             } else {
                 return "";
             }
