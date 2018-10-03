@@ -30,7 +30,7 @@ public class AssignmentStatistics implements Printable {
     public static final String AVERAGE_SCORE_CONSTRAINTS = "May include up to decimal places only";
     public static final String AVERAGE_SCORE_VALIDATION_REGEX = "\\d+(\\.\\d+)?";
 
-    public static final String TOTAL_EXAM_TAKERS_CONSTRAINTS = "Numer of total exam takers must only contain whole numbers";
+    public static final String TOTAL_EXAM_TAKERS_CONSTRAINTS = "Number of total exam takers must only contain whole numbers";
     public static final String TOTAL_EXAM_TAKERS_REGEX = "\\d+";
 
     public static final String NUMBER_ABSENT_CONSTRAINTS = "Number of absentees must only contain whole numbers";
