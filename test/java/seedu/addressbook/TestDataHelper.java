@@ -23,12 +23,10 @@ public class TestDataHelper {
         Phone privatePhone = new Phone("111111", true);
         Email email = new Email("adam@gmail.com", false);
         Address privateAddress = new Address("111, alpha street", true);
-        TestName testName = new TestName("Math final", false);
-        Grades privateGrades = new Grades("92/100", true);
         Tag tag1 = new Tag("tag1");
         Tag tag2 = new Tag("tag2");
         Set<Tag> tags = new HashSet<>(Arrays.asList(tag1, tag2));
-        return new Person(name, privatePhone, email, privateAddress, testName, privateGrades, tags);
+        return new Person(name, privatePhone, email, privateAddress, tags);
     }
 
     /**
@@ -45,8 +43,6 @@ public class TestDataHelper {
                 new Phone("" + Math.abs(seed), isAllFieldsPrivate),
                 new Email(seed + "@email", isAllFieldsPrivate),
                 new Address("House of " + seed, isAllFieldsPrivate),
-                new TestName(seed + " final", isAllFieldsPrivate),
-                new Grades(seed + "/100", isAllFieldsPrivate),
                 new HashSet<>(Arrays.asList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))))
         );
     }
@@ -64,14 +60,6 @@ public class TestDataHelper {
         return (address.isPrivate() ? " pa/" : " a/");
     }
 
-    public String getPrefix (TestName testName) {
-        return (testName.isPrivate() ? " ptn/" : " tn/");
-    }
-
-    public String getPrefix (Grades grades) {
-        return (grades.isPrivate() ? " pg/" : " g/");
-    }
-
 
     /** Generates the correct add command based on the person given */
     public String generateAddCommand(Person p) {
@@ -79,16 +67,12 @@ public class TestDataHelper {
         String phoneField = getPrefix(p.getPhone()) + p.getPhone();
         String emailField = getPrefix(p.getEmail()) + p.getEmail();
         String addressField = getPrefix(p.getAddress()) + p.getAddress();
-        String testNameField = getPrefix(p.getTestName()) + p.getTestName();
-        String gradesField = getPrefix(p.getGrades()) + p.getGrades();
 
         cmd.add("add");
         cmd.add(p.getName().toString());
         cmd.add(phoneField);
         cmd.add(emailField);
         cmd.add(addressField);
-        cmd.add(testNameField);
-        cmd.add(gradesField);
 
         Set<Tag> tags = p.getTags();
         for (Tag t: tags) {
@@ -170,8 +154,6 @@ public class TestDataHelper {
                 new Phone("1", false),
                 new Email("1@email", false),
                 new Address("House of 1", false),
-                new TestName("1 final", false),
-                new Grades("1/100", false),
                 Collections.singleton(new Tag("tag"))
         );
     }

@@ -15,8 +15,6 @@ public interface ReadOnlyPerson {
     Phone getPhone();
     Email getEmail();
     Address getAddress();
-    TestName getTestName();
-    Grades getGrades();
 
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
@@ -35,8 +33,7 @@ public interface ReadOnlyPerson {
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
                 && other.getAddress().equals(this.getAddress())
-                && other.getTestName().equals(this.getTestName())
-                && other.getGrades().equals(this.getGrades()));
+                );
     }
 
     /**
@@ -50,9 +47,8 @@ public interface ReadOnlyPerson {
                 getName(),
                 getPhone(),
                 getEmail(),
-                getAddress(),
-                getTestName(),
-                getGrades());
+                getAddress()
+                );
 
         builder.append(stringChain)
                 .append(" Tags: ");
@@ -74,9 +70,8 @@ public interface ReadOnlyPerson {
                 getName(),
                 getPhone(),
                 getEmail(),
-                getAddress(),
-                getTestName(),
-                getGrades());
+                getAddress()
+        );
         builder.append(stringChain)
                 .append(" Tags: ");
         for (Tag tag : getTags()) {

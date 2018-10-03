@@ -110,8 +110,6 @@ public class AdaptedPerson {
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
-        final TestName testName = new TestName(this.testName.value, this.testName.isPrivate);
-        final Grades grades = new Grades(this.grades.value, this.grades.isPrivate);
-        return new Person(name, phone, email, address, testName, grades, tags);
+        return new Person(name, phone, email, address, tags);
     }
 }

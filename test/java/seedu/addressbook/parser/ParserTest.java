@@ -263,8 +263,6 @@ public class ParserTest {
                 new Phone(Phone.EXAMPLE, true),
                 new Email(Email.EXAMPLE, false),
                 new Address(Address.EXAMPLE, true),
-                new TestName(Address.EXAMPLE, true),
-                new Grades(Grades.EXAMPLE, true),
                 new HashSet<>(Arrays.asList(new Tag("tag1"), new Tag("tag2"), new Tag("tag3")))
             );
         } catch (IllegalValueException ive) {
