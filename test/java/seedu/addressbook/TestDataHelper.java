@@ -10,7 +10,16 @@ import java.util.StringJoiner;
 
 import org.junit.Test;
 import seedu.addressbook.data.AddressBook;
-import seedu.addressbook.data.person.*;
+
+
+import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Email;
+import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.Name;
+import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.Phone;
+import seedu.addressbook.data.person.AssignmentStatistics;
+
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -27,6 +36,18 @@ public class TestDataHelper {
         Tag tag2 = new Tag("tag2");
         Set<Tag> tags = new HashSet<>(Arrays.asList(tag1, tag2));
         return new Person(name, privatePhone, email, privateAddress, tags);
+    }
+
+    /** Test exam for testing**/
+    public Exam math() throws Exception {
+        String subjectName = "Mathematics";
+        String examName = "Math Mid-Terms 2018";
+        String date = "06062018";
+        String startTime = "0900";
+        String endTime = "1200";
+        String details = "Held in MPSH";
+        Boolean isPrivate = false;
+        return new Exam(subjectName, examName, date, startTime, endTime, details, isPrivate);
     }
 
     /**
@@ -60,6 +81,25 @@ public class TestDataHelper {
         return (address.isPrivate() ? " pa/" : " a/");
     }
 
+    public String getPrefix (String name, Boolean isPrivate) {
+        return (isPrivate ? " pn/" : " n/");
+    }
+
+    public String getDatePrefix (String value) {
+        return (" d/");
+    }
+
+    public String getStartTimePrefix (String value) {
+        return (" st/");
+    }
+
+    public String getEndTimePrefix (String value) {
+        return (" et/");
+    }
+
+    public String getDetailsPrefix (String value) {
+        return (" dt/");
+    }
 
     /** Generates the correct add command based on the person given */
     public String generateAddCommand(Person p) {
@@ -80,6 +120,37 @@ public class TestDataHelper {
         }
         return cmd.toString();
     }
+
+    /** Generates the correct createexam command based on the exam given */
+    public String generateCreateExamCommand(Exam e) {
+        StringJoiner cmd = new StringJoiner(" ");
+        String subjectField = e.getSubjectName();
+        String examNameField = getPrefix(e.getExamName(), e.isPrivate()) + e.getExamName();
+        String dateField = getDatePrefix(e.getExamDate()) + removeSpecialChar(e.getExamDate());
+        String startTimeField = getStartTimePrefix(e.getExamStartTime())
+                + removeSpecialChar(e.getExamStartTime());
+        String endTimeField = getEndTimePrefix(e.getExamEndTime()) + removeSpecialChar(e.getExamEndTime());
+        String detailsField = getDetailsPrefix(e.getExamDetails()) + e.getExamDetails();
+
+
+        cmd.add("createexam");
+        cmd.add(subjectField);
+        cmd.add(examNameField);
+        cmd.add(dateField);
+        cmd.add(startTimeField);
+        cmd.add(endTimeField);
+        cmd.add(detailsField);
+        return cmd.toString();
+    }
+
+    /**
+     * Removes special characters in a string for exam values
+     */
+    public String removeSpecialChar(String value) {
+        String newValue = value.replaceAll("[^a-zA-Z0-9!@\\.,]", "");
+        return newValue;
+    }
+
 
     /**
      * Generates an AddressBook with auto-generated persons.
@@ -157,4 +228,6 @@ public class TestDataHelper {
                 Collections.singleton(new Tag("tag"))
         );
     }
+
+
 }

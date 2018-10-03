@@ -1,0 +1,14 @@
+package seedu.addressbook.privilege.user;
+
+import java.util.List;
+
+import seedu.addressbook.commands.Command;
+
+/**
+ This interface describes who the current user is
+ */
+public interface User {
+    String getPrivilegeLevel();
+    List<Command> getAllowedCommands();
+    boolean isAllowedCommand (Command command);
+}

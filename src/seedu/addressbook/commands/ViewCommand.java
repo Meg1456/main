@@ -24,6 +24,11 @@ public class ViewCommand extends Command {
         super(targetVisibleIndex);
     }
 
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public ViewCommand() { }
 
     @Override
     public CommandResult execute() {
@@ -38,4 +43,13 @@ public class ViewCommand extends Command {
         }
     }
 
+    @Override
+    public Category getCategory() {
+        return Category.DETAILS;
+    }
+
+    @Override
+    public String getCommandUsageMessage() {
+        return MESSAGE_USAGE;
+    }
 }

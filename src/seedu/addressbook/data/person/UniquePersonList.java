@@ -100,6 +100,21 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Finds the equivalent person from the list.
+     *
+     * @throws PersonNotFoundException if no such person could be found in the list.
+     */
+    public Person find(ReadOnlyPerson person) throws PersonNotFoundException {
+        //TODO: Fix potato
+        for (Person p: internalList) {
+            if (p.equals(person)) {
+                return p;
+            }
+        }
+        throw new PersonNotFoundException();
+    }
+
+    /**
      * Removes the equivalent person from the list.
      *
      * @throws PersonNotFoundException if no such person could be found in the list.

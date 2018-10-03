@@ -3,6 +3,7 @@ package seedu.addressbook.commands;
 import java.util.List;
 import java.util.Optional;
 
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
 /**
@@ -15,22 +16,37 @@ public class CommandResult {
 
     /** The list of persons that was produced by the command */
     private final List<? extends ReadOnlyPerson> relevantPersons;
-
+    /** The list of exams that was produced by the command */
+    private final List<? extends Exam> relevantExams;
     public CommandResult(String feedbackToUser) {
         this.feedbackToUser = feedbackToUser;
         relevantPersons = null;
+        relevantExams = null;
     }
 
     public CommandResult(String feedbackToUser, List<? extends ReadOnlyPerson> relevantPersons) {
         this.feedbackToUser = feedbackToUser;
         this.relevantPersons = relevantPersons;
+        this.relevantExams = null;
     }
 
+    public CommandResult(List<? extends Exam> relevantExams, String feedbackToUser) {
+        this.feedbackToUser = feedbackToUser;
+        this.relevantExams = relevantExams;
+        this.relevantPersons = null;
+    }
     /**
      * Returns list of persons relevant to the command command result, if any.
      */
     public Optional<List<? extends ReadOnlyPerson>> getRelevantPersons() {
         return Optional.ofNullable(relevantPersons);
+    }
+
+    /**
+     * Returns list of exams relevant to the command command result, if any.
+     */
+    public Optional<List<? extends Exam>> getRelevantExams() {
+        return Optional.ofNullable(relevantExams);
     }
 
 }

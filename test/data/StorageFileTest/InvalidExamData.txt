@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExamBook>
+    <examsList>
+        <invalid>data</invalid>
+    </examsList>
+</ExamBook>

@@ -1,6 +1,7 @@
 package seedu.addressbook.data.person;
 
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.ui.Formatter;
 
 /**
  * Represents a Person's phone number in the address book.
@@ -11,6 +12,7 @@ public class Phone implements Printable {
     public static final String EXAMPLE = "123456789";
     public static final String MESSAGE_PHONE_CONSTRAINTS = "Person phone numbers should only contain numbers";
     public static final String PHONE_VALIDATION_REGEX = "\\d+";
+    private static final String FIELD_NAME = "Phone";
 
     public final String value;
     private boolean isPrivate;
@@ -59,13 +61,6 @@ public class Phone implements Printable {
 
     @Override
     public String getPrintableString(boolean showPrivate) {
-        if (isPrivate()) {
-            if (showPrivate) {
-                return "{private Phone: " + value + "}";
-            } else {
-                return "";
-            }
-        }
-        return "Phone: " + value;
+        return Formatter.getPrintableField(showPrivate, isPrivate, FIELD_NAME, value);
     }
 }

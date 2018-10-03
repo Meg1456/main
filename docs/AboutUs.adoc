@@ -10,6 +10,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 === Ng Tek In
 image::0WN463.png[width="150", align="left"]
+{empty}[https://github.com/0WN463[github]]
 
 Role: Team Lead +
 Responsibilities: Managing Pull Requests
@@ -27,26 +28,27 @@ Responsibilities: Managing subjects + exams
 
 === Meghana Narayanan
 image::Meg1456.jpg[width="150", align="left"]
+{empty}[https://github.com/Meg1456[github]]
 
 Role: Deliverables and Deadlines In-charge + 
 Responsibilities: Ensuring work is completed on time
 
 '''
 
-=== Johnny Roe
-image::m133225.jpg[width="150", align="left"]
-{empty}[http://github.com/m133225[github]] [<<johndoe#, portfolio>>]
+=== Neow Bo Kai
+image::Neow_Bo_Kai.png[width="150", align="left"]
+{empty}[https://github.com/meisbokai[github]]
 
-Role: Developer +
-Responsibilities: Dev Ops + Threading
+Role: Developer + Code Quality Check +
+Responsibilities: Code Quality
 
 '''
 
-=== Benson Meier
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+=== Lucas Lim
+image::Lucas.jpg[width="150", align="left"]
+{empty}[https://github.com/lucdx[github]]
 
-Role: Developer +
-Responsibilities: UI
+Role: Documentation and Scribe +
+Responsibilities: Coherent and informative documents
 
 '''

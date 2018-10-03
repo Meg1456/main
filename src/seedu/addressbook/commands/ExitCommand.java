@@ -16,4 +16,8 @@ public class ExitCommand extends Command {
         return new CommandResult(MESSAGE_EXIT_ACKNOWEDGEMENT);
     }
 
+    @Override
+    public String getCommandUsageMessage() {
+        return MESSAGE_USAGE;
+    }
 }

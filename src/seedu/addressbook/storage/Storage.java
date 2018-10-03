@@ -1,6 +1,7 @@
 package seedu.addressbook.storage;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.ExamBook;
 
 /**
  *  This is the abstract class in charge of Storage.
@@ -25,4 +26,9 @@ public abstract class Storage {
 
     public abstract String getPath();
     public abstract String getPathStatistics();
+
+    public abstract void saveExam(ExamBook examBook) throws StorageOperationException;
+
+    public abstract ExamBook loadExam() throws StorageFile.StorageOperationException;
+    public abstract String getPathExam();
 }

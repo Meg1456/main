@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExamBook>
+    <examsList isPrivate="false">
+        <subjectName>Mathematics</subjectName>
+        <examName>Math Midterms</examName>
+        <examDate>01/12/2018</examDate>
+        <examStartTime>09:00</examStartTime>
+        <examEndTime>10:00</examEndTime>
+        <examDetails>Held in MPSH</examDetails>
+    </examsList>
+    <examsList isPrivate="false">
+        <subjectName>English</subjectName>
+        <examName>English Midterms</examName>
+        <examDate>02/12/2018</examDate>
+        <examStartTime>09:00</examStartTime>
+        <examEndTime>10:00</examEndTime>
+        <examDetails>Held in MPSH</examDetails>
+    </examsList>
+</ExamBook>

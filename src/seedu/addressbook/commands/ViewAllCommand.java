@@ -24,6 +24,14 @@ public class ViewAllCommand extends Command {
         super(targetVisibleIndex);
     }
 
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public ViewAllCommand() {
+
+    }
+
 
     @Override
     public CommandResult execute() {
@@ -36,5 +44,15 @@ public class ViewAllCommand extends Command {
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.DETAILS;
+    }
+
+    @Override
+    public String getCommandUsageMessage() {
+        return MESSAGE_USAGE;
     }
 }

@@ -28,6 +28,14 @@ public class FindCommand extends Command {
     }
 
     /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public FindCommand() {
+        this.keywords = new HashSet<>();
+    }
+
+    /**
      * Returns copy of keywords in this command.
      */
     public Set<String> getKeywords() {
@@ -57,4 +65,13 @@ public class FindCommand extends Command {
         return matchedPersons;
     }
 
+    @Override
+    public Category getCategory() {
+        return Category.DETAILS;
+    }
+
+    @Override
+    public String getCommandUsageMessage() {
+        return MESSAGE_USAGE;
+    }
 }

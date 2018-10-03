@@ -21,4 +21,14 @@ public class ClearCommand extends Command {
     public boolean isMutating() {
         return true;
     }
+
+    @Override
+    public Category getCategory() {
+        return Category.DETAILS;
+    }
+
+    @Override
+    public String getCommandUsageMessage() {
+        return MESSAGE_USAGE;
+    }
 }

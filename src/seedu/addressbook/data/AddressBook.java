@@ -1,5 +1,7 @@
 package seedu.addressbook.data;
 
+import java.util.Optional;
+
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList;
@@ -11,22 +13,33 @@ import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
  */
 public class AddressBook {
 
+    public static final String DEFAULT_MASTER_PASSWORD = "default_pw";
     private final UniquePersonList allPersons;
+    private String masterPassword;
+
 
     /**
      * Creates an empty address book.
      */
     public AddressBook() {
         allPersons = new UniquePersonList();
+        masterPassword = DEFAULT_MASTER_PASSWORD;
     }
 
     /**
      * Constructs an address book with the given data.
      *
      * @param persons external changes to this will not affect this address book
+     * @param masterPassword
      */
-    public AddressBook(UniquePersonList persons) {
-        this.allPersons = new UniquePersonList(persons);
+    public AddressBook(UniquePersonList persons, String masterPassword) {
+        allPersons = new UniquePersonList(persons);
+        this.masterPassword = Optional.ofNullable(masterPassword)
+                .orElse(DEFAULT_MASTER_PASSWORD);
+    }
+
+    public void setMasterPassword(String masterPassword) {
+        this.masterPassword = masterPassword;
     }
 
     public static AddressBook empty() {
@@ -59,6 +72,15 @@ public class AddressBook {
     }
 
     /**
+     * Finds and returns the given person in the AddressBook
+     *
+     * @throws PersonNotFoundException if no such Person could be found.
+     */
+    public Person findPerson(ReadOnlyPerson person) throws PersonNotFoundException {
+        return allPersons.find(person);
+    }
+
+    /**
      * Clears all persons from the address book.
      */
     public void clear() {
@@ -70,6 +92,10 @@ public class AddressBook {
      */
     public UniquePersonList getAllPersons() {
         return new UniquePersonList(allPersons);
+    }
+
+    public String getMasterPassword() {
+        return masterPassword;
     }
 
     @Override

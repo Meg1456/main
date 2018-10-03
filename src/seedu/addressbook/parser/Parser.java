@@ -11,14 +11,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.addressbook.commands.AddCommand;
+import seedu.addressbook.commands.ChangePasswordCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.CreateExamCommand;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.ListCommand;
+import seedu.addressbook.commands.RaisePrivilegeCommand;
+import seedu.addressbook.commands.SayCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -32,6 +36,8 @@ public class Parser {
 
     public static final Pattern KEYWORDS_ARGS_FORMAT =
             Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
+    public static final Pattern SINGLE_KEYWORD_ARGS_FORMAT =
+            Pattern.compile("(?<keywords>\\S+\\s*)"); // one keyword separated by whitespace
 
     public static final Pattern PERSON_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<name>[^/]+)"
@@ -39,6 +45,14 @@ public class Parser {
                     + " (?<isEmailPrivate>p?)e/(?<email>[^/]+)"
                     + " (?<isAddressPrivate>p?)a/(?<address>[^/]+)"
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
+
+    public static final Pattern EXAM_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+            Pattern.compile("(?<subjectName>[^/]+)"
+                    + " (?<isExamPrivate>p?)n/(?<examName>[^/]+)"
+                    + " d/(?<examDate>[^/]+)"
+                    + " st/(?<examStartTime>[^/]+)"
+                    + " et/(?<examEndTime>[^/]+)"
+                    + " dt/(?<examDetails>[^/]+)");
 
     /**
      * Used for initial separation of command word and args.
@@ -93,6 +107,18 @@ public class Parser {
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
+
+        case SayCommand.COMMAND_WORD:
+            return new SayCommand();
+
+        case RaisePrivilegeCommand.COMMAND_WORD:
+            return prepareRaisePrivilege(arguments);
+
+        case ChangePasswordCommand.COMMAND_WORD:
+            return prepareChangePassword(arguments);
+
+        case CreateExamCommand.COMMAND_WORD:
+            return prepareCreateExam(arguments);
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
         default:
@@ -237,5 +263,69 @@ public class Parser {
         final String[] keywords = matcher.group("keywords").split("\\s+");
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
         return new FindCommand(keywordSet);
+    }
+
+    /**
+     * Parses arguments in the context of the RaisePrivilege command.
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareRaisePrivilege(String args) {
+
+        final Matcher matcher = SINGLE_KEYWORD_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    RaisePrivilegeCommand.MESSAGE_USAGE));
+        }
+
+        final String password = matcher.group("keywords");
+
+        return new RaisePrivilegeCommand(password);
+    }
+
+    /**
+     * Parses arguments in the context of the RaisePrivilege command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareChangePassword(String args) {
+        // TODO Change the regex to match only 2 words
+        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ChangePasswordCommand.MESSAGE_USAGE));
+        }
+
+        // keywords delimited by whitespace
+        final String[] keywords = matcher.group("keywords").split("\\s+");
+        try {
+            return new ChangePasswordCommand(keywords);
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
+    }
+    /**
+     * Parses arguments in the context of the createexam exam command.
+     */
+    private Command prepareCreateExam(String args) {
+        final Matcher matcher = EXAM_DATA_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateExamCommand.MESSAGE_USAGE));
+        }
+        try {
+            return new CreateExamCommand(
+                    matcher.group("subjectName"),
+                    matcher.group("examName"),
+                    matcher.group("examDate"),
+                    matcher.group("examStartTime"),
+                    matcher.group("examEndTime"),
+                    matcher.group("examDetails"),
+                    isPrivatePrefixPresent(matcher.group("isExamPrivate"))
+            );
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
     }
 }

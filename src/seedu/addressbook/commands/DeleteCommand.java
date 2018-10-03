@@ -24,6 +24,12 @@ public class DeleteCommand extends Command {
         super(targetVisibleIndex);
     }
 
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public DeleteCommand() {
+    }
 
     @Override
     public CommandResult execute() {
@@ -42,5 +48,15 @@ public class DeleteCommand extends Command {
     @Override
     public boolean isMutating() {
         return true;
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.DETAILS;
+    }
+
+    @Override
+    public String getCommandUsageMessage() {
+        return MESSAGE_USAGE;
     }
 }

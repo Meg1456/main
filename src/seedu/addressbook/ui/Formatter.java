@@ -68,11 +68,22 @@ public class Formatter {
     /**
      * Returns a concatenated version of the printable strings of each object.
      */
-    public String getPrintableString(boolean showPrivate, Printable... printables) {
+    public static String getPrintableString(boolean showPrivate, Printable... printables) {
         String stringChain = "";
         for (Printable i: printables) {
             stringChain += i.getPrintableString(showPrivate) + " ";
         }
         return stringChain;
+    }
+
+    public static String getPrintableField(boolean showPrivate, boolean isPrivate, String fieldLabel, String value) {
+        if (isPrivate) {
+            if (showPrivate) {
+                return String.format("{private %s: %s}", fieldLabel, value);
+            } else {
+                return "";
+            }
+        }
+        return String.format("%s: %s", fieldLabel, value);
     }
 }

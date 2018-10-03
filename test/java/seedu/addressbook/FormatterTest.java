@@ -13,7 +13,7 @@ import seedu.addressbook.ui.Formatter;
 public class FormatterTest {
     private static Formatter formatter = new Formatter();
     /** A platform independent line separator. */
-    private static String NEWLINE = System.lineSeparator();
+    private static final String NEWLINE = System.lineSeparator();
 
 
     @Test

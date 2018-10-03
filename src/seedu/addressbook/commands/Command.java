@@ -6,15 +6,28 @@ import java.util.List;
 
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
+import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.ReadOnlyPerson;
-
+import seedu.addressbook.privilege.Privilege;
 
 /**
  * Represents an executable command.
  */
 public abstract class Command {
+    /**
+     * Enum used to indicate which category the command belongs to
+     * */
+    public enum Category {
+        DETAILS,
+        PRIVILEGE,
+        GENERAL
+    }
+
+
+    protected static Privilege privilege;
     protected AddressBook addressBook;
+    protected ExamBook examBook;
     protected StatisticsBook statisticsBook;
     protected List<? extends ReadOnlyPerson> relevantPersons;
     private int targetIndex = -1;
@@ -47,11 +60,22 @@ public abstract class Command {
     /**
      * Supplies the data the command will operate on.
      */
-    public void setData(AddressBook addressBook, StatisticsBook statisticsBook, List<? extends ReadOnlyPerson> relevantPersons) {
+    public void setData(AddressBook addressBook, StatisticsBook statisticsBook, List<? extends ReadOnlyPerson> relevantPersons, Privilege privilege) {
         this.addressBook = addressBook;
         this.statisticsBook = statisticsBook;
         this.relevantPersons = relevantPersons;
+        this.privilege = privilege;
     }
+
+    public void setData(AddressBook addressBook,
+                        List<? extends ReadOnlyPerson> relevantPersons,
+                        Privilege privilege,
+                        ExamBook exambook,
+                        StatisticsBook statisticsBook) {
+        setData(addressBook, statisticsBook, relevantPersons, privilege);
+        this.examBook = exambook;
+        this.statisticsBook = statisticsBook;
+}
 
     /**
      * Extracts the the target person in the last shown list from the given arguments.
@@ -70,10 +94,21 @@ public abstract class Command {
         this.targetIndex = targetIndex;
     }
 
+    //TODO: Fix potato code
+    public Category getCategory() {
+        return Category.GENERAL;
+    }
+
     /**
-     * Checks if the command changes the data to be stored
+     * Checks if the command can potentially change the data to be stored
      */
     public boolean isMutating() {
         return false;
     }
+
+    /**
+     * Returns the usage message to be used to construct HelpCommand's message
+     */
+    public abstract String getCommandUsageMessage();
+
 }

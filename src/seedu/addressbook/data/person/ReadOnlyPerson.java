@@ -40,9 +40,8 @@ public interface ReadOnlyPerson {
      * Formats the person as text, showing all contact details.
      */
     default String getAsTextShowAll() {
-        final Formatter formatter = new Formatter();
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = formatter.getPrintableString(
+        final String stringChain = Formatter.getPrintableString(
                 true,
                 getName(),
                 getPhone(),
@@ -63,9 +62,8 @@ public interface ReadOnlyPerson {
      * Formats a person as text, showing only non-private contact details.
      */
     default String getAsTextHidePrivate() {
-        final Formatter formatter = new Formatter();
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = formatter.getPrintableString(
+        final String stringChain = Formatter.getPrintableString(
                 false,
                 getName(),
                 getPhone(),

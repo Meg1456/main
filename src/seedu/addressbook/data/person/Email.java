@@ -1,6 +1,7 @@
 package seedu.addressbook.data.person;
 
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.ui.Formatter;
 
 /**
  * Represents a Person's email in the address book.
@@ -12,6 +13,7 @@ public class Email implements Printable {
     public static final String MESSAGE_EMAIL_CONSTRAINTS =
             "Person emails should be 2 alphanumeric/period strings separated by '@'";
     public static final String EMAIL_VALIDATION_REGEX = "[\\w\\.]+@[\\w\\.]+";
+    private static final String FIELD_NAME = "Email";
 
     public final String value;
     private boolean isPrivate;
@@ -61,13 +63,6 @@ public class Email implements Printable {
 
     @Override
     public String getPrintableString(boolean showPrivate) {
-        if (isPrivate()) {
-            if (showPrivate) {
-                return "{private Email: " + value + "}";
-            } else {
-                return "";
-            }
-        }
-        return "Email: " + value;
+        return Formatter.getPrintableField(showPrivate, isPrivate, FIELD_NAME, value);
     }
 }

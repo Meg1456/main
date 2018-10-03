@@ -17,4 +17,8 @@ public class IncorrectCommand extends Command {
         return new CommandResult(feedbackToUser);
     }
 
+    @Override
+    public String getCommandUsageMessage() {
+        return "ERROR, IncorrectCommand is executed";
+    }
 }
