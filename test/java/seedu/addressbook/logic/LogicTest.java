@@ -26,10 +26,12 @@ import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.common.Messages;
 
 import seedu.addressbook.data.AddressBook;
+import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Phone;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.tag.Tag;
 
@@ -48,15 +50,22 @@ public class LogicTest {
     private StorageFile saveFile;
     private AddressBook addressBook;
     private Logic logic;
+    private StatisticsBook statisticsBook;
 
     @Before
     public void setup() throws Exception {
         StorageStub stubFile;
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath());
-        addressBook = new AddressBook();
+        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
+                saveFolder.newFile("testStatisticsFile.txt").getPath());
+        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+                saveFolder.newFile("testStubExamFile.txt").getPath());
+        statisticsBook = new StatisticsBook();
+        statisticsBook = new StatisticsBook();
+
+        logic = new Logic(stubFile, addressBook, statisticsBook);
+        CommandAssertions.setData(saveFile, addressBook, logic, statisticsBook);
+        saveFile.saveStatistics(statisticsBook);
         saveFile.save(addressBook);
-        logic = new Logic(stubFile, addressBook);
     }
 
     @Test

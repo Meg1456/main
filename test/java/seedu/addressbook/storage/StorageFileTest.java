@@ -36,7 +36,7 @@ public class StorageFileTest {
 
     @Test
     public void constructor_defaultPath() throws Exception {
-        new StorageFile();
+        new StorageFile(path);
     }
 
     @Test
