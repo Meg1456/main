@@ -16,6 +16,7 @@ import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.SayCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.parser.Parser;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -36,11 +37,12 @@ public class PrivilegeTest {
         StorageStub stubFile;
         StorageFile saveFile;
         ExamBook examBook = new ExamBook();
+        StatisticsBook statisticsBook = new StatisticsBook();
         saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
         stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath());
         saveFile.save(addressBook);
 
-        Logic logic = new Logic(stubFile, addressBook, examBook, privilege);
+        Logic logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
         CommandAssertions.setData(saveFile, addressBook, logic);
     }
 
@@ -132,7 +134,7 @@ public class PrivilegeTest {
     @Test
     public void executeTutorCommandsInsufficientPrivilege() throws Exception {
         final String[] inputs = {"add Valid Name p/12345 e/valid@e.mail a/valid, address ",
-            "delete 1"};
+                "delete 1"};
         assertCommandsInsufficientPrivilege(inputs);
     }
 

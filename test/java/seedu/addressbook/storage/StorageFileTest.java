@@ -80,13 +80,6 @@ public class StorageFileTest {
     }
 
     @Test
-    public void constructor_noTxtStatisticsBookExtension_exceptionThrown() throws Exception {
-        thrown.expect(IllegalValueException.class);
-        new StorageFile(TEST_DATA_FOLDER + "/" + "notValidAddressBook.txt", TEST_DATA_FOLDER + "/" + "notValidExamBook.txt",
-                TEST_DATA_FOLDER + "/" + "notValidStatisticsBook.txt");
-    }
-
-    @Test
     public void load_invalidFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but does not match the AddressBook class
         StorageFile storage = getStorage("InvalidData.txt", "ValidExamData.txt",
@@ -145,15 +138,6 @@ public class StorageFileTest {
     }
 
     @Test
-    public void loadStatistics_validFormat() throws Exception {
-        StatisticsBook actual = getStorage("ValidData.txt", "ValidExamData.txt",
-                "ValidStatisticsData.txt").loadStatistics();
-        StatisticsBook expected = getTestStatisticsBook();
-
-        assertEquals(actual.getAllStatistics(), expected.getAllStatistics());
-    }
-
-    @Test
     public void save_nullAddressBook_exceptionThrown() throws Exception {
         StorageFile storage = getTempStorage();
         thrown.expect(NullPointerException.class);
@@ -205,18 +189,6 @@ public class StorageFileTest {
         assertExamsFilesEqual(storage, getStorage("ValidData.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
     }
-
-    @Test
-    public void save_validStatisticsBook() throws Exception {
-        StatisticsBook sb = getTestStatisticsBook();
-        AddressBook ab = getTestAddressBook();
-        StorageFile storage = getTempStorage();
-        storage.saveStatistics(sb);
-        storage.save(ab);
-        assertStatisticsFilesEqual(storage, getStorage("ValidData.txt", "ValidExamData.txt",
-                "ValidStatisticsData.txt"));
-    }
-
 
     /**
      * Asserts that the contents of two storage files are the same.
