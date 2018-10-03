@@ -204,13 +204,6 @@ public class StorageFileTest {
         assertTextFilesEqual(Paths.get(sf1.getPathExam()), Paths.get(sf2.getPathExam()));
     }
 
-    /**
-     * Asserts that the contents of two statistics files are the same.
-     */
-    private void assertStatisticsFilesEqual(StorageFile sf1, StorageFile sf2) throws Exception {
-        assertTextFilesEqual(Paths.get(sf1.getPathStatistics()), Paths.get(sf2.getPathStatistics()));
-    }
-
     private StorageFile getStorage(String fileName, String examFileName, String statisticsFileName) throws Exception {
         return new StorageFile(TEST_DATA_FOLDER + "/" + fileName, TEST_DATA_FOLDER + "/" + examFileName,
                 TEST_DATA_FOLDER + "/" + statisticsFileName);

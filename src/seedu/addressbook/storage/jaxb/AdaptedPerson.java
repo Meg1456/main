@@ -31,10 +31,6 @@ public class AdaptedPerson {
     private AdaptedContactDetail email;
     @XmlElement(required = true)
     private AdaptedContactDetail address;
-    @XmlElement(required = true)
-    private AdaptedContactDetail testName;
-    @XmlElement(required = true)
-    private AdaptedContactDetail grades;
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
