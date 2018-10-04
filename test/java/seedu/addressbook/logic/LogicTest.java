@@ -58,7 +58,7 @@ public class LogicTest {
     private AddressBook addressBook;
     private Privilege privilege;
     private ExamBook examBook;
-    private StatisticsBook statisticsBook;
+    private StatisticsBook statisticBook;
     private Logic logic;
 
     @Before
@@ -73,16 +73,16 @@ public class LogicTest {
 
         addressBook = new AddressBook();
         examBook = new ExamBook();
-        statisticsBook = new StatisticsBook();
+        statisticBook = new StatisticsBook();
 
         // Privilege set to admin to allow all commands.
         // Privilege restrictions are tested separately under PrivilegeTest.
         privilege = new Privilege(new AdminUser());
 
-        logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
+        logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
         CommandAssertions.setData(saveFile, addressBook, logic, examBook);
         saveFile.saveExam(examBook);
-        saveFile.saveStatistics(statisticsBook);
+        saveFile.saveStatistics(statisticBook);
         saveFile.save(addressBook);
     }
 
