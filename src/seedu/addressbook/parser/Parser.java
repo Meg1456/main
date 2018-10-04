@@ -132,7 +132,7 @@ public class Parser {
             return prepareCreateExam(arguments);
 
         case AddAssignmentStatistics.COMMAND_WORD:
-            return prepareCreateStatistics(arguments);
+            return prepareAddStatistics(arguments);
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
         default:
@@ -346,7 +346,7 @@ public class Parser {
     /**
      * Parses arguments in the context of the add assignment statistics command.
      */
-    private Command prepareCreateStatistics(String args) {
+    private Command prepareAddStatistics(String args) {
         final Matcher matcher = STATISTICS_DATA_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
         if (!matcher.matches()) {
