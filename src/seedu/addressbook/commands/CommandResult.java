@@ -3,6 +3,7 @@ package seedu.addressbook.commands;
 import java.util.List;
 import java.util.Optional;
 
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
@@ -18,21 +19,28 @@ public class CommandResult {
     private final List<? extends ReadOnlyPerson> relevantPersons;
     /** The list of exams that was produced by the command */
     private final List<? extends Exam> relevantExams;
+    /** The list of exams that was produced by the command */
+    private final List<? extends AssignmentStatistics> relevantStatistics;
+
     public CommandResult(String feedbackToUser) {
         this.feedbackToUser = feedbackToUser;
         relevantPersons = null;
         relevantExams = null;
+        relevantStatistics = null;
     }
 
     public CommandResult(String feedbackToUser, List<? extends ReadOnlyPerson> relevantPersons) {
         this.feedbackToUser = feedbackToUser;
         this.relevantPersons = relevantPersons;
         this.relevantExams = null;
+        this.relevantStatistics = null;
     }
 
-    public CommandResult(List<? extends Exam> relevantExams, String feedbackToUser) {
+    public CommandResult(List<? extends Exam> relevantExams, String feedbackToUser,
+                         List<? extends AssignmentStatistics> relevantStatistics) {
         this.feedbackToUser = feedbackToUser;
         this.relevantExams = relevantExams;
+        this.relevantStatistics = relevantStatistics;
         this.relevantPersons = null;
     }
     /**
@@ -49,4 +57,10 @@ public class CommandResult {
         return Optional.ofNullable(relevantExams);
     }
 
+    /**
+     * Returns list of statistics relevant to the command command result, if any.
+     */
+    public Optional<List<? extends AssignmentStatistics>> getRelevantStatistics() {
+        return Optional.ofNullable(relevantStatistics);
+    }
 }

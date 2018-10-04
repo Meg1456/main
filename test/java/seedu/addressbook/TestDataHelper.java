@@ -11,6 +11,7 @@ import java.util.StringJoiner;
 import seedu.addressbook.data.AddressBook;
 
 import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Name;
@@ -45,6 +46,21 @@ public class TestDataHelper {
         String details = "Held in MPSH";
         Boolean isPrivate = false;
         return new Exam(subjectName, examName, date, startTime, endTime, details, isPrivate);
+    }
+
+    /** Test exam for testing**/
+    public AssignmentStatistics stat() throws Exception {
+        String subjectName = "Spanish";
+        String examName = "Quiz";
+        String topScorer = "Pedro";
+        String averageScore = "95";
+        String totalExamTakers = "10";
+        String numberAbsent = "3";
+        String totalPass = "7";
+        String maxMin = "100 87";
+        Boolean isPrivate = false;
+        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
+                totalPass, maxMin, isPrivate);
     }
 
     /**
@@ -85,7 +101,6 @@ public class TestDataHelper {
     public String getDatePrefix (String value) {
         return (" d/");
     }
-
     public String getStartTimePrefix (String value) {
         return (" st/");
     }
@@ -96,6 +111,34 @@ public class TestDataHelper {
 
     public String getDetailsPrefix (String value) {
         return (" dt/");
+    }
+
+    public String getExamNamePrefix (String value, Boolean isPrivate) {
+        return (isPrivate ? " pen/" : " en/");
+    }
+
+    public String getTopScorerPrefix (String value) {
+        return (" ts/");
+    }
+
+    public String getAverageScorePrefix (String value) {
+        return (" av/");
+    }
+
+    public String getTotalExamTakersPrefix (String value) {
+        return (" te/");
+    }
+
+    public String getNumberAbsentPrefix (String value) {
+        return (" ab/");
+    }
+
+    public String getTotalPassPrefix (String value) {
+        return (" tp/");
+    }
+
+    public String getMaxMinPrefix (String value) {
+        return (" mm/");
     }
 
     /** Generates the correct add command based on the person given */
@@ -137,6 +180,30 @@ public class TestDataHelper {
         cmd.add(startTimeField);
         cmd.add(endTimeField);
         cmd.add(detailsField);
+        return cmd.toString();
+    }
+
+    /** Generates the correct addstatistics command based on the exam given */
+    public String generateAddAssignmentStatistics(AssignmentStatistics s) {
+        StringJoiner cmd = new StringJoiner(" ");
+        String subjectField = s.getSubjectName();
+        String examNameField = getExamNamePrefix(s.getExamName(), s.isPrivate()) + s.getExamName();
+        String topScorerField = getTopScorerPrefix(s.getTopScorer()) + s.getTopScorer();
+        String averageScoreField = getAverageScorePrefix(s.getAverageScore()) + s.getAverageScore();
+        String totalExamTakersField = getTotalExamTakersPrefix(s.getTotalExamTakers()) + s.getTotalExamTakers();
+        String numberAbsentField = getNumberAbsentPrefix(s.getNumberAbsent()) + s.getNumberAbsent();
+        String totalPassField = getTotalPassPrefix(s.getTotalPass()) + s.getTotalPass();
+        String maxMinField = getMaxMinPrefix(s.getMaxMin()) + s.getMaxMin();
+
+        cmd.add("addstatistics");
+        cmd.add(subjectField);
+        cmd.add(examNameField);
+        cmd.add(topScorerField);
+        cmd.add(averageScoreField);
+        cmd.add(totalExamTakersField);
+        cmd.add(numberAbsentField);
+        cmd.add(totalPassField);
+        cmd.add(maxMinField);
         return cmd.toString();
     }
 

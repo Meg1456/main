@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
+import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.ChangePasswordCommand;
 import seedu.addressbook.commands.ClearCommand;
@@ -31,6 +32,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Name;
@@ -58,11 +60,11 @@ public class LogicTest {
     private AddressBook addressBook;
     private Privilege privilege;
     private ExamBook examBook;
+    private StatisticsBook statisticBook;
     private Logic logic;
 
     @Before
     public void setUp() throws Exception {
-        StatisticsBook statisticBook;
         StorageStub stubFile;
         saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
                 saveFolder.newFile("testExamFile.txt").getPath(),
@@ -80,7 +82,7 @@ public class LogicTest {
         privilege = new Privilege(new AdminUser());
 
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic, examBook);
+        CommandAssertions.setData(saveFile, addressBook, logic, examBook, statisticBook);
         saveFile.saveExam(examBook);
         saveFile.saveStatistics(statisticBook);
         saveFile.save(addressBook);
@@ -251,6 +253,37 @@ public class LogicTest {
                 CreateExamCommand.MESSAGE_DUPLICATE_EXAM,
                 expected,
                 true);
+    }
+
+    @Test
+    public void executeAddAssignmentStatisticsSuccessful() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        AssignmentStatistics toBeAdded = helper.stat();
+        StatisticsBook expected = new StatisticsBook();
+        expected.addStatistic(toBeAdded);
+
+        // execute command and verify result
+        assertCommandBehavior(helper.generateAddAssignmentStatistics(toBeAdded),
+                String.format(AddAssignmentStatistics.MESSAGE_SUCCESS, toBeAdded),
+                expected, false);
+
+    }
+
+    @Test
+    public void executeAddAssignmentStatisticsDuplicateNotAllowed() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        AssignmentStatistics toBeAdded = helper.stat();
+        StatisticsBook expected = new StatisticsBook();
+        expected.addStatistic(toBeAdded);
+
+        // setup starting state
+        statisticBook.addStatistic(toBeAdded); // statistic already in internal statistic book
+
+        // execute command and verify result
+        assertCommandBehavior(helper.generateAddAssignmentStatistics(toBeAdded),
+                AddAssignmentStatistics.MESSAGE_DUPLICATE_STATISTIC, expected, false);
     }
 
     @Test

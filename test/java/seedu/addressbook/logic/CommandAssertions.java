@@ -8,6 +8,7 @@ import java.util.List;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.storage.StorageFile;
 
@@ -19,6 +20,7 @@ public class CommandAssertions {
     private static AddressBook addressBook;
     private static Logic logic;
     private static ExamBook examBook;
+    private static StatisticsBook statisticsBook;
 
     public static void setData(StorageFile saveFile, AddressBook addressBook, Logic logic) {
         CommandAssertions.saveFile = saveFile;
@@ -26,9 +28,11 @@ public class CommandAssertions {
         CommandAssertions.logic = logic;
     }
 
-    public static void setData(StorageFile saveFile, AddressBook addressBook, Logic logic, ExamBook examBook) {
+    public static void setData(StorageFile saveFile, AddressBook addressBook, Logic logic, ExamBook examBook,
+                               StatisticsBook statisticsBook) {
         setData(saveFile, addressBook, logic);
         CommandAssertions.examBook = examBook;
+        CommandAssertions.statisticsBook = statisticsBook;
     }
 
     /**
@@ -122,6 +126,36 @@ public class CommandAssertions {
         assertEquals(expectedExamBook, examBook);
         if (writesToFile) {
             assertEquals(examBook, saveFile.loadExam());
+        }
+    }
+
+    /**
+     * Executes the command and confirms that the result message is correct and
+     * also confirms that the following three parts of the Logic object's state are as expected:<br>
+     *      - the internal statistics book data are same as those in the {@code expectedStatisticsBook} <br>
+     *
+     *      if the command will write to file
+     *      - the storage file content matches data in {@code expectedStatisticsBook} <br>
+     */
+    public static void assertCommandBehavior(String inputCommand,
+                                             String expectedMessage,
+                                             StatisticsBook expectedStatisticsBook,
+                                             boolean writesToFile) throws Exception {
+        // If we need to test if the command writes to file correctly
+        // Injects the saveFile object to check
+        if (writesToFile) {
+            logic.setStorage(saveFile);
+        }
+        //Execute the command
+        CommandResult r = logic.execute(inputCommand);
+
+        //Confirm the result contains the right data
+        assertEquals(expectedMessage, r.feedbackToUser);
+
+        //Confirm the state of data is as expected
+        assertEquals(expectedStatisticsBook, statisticsBook);
+        if (writesToFile) {
+            assertEquals(statisticsBook, saveFile.loadStatistics());
         }
     }
 
