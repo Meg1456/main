@@ -14,6 +14,7 @@ import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Phone;
@@ -46,6 +47,26 @@ public class TestDataHelper {
         String details = "Held in MPSH";
         Boolean isPrivate = false;
         return new Exam(subjectName, examName, date, startTime, endTime, details, isPrivate);
+    }
+    /** Test fees for testing**/
+    public Fees fees () throws Exception {
+        String test = "123.45";
+        return new Fees(test);
+    }
+
+    /** Test exam for testing**/
+    public AssignmentStatistics stat() throws Exception {
+        String subjectName = "Spanish";
+        String examName = "Quiz";
+        String topScorer = "Pedro";
+        String averageScore = "95";
+        String totalExamTakers = "10";
+        String numberAbsent = "3";
+        String totalPass = "7";
+        String maxMin = "100 87";
+        Boolean isPrivate = false;
+        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
+                totalPass, maxMin, isPrivate);
     }
 
     /** Test exam for testing**/
@@ -161,6 +182,14 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
+    /** Genreates the correcct addfees command based on the person given */
+    public String generateAddFeesCommand() {
+        StringJoiner cmd = new StringJoiner(" ");
+        cmd.add("addfees");
+        cmd.add(" 2");
+        cmd.add(" 123.45");
+        return cmd.toString();
+    }
     /** Generates the correct createexam command based on the exam given */
     public String generateCreateExamCommand(Exam e) {
         StringJoiner cmd = new StringJoiner(" ");

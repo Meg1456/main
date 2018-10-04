@@ -114,6 +114,7 @@ public class UniquePersonList implements Iterable<Person> {
         throw new PersonNotFoundException();
     }
 
+
     /**
      * Removes the equivalent person from the list.
      *

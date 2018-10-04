@@ -12,6 +12,7 @@ import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Email;
+import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Phone;
@@ -31,6 +32,8 @@ public class AdaptedPerson {
     private AdaptedContactDetail email;
     @XmlElement(required = true)
     private AdaptedContactDetail address;
+    @XmlElement(required = true)
+    private AdaptedContactDetail fees;
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
@@ -72,6 +75,10 @@ public class AdaptedPerson {
         address.isPrivate = source.getAddress().isPrivate();
         address.value = source.getAddress().value;
 
+        fees = new AdaptedContactDetail();
+        fees.isPrivate = source.getFees().isPrivate();
+        fees.value = source.getFees().value;
+
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new AdaptedTag(tag));
@@ -93,8 +100,8 @@ public class AdaptedPerson {
             }
         }
         // second call only happens if phone/email/address are all not null
-        return Utils.isAnyNull(name, phone, email, address)
-                || Utils.isAnyNull(phone.value, email.value, address.value);
+        return Utils.isAnyNull(name, phone, email, address, fees)
+                || Utils.isAnyNull(phone.value, email.value, address.value, fees.value);
     }
 
     /**
@@ -111,6 +118,9 @@ public class AdaptedPerson {
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
-        return new Person(name, phone, email, address, tags);
+        final Fees fees = new Fees(this.fees.value);
+        final Person person = new Person(name, phone, email, address, tags);
+        person.setFees(fees);
+        return person;
     }
 }

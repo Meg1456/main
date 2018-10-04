@@ -15,6 +15,7 @@ import org.junit.rules.TemporaryFolder;
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
+import seedu.addressbook.commands.AddFeesCommand;
 import seedu.addressbook.commands.ChangePasswordCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
@@ -25,6 +26,7 @@ import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewCommand;
+import seedu.addressbook.commands.ViewFeesCommand;
 
 import seedu.addressbook.common.Messages;
 
@@ -35,6 +37,8 @@ import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
+//import seedu.addressbook.data.person.Fees;
+import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Phone;
@@ -198,6 +202,35 @@ public class LogicTest {
                 Collections.emptyList(),
                 true);
 
+    }
+
+    @Test
+    public void executeAddFeesCommandInvalidData() throws Exception {
+        assertCommandBehavior(
+                "addfees 2 1.111", Fees.MESSAGE_FEES_CONSTRAINTS);
+    }
+
+    @Test
+    public void executeAddFeesSuccessful() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+
+        AddressBook expected = helper.generateAddressBook(threePersons);
+        expected.findPerson(p2).setFees(helper.fees());
+
+
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        assertCommandBehavior(helper.generateAddFeesCommand(),
+                String.format(AddFeesCommand.MESSAGE_SUCCESS, p2),
+                expected,
+                false,
+                threePersons);
     }
 
     @Test
@@ -437,6 +470,41 @@ public class LogicTest {
                 expected,
                 false,
                 lastShownList);
+    }
+
+    @Test
+    public void executeViewFeesCommandSuccessful() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+
+        AddressBook expected = helper.generateAddressBook(threePersons);
+        expected.findPerson(p2).setFees(helper.fees());
+
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        assertCommandBehavior("viewfees 2",
+                String.format(ViewFeesCommand.MESSAGE_VIEWFEE_PERSON_SUCCESS, p2.getAsTextShowFee()),
+                expected,
+                false,
+                threePersons,
+                false);
+    }
+
+    @Test
+    public void executeViewFeesCommandInvalidIndex() throws Exception {
+        assertInvalidIndexBehaviorForCommand("viewfees");
+    }
+
+    @Test
+    public void executeViewFeesInvalidArgsFormat() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewFeesCommand.MESSAGE_USAGE);
+        assertCommandBehavior("viewfees ", expectedMessage);
+        assertCommandBehavior("viewfees arg not number", expectedMessage);
     }
 
     @Test

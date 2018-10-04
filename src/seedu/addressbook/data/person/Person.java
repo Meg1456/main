@@ -16,7 +16,9 @@ public class Person implements ReadOnlyPerson {
     private Phone phone;
     private Email email;
     private Address address;
+    private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
+
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -26,6 +28,7 @@ public class Person implements ReadOnlyPerson {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.fees = new Fees();
     }
 
     /**
@@ -33,6 +36,14 @@ public class Person implements ReadOnlyPerson {
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getTags());
+    }
+
+    /**
+     * Only update the fees when called in AddFeesCommand
+     * @param fees
+     */
+    public void setFees(Fees fees) {
+        this.fees = fees;
     }
 
     @Override
@@ -53,6 +64,11 @@ public class Person implements ReadOnlyPerson {
     @Override
     public Address getAddress() {
         return address;
+    }
+
+    @Override
+    public Fees getFees() {
+        return fees;
     }
 
     @Override

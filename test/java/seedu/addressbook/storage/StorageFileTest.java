@@ -109,9 +109,9 @@ public class StorageFileTest {
     @Test
     public void load_validFormat() throws Exception {
         HashMap<String, AddressBook> inputToExpectedOutputs = new HashMap<>();
-        inputToExpectedOutputs.put("ValidDataWithoutPassword.txt", getTestAddressBook(true));
-        inputToExpectedOutputs.put("ValidDataWithNewPassword.txt", getTestAddressBook(false));
-        inputToExpectedOutputs.put("ValidDataWithDefaultPassword.txt", getTestAddressBook(true));
+        inputToExpectedOutputs.put("ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true));
+        inputToExpectedOutputs.put("ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false));
+        inputToExpectedOutputs.put("ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true));
         inputToExpectedOutputs.put("ValidEmptyData.txt", AddressBook.empty());
 
         for (HashMap.Entry<String, AddressBook> inputToExpected : inputToExpectedOutputs.entrySet()) {
@@ -168,15 +168,17 @@ public class StorageFileTest {
         storage.save(ab);
         storage.saveStatistics(sb);
         // Checks that the password is saved as a new field
-        assertStorageFilesEqual(storage, getStorage("ValidDataWithDefaultPassword.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithDefaultPasswordLuc.txt"));
 
         ab = getTestAddressBook();
         storage = getTempStorage();
         storage.save(ab);
 
-        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPassword.txt"));
-        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPassword.txt", "ValidExamData.txt",
+
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPasswordLuc.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPasswordLuc.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
+
     }
 
     @Test

@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
+import seedu.addressbook.commands.AddFeesCommand;
 import seedu.addressbook.commands.ChangePasswordCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
@@ -26,6 +27,7 @@ import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.SayCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewCommand;
+import seedu.addressbook.commands.ViewFeesCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
@@ -54,6 +56,18 @@ public class Parser {
                     + " st/(?<examStartTime>[^/]+)"
                     + " et/(?<examEndTime>[^/]+)"
                     + " dt/(?<examDetails>[^/]+)");
+    public static final Pattern FEES_DATA_ARGS_FORMAT =
+            Pattern.compile("(?<index>[^/]+)"
+                    + " (?<fees>[^/]+)");
+    public static final Pattern STATISTICS_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+            Pattern.compile("(?<subjectName>[^/]+)"
+                    + " (?<isExamPrivate>p?)en/(?<examName>[^/]+)"
+                    + " ts/(?<topScorer>[^/]+)"
+                    + " av/(?<averageScore>[^/]+)"
+                    + " te/(?<totalExamTakers>[^/]+)"
+                    + " ab/(?<numberAbsent>[^/]+)"
+                    + " tp/(?<totalPass>[^/]+)"
+                    + " mm/(?<maxMin>[^/]+)");
 
     public static final Pattern STATISTICS_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<subjectName>[^/]+)"
@@ -98,6 +112,9 @@ public class Parser {
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
 
+        case AddFeesCommand.COMMAND_WORD:
+            return prepareFees(arguments);
+
         case DeleteCommand.COMMAND_WORD:
             return prepareDelete(arguments);
 
@@ -130,6 +147,10 @@ public class Parser {
 
         case CreateExamCommand.COMMAND_WORD:
             return prepareCreateExam(arguments);
+        case ViewFeesCommand.COMMAND_WORD:
+            return prepareViewFees(arguments);
+        case AddAssignmentStatistics.COMMAND_WORD:
+            return prepareAddStatistics(arguments);
 
         case AddAssignmentStatistics.COMMAND_WORD:
             return prepareAddStatistics(arguments);
@@ -193,6 +214,31 @@ public class Parser {
         return new HashSet<>(tagStrings);
     }
 
+    /**
+     * Parses arguments in the context of the AddFeesCommand command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareFees(String args) {
+        final Matcher matcher = FEES_DATA_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+        try {
+            final int targetIndex = parseArgsAsDisplayedIndex(matcher.group("index"));
+            return new AddFeesCommand(
+                    targetIndex,
+                    matcher.group("fees")
+            );
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+    }
+
 
     /**
      * Parses arguments in the context of the delete person command.
@@ -206,6 +252,18 @@ public class Parser {
             return new DeleteCommand(targetIndex);
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the viewFees command.
+     */
+    private Command prepareViewFees(String args) {
+        try {
+            final int targetIndex = parseArgsAsDisplayedIndex(args);
+            return new ViewFeesCommand(targetIndex);
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewFeesCommand.MESSAGE_USAGE));
         }
     }
 
@@ -259,6 +317,16 @@ public class Parser {
         return Integer.parseInt(matcher.group("targetIndex"));
     }
 
+    /**
+     * Parse the given arguments string as a float
+
+    private float parseArgsAsFloat(String args) throws ParseException, NumberFormatException {
+        final Matcher matcher = PERSON_INDEX_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            throw new ParseException("Could not find float number to parse");
+        }
+        return Float.parseFloat(matcher.group("targetIndex"));
+    }*/
 
     /**
      * Parses arguments in the context of the find person command.

@@ -15,6 +15,7 @@ public interface ReadOnlyPerson {
     Phone getPhone();
     Email getEmail();
     Address getAddress();
+    Fees getFees();
 
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
@@ -46,8 +47,9 @@ public interface ReadOnlyPerson {
                 getName(),
                 getPhone(),
                 getEmail(),
-                getAddress()
-                );
+                getAddress(),
+                getFees());
+
 
         builder.append(stringChain)
                 .append(" Tags: ");
@@ -68,8 +70,8 @@ public interface ReadOnlyPerson {
                 getName(),
                 getPhone(),
                 getEmail(),
-                getAddress()
-        );
+                getAddress(),
+                getFees());
         builder.append(stringChain)
                 .append(" Tags: ");
         for (Tag tag : getTags()) {
@@ -77,5 +79,16 @@ public interface ReadOnlyPerson {
         }
         return builder.toString();
     }
-
+    /**
+     * Formats the person as text, showing name and fees.
+     */
+    default String getAsTextShowFee() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = Formatter.getPrintableString(
+                true,
+                getName(),
+                getFees());
+        builder.append(stringChain);
+        return builder.toString();
+    }
 }
