@@ -58,11 +58,11 @@ public class LogicTest {
     private AddressBook addressBook;
     private Privilege privilege;
     private ExamBook examBook;
-    private StatisticsBook statisticBook;
     private Logic logic;
 
     @Before
     public void setUp() throws Exception {
+        StatisticsBook statisticBook;
         StorageStub stubFile;
         saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
                 saveFolder.newFile("testExamFile.txt").getPath(),
