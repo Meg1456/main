@@ -69,16 +69,6 @@ public class Parser {
                     + " tp/(?<totalPass>[^/]+)"
                     + " mm/(?<maxMin>[^/]+)");
 
-    public static final Pattern STATISTICS_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<subjectName>[^/]+)"
-                    + " (?<isExamPrivate>p?)en/(?<examName>[^/]+)"
-                    + " ts/(?<topScorer>[^/]+)"
-                    + " av/(?<averageScore>[^/]+)"
-                    + " te/(?<totalExamTakers>[^/]+)"
-                    + " ab/(?<numberAbsent>[^/]+)"
-                    + " tp/(?<totalPass>[^/]+)"
-                    + " mm/(?<maxMin>[^/]+)");
-
     /**
      * Used for initial separation of command word and args.
      */
@@ -149,8 +139,6 @@ public class Parser {
             return prepareCreateExam(arguments);
         case ViewFeesCommand.COMMAND_WORD:
             return prepareViewFees(arguments);
-        case AddAssignmentStatistics.COMMAND_WORD:
-            return prepareAddStatistics(arguments);
 
         case AddAssignmentStatistics.COMMAND_WORD:
             return prepareAddStatistics(arguments);

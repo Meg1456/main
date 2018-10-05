@@ -69,21 +69,6 @@ public class TestDataHelper {
                 totalPass, maxMin, isPrivate);
     }
 
-    /** Test exam for testing**/
-    public AssignmentStatistics stat() throws Exception {
-        String subjectName = "Spanish";
-        String examName = "Quiz";
-        String topScorer = "Pedro";
-        String averageScore = "95";
-        String totalExamTakers = "10";
-        String numberAbsent = "3";
-        String totalPass = "7";
-        String maxMin = "100 87";
-        Boolean isPrivate = false;
-        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
-                totalPass, maxMin, isPrivate);
-    }
-
     /**
      * Generates a valid person using the given seed.
      * Running this function with the same parameter values guarantees the returned person will have the same state.
