@@ -1,29 +1,34 @@
-= AddressBook (Level 3)
+= ClassRepo
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 ifdef::env-github,env-browser[:imagesDir: docs/images]
 
 https://travis-ci.org/CS2113-AY1819S1-F10-1/main[image:https://travis-ci.org/CS2113-AY1819S1-F10-1/main.svg?branch=master[Build Status]]
 image:https://api.codacy.com/project/badge/Grade/e1ed6200448148c6a6c8d955ee177c64["Codacy code quality", link="https://www.codacy.com/app/0WN463/main?utm_source=github.com&utm_medium=referral&utm_content=CS2113-AY1819S1-F10-1/main&utm_campaign=Badge_Grade"]https://coveralls.io/github/CS2113-AY1819S1-F10-1/main?branch=master[image:https://coveralls.io/repos/github/CS2113-AY1819S1-F10-1/main/badge.svg?branch=master&service=github[Build Status]]
 
-image::Ui.png[]
+image::UiNew.png[]
 
-* This is a CLI (Command Line Interface) Address Book application *written in OOP fashion*. It has a very basic GUI.
-* It is a Java sample application intended for students learning Software Engineering while using Java as
-the main programming language.
-* It provides a *reasonably well-written* code example that is *significantly bigger* than what students
-usually write in data structure modules.
+* This is a CLI (Command Line Interface) Database application *written in OOP fashion*. It has a very basic GUI.
+* The application manages and facilitates data entry and viewing for a tuition centre.
+* Students, tutors and admins can access information with increasing privileges respectively.
 
-*What's different from level 2*
+*What's in Version 1.1*
 
 * A simple GUI added to replace the Text UI.
 * A `Logic` class added together with a `LogicTest` class.
 * Appendices added to <<DeveloperGuide#, Developer Guide>>
+* `5 Features` added from each <<AboutUs#, Team>> Member listed below
+* Allowing increasing privileges for users.
+* Viewing of student's overall attendance.
+* Adding of grades to students.
+* Keying and viewing of fees of students by administrators.
+* Ability to add and store new exam details.
 
 *Useful Links*
 
 * <<UserGuide#, User Guide>>
 * <<DeveloperGuide#, Developer Guide>>
 * <<AboutUs#, About Us>>
+* https://cs2113-ay1819s1-f10-1.github.io/main/[Website]
 
 
 == Contributors
@@ -37,6 +42,6 @@ http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by Marco Jako
 
 == Contact Us
 
-* *Bug reports, Suggestions* : Post in our https://github.com/se-edu/addressbook-level3/issues[issue tracker]
+* *Bug reports, Suggestions* : Post in our https://github.com/CS2113-AY1819S1-F10-1/main/issues[issue tracker]
 if you noticed bugs or have suggestions on how to improve.
 * *Contributing* : We welcome pull requests. Follow the process described https://github.com/oss-generic/process[here]

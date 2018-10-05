@@ -18,6 +18,7 @@ public class Person implements ReadOnlyPerson {
     private Address address;
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
+    private Attendance attendance;
 
     /**
      * Assumption: Every field must be present and not null.
@@ -28,6 +29,7 @@ public class Person implements ReadOnlyPerson {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.attendance = new Attendance();
         this.fees = new Fees();
     }
 
@@ -102,4 +104,15 @@ public class Person implements ReadOnlyPerson {
         return getAsTextShowAll();
     }
 
+    public void updateAttendanceMethod(String currentDate, String isPresent) {
+        attendance.addAttendance(currentDate, isPresent);
+    }
+
+    public String viewAttendanceMethod() {
+        return attendance.viewAttendance();
+    }
+
+    public Attendance getAttendance() {
+        return attendance;
+    }
 }

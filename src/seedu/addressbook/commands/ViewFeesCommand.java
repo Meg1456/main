@@ -45,7 +45,6 @@ public class ViewFeesCommand extends Command {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
         }
     }
-
     @Override
     public boolean isMutating() {
         return true;
@@ -55,7 +54,6 @@ public class ViewFeesCommand extends Command {
     public Category getCategory() {
         return Category.DETAILS;
     }
-
     @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;

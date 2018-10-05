@@ -25,7 +25,9 @@ import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.ListCommand;
 import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.SayCommand;
+import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAllCommand;
+import seedu.addressbook.commands.ViewAttendanceCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewFeesCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -68,6 +70,9 @@ public class Parser {
                     + " ab/(?<numberAbsent>[^/]+)"
                     + " tp/(?<totalPass>[^/]+)"
                     + " mm/(?<maxMin>[^/]+)");
+    public static final Pattern ATTENDANCE_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+            Pattern.compile("(?<targetIndex>[^/]+)"
+                          + " att/(?<isPresent>[^/]+)");
 
     /**
      * Used for initial separation of command word and args.
@@ -142,6 +147,12 @@ public class Parser {
 
         case AddAssignmentStatistics.COMMAND_WORD:
             return prepareAddStatistics(arguments);
+
+        case UpdateAttendanceCommand.COMMAND_WORD:
+            return prepareUpdateAttendance(arguments);
+
+        case ViewAttendanceCommand.COMMAND_WORD:
+            return prepareViewAttendance(arguments);
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
         default:
@@ -424,5 +435,36 @@ public class Parser {
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
+    }
+    /**
+     * Parses arguments in the context of the update Attendance command.
+     */
+    private Command prepareUpdateAttendance(String args) {
+        final Matcher matcher = ATTENDANCE_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UpdateAttendanceCommand.MESSAGE_USAGE));
+        }
+
+        return new UpdateAttendanceCommand(
+                matcher.group("targetIndex"),
+                matcher.group("isPresent"));
+    }
+
+    /**
+     * Parses arguments in the context of the view attendance command.
+     */
+    private Command prepareViewAttendance(String args) {
+        final Matcher matcher = PERSON_INDEX_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewAttendanceCommand.MESSAGE_USAGE));
+        }
+
+        return new ViewAttendanceCommand(
+                matcher.group("targetIndex")
+        );
     }
 }

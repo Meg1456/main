@@ -41,7 +41,7 @@ public class Exam implements Printable {
     /**
      * Validates given exams.
      *
-     * @throws IllegalValueException if given email address string is invalid.
+     * @throws IllegalValueException if given exam date string is invalid.
      */
     public Exam(String subjectName, String examName, String examDate, String examStartTime,
                 String examEndTime, String examDetails, boolean isPrivate) throws IllegalValueException {

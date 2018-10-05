@@ -13,7 +13,8 @@ image::0WN463.png[width="150", align="left"]
 {empty}[https://github.com/0WN463[github]]
 
 Role: Team Lead +
-Responsibilities: Managing Pull Requests
+Responsibilities: Managing Pull Requests +
+Feature: Privilege
 
 '''
 
@@ -22,7 +23,8 @@ image::micklee.jpg[width="150", align="left"]
 {empty}[http://github.com/micklwl[github]]
 
 Role: Bug catcher +
-Responsibilities: Managing subjects + exams
+Responsibilities: Managing subjects + exams +
+Feature: Exams and Examlist
 
 '''
 
@@ -31,7 +33,8 @@ image::Meg1456.jpg[width="150", align="left"]
 {empty}[https://github.com/Meg1456[github]]
 
 Role: Deliverables and Deadlines In-charge + 
-Responsibilities: Ensuring work is completed on time
+Responsibilities: Ensuring work is completed on time +
+Feature: Tests and Grades
 
 '''
 
@@ -40,7 +43,8 @@ image::Neow_Bo_Kai.png[width="150", align="left"]
 {empty}[https://github.com/meisbokai[github]]
 
 Role: Developer + Code Quality Check +
-Responsibilities: Code Quality
+Responsibilities: Code Quality +
+Feature: Attendance
 
 '''
 
@@ -49,6 +53,7 @@ image::Lucas.jpg[width="150", align="left"]
 {empty}[https://github.com/lucdx[github]]
 
 Role: Documentation and Scribe +
-Responsibilities: Coherent and informative documents
+Responsibilities: Coherent documents +
+Feature: Fees
 
 '''

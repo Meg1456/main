@@ -18,7 +18,7 @@ Please refer to the <<DeveloperGuide#setting-up, Setting up>> section to learn h
 . Click `Run Main.main()`
 . The GUI should appear in a few seconds
 +
-image::Ui.png[]
+image::UiNew.png[]
 
 == Viewing help : `help`
 
@@ -132,6 +132,92 @@ Views all details of the 2nd person in the address book.
 * `find Betsy` +
 `viewall 1` +
 Views all details of the 1st person in the results of the `find` command.
+
+== Creating an exam : `createexam`
+
+Adds an exam to the exam book. +
+Format: `createexam SUBJECTNAME [p]n/EXAMNAME  d/EXAMDATE st/EXAMSTARTTIME et/EXAMENDTIME dt/EXAMDETAILS`
+
+****
+Words in `UPPER_CASE` are the parameters, order of parameters are fixed.
+
+Put a `p` before the examname prefix to mark it as `private`. `private` details can only
+be seen using the `viewall` command.
+****
+
+Examples:
+
+* `createexam Mathematics n/Math Mid-terms d/01122018 st/0900 et/1200 dt/At MPSH` +
+
+* `createexam English n/Eng Finals d/012122017 st/0800 et/1000 dt/At School Hall`
+
+== Adding fees to a person: `addfees`
+
+Adds a numerical fee to a person in the address book. +
+Format: `add INDEX FEE`
+
+****
+Words in `UPPER_CASE` are the parameters, order of parameters are fixed.
+
+Fees are automatically marked as `private`. `private` details can only
+be seen using the `viewall` command, or for fees specifically, the `viewfees` command.
+****
+
+Examples:
+
+* `addfees 1 344.41`
+* `addfees 2 0.60`
+
+== View fees of a person : `viewfees`
+
+Displays the fees(private) of the specified person. +
+Format: `viewfees INDEX`
+
+****
+Views the fees of the person at the specified `INDEX`.
+The index refers to the index number shown in the most recent listing.
+****
+
+Examples:
+
+* `list` +
+`viewfees 2` +
+Views fees of the 2nd person in the address book.
+
+* `find Betsy` +
+`viewall 1` +
+Views fees of the 1st person in the results of the `find` command.
+
+== Raises your privilege level : `raise`
+
+Raises the privilege level to Admin. Requires the master password. +
+Format: `viewall PASSWORD`
+
+****
+Examples:
+
+* `raise default_pw` +
+Raises your privilege level to Admin.
+****
+
+== See your privilege level : `say`
+
+Displays your current privilege level +
+Format: `say`
+
+== Change the password : `change`
+Changes the master password. Requires the current master password and Admin privileges. +
+Format: `change OLD_PASSWORD NEW_PASSWORD`
+
+Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct. +
+Default master password is "default_pw".
+
+****
+Examples:
+
+* `change default_pw new_pw` +
+Changes the master password to "new_pw".
+****
 
 == Clearing all entries : `clear`
 
