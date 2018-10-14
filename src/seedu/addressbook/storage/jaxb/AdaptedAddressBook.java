@@ -21,6 +21,7 @@ public class AdaptedAddressBook {
     @XmlElement
     private List<AdaptedPerson> persons = new ArrayList<>();
 
+
     @XmlElement(defaultValue = "default_pw")
     private AdaptedPassword password = new AdaptedPassword();
 
@@ -49,7 +50,9 @@ public class AdaptedAddressBook {
      * so we check for that.
      */
     public boolean isAnyRequiredFieldMissing() {
-        return persons.stream().anyMatch(AdaptedPerson::isAnyRequiredFieldMissing);
+
+        return persons.stream().anyMatch(AdaptedPerson::isAnyRequiredFieldMissing)
+                || password.isAnyRequiredFieldMissing();
     }
 
 

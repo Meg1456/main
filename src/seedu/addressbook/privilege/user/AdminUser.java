@@ -3,9 +3,12 @@ package seedu.addressbook.privilege.user;
 import java.util.Arrays;
 import java.util.List;
 
-import seedu.addressbook.commands.ChangePasswordCommand;
+import seedu.addressbook.commands.AddAccountCommand;
 import seedu.addressbook.commands.ClearCommand;
+import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.DeleteAccountCommand;
+import seedu.addressbook.commands.EditPasswordCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 
 /**
@@ -15,13 +18,17 @@ public class AdminUser extends TutorUser {
     private static List<Command> newAllowedCommand = Arrays.asList(
             new ClearCommand(),
             new ViewAllCommand(),
-            new ChangePasswordCommand()
+            new EditPasswordCommand(),
+            new ClearExamsCommand(),
+            new EditPasswordCommand(),
+            new AddAccountCommand(),
+            new DeleteAccountCommand()
     );
 
     public AdminUser() {
         super();
-        allowedCommands.addAll(newAllowedCommand);
-        this.currentLevel = PrivilegeLevel.Admin;
+        addAllowedCommands(newAllowedCommand);
+        setCurrentLevel(PrivilegeLevel.Admin);
         sortCommands();
     }
 

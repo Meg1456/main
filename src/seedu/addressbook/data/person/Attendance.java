@@ -9,23 +9,20 @@ import java.util.Map;
 
 public class Attendance implements Printable {
 
-    private Map<String, Boolean> attendance_map = new HashMap<>();
+    private Map<String, Boolean> attendanceMap = new HashMap<>();
     /**
     // Method to add attendance
      */
     public void addAttendance(String currentDate, String isPresent) {
-        boolean isPresent_b = false;
-        if (isPresent.equals("1")) {
-            isPresent_b = true;
-        }
-        attendance_map.put(currentDate, isPresent_b);
+        boolean isPresentNow = "1".equals(isPresent);
+        attendanceMap.put(currentDate, isPresentNow);
     }
     /**
     // Method to reiterate person's attendance
     */
     public String viewAttendance() {
         String output = "";
-        for (Map.Entry entry : attendance_map.entrySet()) {
+        for (Map.Entry entry : attendanceMap.entrySet()) {
             output += entry.getKey() + " -> " + entry.getValue() + "\n";
         }
         return output;
@@ -40,7 +37,7 @@ public class Attendance implements Printable {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Attendance // instanceof handles nulls
-                && this.attendance_map.equals(((Attendance) other).attendance_map)); // state check
+                && this.attendanceMap.equals(((Attendance) other).attendanceMap)); // state check
     }
 }
 

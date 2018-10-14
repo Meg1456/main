@@ -68,7 +68,6 @@ public class StorageFile extends Storage {
         }
     }
 
-
     /**
      * @throws InvalidStorageFilePathException if the default path is invalid
      */
@@ -80,6 +79,7 @@ public class StorageFile extends Storage {
     public StorageFile(String filePath) throws InvalidStorageFilePathException, InvalidInitialisationException {
         this(filePath, DEFAULT_EXAMS_FILEPATH, DEFAULT_STATISTICS_FILEPATH);
     }
+
     /**
      * @throws InvalidStorageFilePathException if the given file path is invalid
      */
@@ -183,7 +183,8 @@ public class StorageFile extends Storage {
     }
 
     public String getPathStatistics() {
-        return pathStatistics.toString(); }
+        return pathStatistics.toString();
+    }
 
     /**
      * Saves all data to this storage file.
@@ -201,7 +202,8 @@ public class StorageFile extends Storage {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(toSave, fileWriter);
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + pathExam + " error: " + ioe.getMessage());
+            throw new StorageOperationException("Error writing to exam file: "
+                    + pathExam + " error: " + ioe.getMessage());
         } catch (JAXBException jaxbe) {
             throw new StorageOperationException("Error converting exam book into storage format");
         }
@@ -218,7 +220,7 @@ public class StorageFile extends Storage {
             final AdaptedExamBook loaded = (AdaptedExamBook) unmarshaller.unmarshal(fileReader);
             // manual check for missing elements
             if (loaded.isAnyRequiredFieldMissing()) {
-                throw new StorageOperationException("File data missing some elements");
+                throw new StorageOperationException("Exam file data missing some elements");
             }
             return loaded.toModelType();
 
@@ -235,13 +237,13 @@ public class StorageFile extends Storage {
 
             // other errors
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + pathExam);
+            throw new StorageOperationException("Error writing to exam file: " + pathExam);
         } catch (JAXBException jaxbe) {
-            throw new StorageOperationException("Error parsing file data format");
+            throw new StorageOperationException("Error parsing exam file data format");
         } catch (IllegalValueException ive) {
-            throw new StorageOperationException("File contains illegal data values; data type constraints not met");
+            throw new StorageOperationException("Exam file contains illegal data values; "
+                    + "data type constraints not met");
         }
-
     }
 
     /**
@@ -260,8 +262,8 @@ public class StorageFile extends Storage {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(toSave, fileWriter);
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + pathStatistics + " error: "
-                    + ioe.getMessage());
+            throw new StorageOperationException("Error writing to statistics file: "
+                    + pathStatistics + " error: " + ioe.getMessage());
         } catch (JAXBException jaxbe) {
             throw new StorageOperationException("Error converting statistics book into storage format");
         }
@@ -278,7 +280,7 @@ public class StorageFile extends Storage {
             final AdaptedStatisticsBook loaded = (AdaptedStatisticsBook) unmarshaller.unmarshal(fileReader);
             // manual check for missing elements
             if (loaded.isAnyRequiredFieldMissing()) {
-                throw new StorageOperationException("File data missing some elements");
+                throw new StorageOperationException("Statistics file data missing some elements");
             }
             return loaded.toModelType();
 
@@ -295,11 +297,12 @@ public class StorageFile extends Storage {
 
             // other errors
         } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + pathStatistics);
+            throw new StorageOperationException("Error writing to statistics file: " + pathStatistics);
         } catch (JAXBException jaxbe) {
-            throw new StorageOperationException("Error parsing file data format");
+            throw new StorageOperationException("Error parsing statistics file data format");
         } catch (IllegalValueException ive) {
-            throw new StorageOperationException("File contains illegal data values; data type constraints not met");
+            throw new StorageOperationException("Statistics File contains illegal data values; "
+                    + "data type constraints not met");
         }
     }
 }

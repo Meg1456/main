@@ -3,6 +3,7 @@ package seedu.addressbook.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_NO_ARGS_FOUND;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,10 +14,12 @@ import org.junit.Test;
 
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.AddCommand;
+import seedu.addressbook.commands.AddExamCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.CreateExamCommand;
 import seedu.addressbook.commands.DeleteCommand;
+import seedu.addressbook.commands.EditExamCommand;
+import seedu.addressbook.commands.ExamsListCommand;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
@@ -26,7 +29,6 @@ import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
-
 import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
@@ -34,7 +36,6 @@ import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Phone;
 import seedu.addressbook.data.person.ReadOnlyPerson;
-
 import seedu.addressbook.data.tag.Tag;
 
 
@@ -88,7 +89,7 @@ public class ParserTest {
     }
 
     /**
-     * Test ingle index argument commands
+     * Test single index argument commands
      */
     @Test
     public void deleteCommand_noArgs() {
@@ -160,7 +161,6 @@ public class ParserTest {
     /**
      * Test find persons by keyword in name command
      */
-
     @Test
     public void findCommand_invalidArgs() {
         // no keywords
@@ -283,62 +283,62 @@ public class ParserTest {
     }
 
     /**
-     * Test create exam command
+     * Test add exam command
      */
     @Test
-    public void createExamCommand_invalidArgs() {
-        final String[] inputs = { "createexam", "createexam ", "createexam wrong args format",
-                // no exam name prefix
-                String.format("createexam %s %s d/%s st/%s et/%s dt/%s", Exam.SUBJECT_NAME_EXAMPLE,
-                        Exam.EXAM_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE),
+    public void addExamCommand_invalidArgs() {
+        final String[] inputs = { "addexam", "addexam ", "addexam wrong args format",
+                // no subject name prefix
+                String.format("addexam %s %s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
                 // no date prefix
-                String.format("createexam %s n/%s %s st/%s et/%s dt/%s", Exam.SUBJECT_NAME_EXAMPLE,
-                        Exam.EXAM_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE),
+                String.format("addexam %s s/%s %s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
                 // no start time prefix
-                String.format("createexam %s n/%s d/%s %s et/%s dt/%s", Exam.SUBJECT_NAME_EXAMPLE,
-                        Exam.EXAM_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE),
+                String.format("addexam %s s/%s d/%s %s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
                 // no end time prefix
-                String.format("createexam %s n/%s d/%s st/%s %s dt/%s", Exam.SUBJECT_NAME_EXAMPLE,
-                        Exam.EXAM_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE),
+                String.format("addexam %s s/%s d/%s st/%s %s dt/%s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
                 // no details prefix
-                String.format("createexam %s n/%s d/%s st/%s et/%s %s", Exam.SUBJECT_NAME_EXAMPLE,
-                        Exam.EXAM_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE),
+                String.format("addexam %s s/%s d/%s st/%s et/%s %s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
         };
-        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateExamCommand.MESSAGE_USAGE);
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddExamCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
     @Test
-    public void createExamCommand_invalidExamDataInArgs() {
+    public void addExamCommand_invalidExamDataInArgs() {
         final String invalidDateArg = "d/not__numbers";
         final String validDateArg = "d/" + Exam.EXAM_DATE_EXAMPLE;
         final String invalidStartTimeArg = "st/not__numbers";
         final String validStartTimeArg = "st/" + Exam.EXAM_START_TIME_EXAMPLE;
         final String invalidEndTimeArg = "et/not__numbers";
         final String validEndTimeArg = "et/" + Exam.EXAM_END_TIME_EXAMPLE;
-        final String invalidEndTimeIntervalArg = "et/0800";
+        final String invalidEndTimeIntervalArg = "et/08:00";
 
 
         // subject name and details can be any string, so no invalid address
-        final String createExamCommandFormatString = "createexam " + Exam.SUBJECT_NAME_EXAMPLE
-                + " n/" + Exam.EXAM_NAME_EXAMPLE
+        final String addExamCommandFormatString = "addexam " + Exam.EXAM_NAME_EXAMPLE
+                + " s/" + Exam.SUBJECT_NAME_EXAMPLE
                 + " %s %s %s dt/" + Exam.EXAM_DETAILS_EXAMPLE;
 
         // test each incorrect person data field argument individually
         final String[] inputs = {
                 // invalid date
-                String.format(createExamCommandFormatString, invalidDateArg, validStartTimeArg, validEndTimeArg),
+                String.format(addExamCommandFormatString, invalidDateArg, validStartTimeArg, validEndTimeArg),
                 // invalid start time
-                String.format(createExamCommandFormatString, validDateArg, invalidStartTimeArg, validEndTimeArg),
+                String.format(addExamCommandFormatString, validDateArg, invalidStartTimeArg, validEndTimeArg),
                 // invalid end time
-                String.format(createExamCommandFormatString, validDateArg, validStartTimeArg, invalidEndTimeArg),
+                String.format(addExamCommandFormatString, validDateArg, validStartTimeArg, invalidEndTimeArg),
                 // invalid time interval
-                String.format(createExamCommandFormatString, validDateArg, validStartTimeArg,
+                String.format(addExamCommandFormatString, validDateArg, validStartTimeArg,
                         invalidEndTimeIntervalArg),
         };
         for (String input : inputs) {
@@ -347,15 +347,69 @@ public class ParserTest {
     }
 
     @Test
-    public void createExamCommand_validExamData_parsedCorrectly() {
+    public void addExamCommand_validExamData_parsedCorrectly() {
         try {
             final Exam testExam = generateTestExam();
-            final String input = convertExamToCreateExamCommandString(testExam);
-            final CreateExamCommand result = parseAndAssertCommandType(input, CreateExamCommand.class);
+            final String input = convertExamToAddExamCommandString(testExam);
+            final AddExamCommand result = parseAndAssertCommandType(input, AddExamCommand.class);
             assertEquals(result.getExam(), testExam);
         } catch (IllegalValueException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Test edit exam command
+     */
+    @Test
+    public void editExamCommand_invalidArgs() {
+        final String[] inputs = { "editexam", "editexam ",
+                //no index
+                String.format("editexam e/%s s/%s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
+                // no exam name prefix
+                String.format("editexam 1 %s s/%s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
+                        Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE)
+        };
+        String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+
+        String input = "editexam 1";
+        resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_NO_ARGS_FOUND
+                + EditExamCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, input);
+
+        final String[] inputPrivateChange = { "editexam 1 p/ok", "editexam 1 p/12", "editexam 1 p/a" };
+        resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputPrivateChange);
+    }
+
+    @Test
+    public void editExamCommand_indexIsNotSingleNumber() {
+        final String[] inputs = { "editexam notAnumber s/Mathematics st/09:00 et/11:00 dt/Held in MPSH",
+            "editexam 8*wh12 s/Mathematics",
+            "editexam 1 2 3 4 5 s/Mathematics" };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void editExamCommand_numericIndex_indexParsedCorrectly() {
+        final int testIndex = 1;
+        final String input = String.format("editexam %d e/%s s/%s d/%s st/%s et/%s dt/%s",
+                testIndex, Exam.EXAM_NAME_EXAMPLE,
+                Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
+                Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE);
+        final EditExamCommand result = parseAndAssertCommandType(input, EditExamCommand.class);
+        assertEquals(result.getTargetIndex(), testIndex);
+    }
+
+    @Test
+    public void examsListCommand_parsedCorrectly() {
+        final String input = "examslist";
+        parseAndAssertCommandType(input, ExamsListCommand.class);
     }
 
     /** **/
@@ -372,6 +426,7 @@ public class ParserTest {
             throw new IllegalValueException("test person data should be valid by definition");
         }
     }
+
     /** **/
     private static String convertPersonToAddCommandString(ReadOnlyPerson person) {
         TestDataHelper helper = new TestDataHelper();
@@ -385,11 +440,12 @@ public class ParserTest {
         }
         return addCommand;
     }
+
     /** **/
     private static Exam generateTestExam() throws IllegalValueException {
         try {
-            return new Exam(Exam.SUBJECT_NAME_EXAMPLE,
-                    Exam.EXAM_NAME_EXAMPLE,
+            return new Exam(Exam.EXAM_NAME_EXAMPLE,
+                    Exam.SUBJECT_NAME_EXAMPLE,
                     Exam.EXAM_DATE_EXAMPLE,
                     Exam.EXAM_START_TIME_EXAMPLE,
                     Exam.EXAM_END_TIME_EXAMPLE,
@@ -400,23 +456,25 @@ public class ParserTest {
             throw new IllegalValueException("test exam data should be valid by definition");
         }
     }
-    /** **/
-    private static String convertExamToCreateExamCommandString(Exam exam) {
-        TestDataHelper helper = new TestDataHelper();
-        String examNameField = helper.getPrefix(exam.getExamName(), exam.isPrivate()) + exam.getExamName();
-        String dateField = helper.getDatePrefix(exam.getExamDate()) + helper.removeSpecialChar(exam.getExamDate());
-        String startTimeField = helper.getStartTimePrefix(exam.getExamStartTime())
-                + helper.removeSpecialChar(exam.getExamStartTime());
-        String endTimeField = helper.getEndTimePrefix(exam.getExamEndTime())
-                + helper.removeSpecialChar(exam.getExamEndTime());
-        String detailsField = helper.getDetailsPrefix(exam.getExamDetails()) + exam.getExamDetails();
 
-        String createExamCommand = "createexam " + exam.getSubjectName()
-                + examNameField + dateField + startTimeField
+    /** **/
+    private static String convertExamToAddExamCommandString(Exam exam) {
+        TestDataHelper helper = new TestDataHelper();
+        String examNameField = helper.getExamNamePrefix(exam.isPrivate()) + exam.getExamName();
+        String subjectNameField = helper.getSubjectNamePrefix() + exam.getSubjectName();
+        String dateField = helper.getDatePrefix() + exam.getExamDate();
+        String startTimeField = helper.getStartTimePrefix()
+                + exam.getExamStartTime();
+        String endTimeField = helper.getEndTimePrefix()
+                + exam.getExamEndTime();
+        String detailsField = helper.getDetailsPrefix() + exam.getExamDetails();
+
+        String addExamCommand = "addexam " + examNameField
+                + subjectNameField + dateField + startTimeField
                 + endTimeField + detailsField;
-        System.out.println(createExamCommand);
-        return createExamCommand;
+        return addExamCommand;
     }
+
     /**
      * Utility methods
      */
@@ -444,6 +502,4 @@ public class ParserTest {
         assertTrue(result.getClass().isAssignableFrom(expectedCommandClass));
         return (T) result;
     }
-
-
 }

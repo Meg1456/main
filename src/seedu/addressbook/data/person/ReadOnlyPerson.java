@@ -1,7 +1,9 @@
 package seedu.addressbook.data.person;
 
+import java.util.Optional;
 import java.util.Set;
 
+import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.ui.Formatter;
 
@@ -15,8 +17,8 @@ public interface ReadOnlyPerson {
     Phone getPhone();
     Email getEmail();
     Address getAddress();
+    Optional<Account> getAccount();
     Fees getFees();
-
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
      * changes on the returned list will not affect the person's internal tags.
@@ -34,7 +36,7 @@ public interface ReadOnlyPerson {
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
                 && other.getAddress().equals(this.getAddress())
-                );
+                && other.getAccount().equals(this.getAccount()));
     }
 
     /**
@@ -49,14 +51,12 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
-
-
         builder.append(stringChain)
                 .append(" Tags: ");
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
-
+        getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
         return builder.toString();
     }
 
@@ -77,8 +77,11 @@ public interface ReadOnlyPerson {
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
+
+        getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
         return builder.toString();
     }
+
     /**
      * Formats the person as text, showing name and fees.
      */

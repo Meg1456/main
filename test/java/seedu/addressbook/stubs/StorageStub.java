@@ -22,6 +22,7 @@ public class StorageStub extends Storage {
         pathExam = filePathExam;
         pathStatistics = filePathStatistics;
     }
+
     /**Stub function*/
     public void save(AddressBook addressBook){
         //this is blank on purpose
@@ -30,7 +31,6 @@ public class StorageStub extends Storage {
     public void saveExam(ExamBook examBook){
         //this is blank on purpose
     }
-
     /**Stub function*/
     public void saveStatistics(StatisticsBook statisticsBook){
         //this is blank on purpose

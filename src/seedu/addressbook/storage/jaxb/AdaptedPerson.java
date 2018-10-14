@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlValue;
 
 import seedu.addressbook.common.Utils;
+import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Email;
@@ -38,6 +39,8 @@ public class AdaptedPerson {
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
 
+    @XmlElement
+    private AdaptedAccount account;
     /**
      * JAXB-friendly adapted contact detail data holder class.
      */
@@ -83,6 +86,9 @@ public class AdaptedPerson {
         for (Tag tag : source.getTags()) {
             tagged.add(new AdaptedTag(tag));
         }
+        if (source.getAccount().isPresent()) {
+            account = new AdaptedAccount(source.getAccount().get());
+        }
     }
 
     /**
@@ -99,6 +105,11 @@ public class AdaptedPerson {
                 return true;
             }
         }
+
+        if (account != null && account.isAnyRequiredFieldMissing()) {
+            return true;
+        }
+
         // second call only happens if phone/email/address are all not null
         return Utils.isAnyNull(name, phone, email, address, fees)
                 || Utils.isAnyNull(phone.value, email.value, address.value, fees.value);
@@ -119,8 +130,16 @@ public class AdaptedPerson {
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
         final Fees fees = new Fees(this.fees.value);
-        final Person person = new Person(name, phone, email, address, tags);
-        person.setFees(fees);
-        return person;
+
+        if (this.account == null) {
+            final Person person = new Person(name, phone, email, address, tags);
+            person.setFees(fees);
+            return new Person(name, phone, email, address, tags);
+        } else {
+            final Account account = this.account.toModelType();
+            final Person person = new Person(name, phone, email, address, tags, account);
+            person.setFees(fees);
+            return new Person(name, phone, email, address, tags, account);
+        }
     }
 }

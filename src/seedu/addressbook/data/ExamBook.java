@@ -1,6 +1,7 @@
 package seedu.addressbook.data;
 
 import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniqueExamList.DuplicateExamException;
 import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
@@ -34,9 +35,9 @@ public class ExamBook {
     }
 
     /**
-     * Adds a person to the address book.
+     * Adds a exam to the exam book.
      *
-     * @throws DuplicateExamException if an equivalent person already exists.
+     * @throws DuplicateExamException if an exam with equivalent data already exists.
      */
     public void addExam(Exam toAdd) throws DuplicateExamException {
         examList.add(toAdd);
@@ -45,17 +46,24 @@ public class ExamBook {
     /**
      * Checks if an equivalent exam exists in the exam book.
      */
-    public boolean containsExam(Exam key) {
+    public boolean containsExam(ReadOnlyExam key) {
         return examList.contains(key);
     }
 
     /**
      * Removes the equivalent exam from the exam book.
      *
-     * @throws ExamNotFoundException if no such Person could be found.
+     * @throws ExamNotFoundException if no such Exam could be found.
      */
-    public void removeExam(Exam toRemove) throws ExamNotFoundException {
+    public void removeExam(ReadOnlyExam toRemove) throws ExamNotFoundException {
         examList.remove(toRemove);
+    }
+
+    /**
+     * Clears all exams from the exam book.
+     */
+    public void clear() {
+        examList.clear();
     }
 
     /**
@@ -63,6 +71,21 @@ public class ExamBook {
      */
     public UniqueExamList getAllExam() {
         return new UniqueExamList(examList);
+    }
+
+    /**
+     * Edits a exam in the ExamBook
+     *
+     * @throws ExamNotFoundException if no such Exam could be found.
+     */
+    public void editExam(ReadOnlyExam oldExam, Exam examToChange)
+            throws ExamNotFoundException, DuplicateExamException {
+        if (examList.contains(oldExam)) {
+            examList.add(examToChange);
+            examList.remove(oldExam);
+        } else {
+            throw new ExamNotFoundException();
+        }
     }
 
     @Override
@@ -75,12 +98,5 @@ public class ExamBook {
     @Override
     public int hashCode() {
         return examList.hashCode();
-    }
-
-    /**
-     * Clears all exams from the exam book.
-     */
-    public void clear() {
-        examList.clear();
     }
 }

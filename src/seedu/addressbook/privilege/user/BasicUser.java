@@ -10,32 +10,32 @@ import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.ListCommand;
+import seedu.addressbook.commands.LoginCommand;
+import seedu.addressbook.commands.LogoutCommand;
 import seedu.addressbook.commands.RaisePrivilegeCommand;
-import seedu.addressbook.commands.SayCommand;
 import seedu.addressbook.commands.ViewCommand;
+import seedu.addressbook.commands.ViewPrivilegeCommand;
+import seedu.addressbook.commands.ViewSelfCommand;
 
 /**
  * Represents a user with Basic access
  * */
 public class BasicUser implements User {
-    /**
-     * Enum to describe privilege levels
-     * */
-    public enum PrivilegeLevel { Basic, Tutor, Admin };
-
     private static List<Command> newAllowedCommands = Arrays.asList(
             new ViewCommand(),
             new ListCommand(),
             new RaisePrivilegeCommand(),
-            new SayCommand(),
+            new ViewPrivilegeCommand(),
             new FindCommand(),
             new HelpCommand(),
-            new ExitCommand()
+            new LoginCommand(),
+            new LogoutCommand(),
+            new ExitCommand(),
+            new ViewSelfCommand()
     );
-    protected List<Command> allowedCommands;
-    protected PrivilegeLevel currentLevel;
+    private List<Command> allowedCommands;
+    private PrivilegeLevel currentLevel;
 
-    //TODO Group commands into groups (Privilege, Person, AddressBook)
     public BasicUser() {
         currentLevel = PrivilegeLevel.Basic;
         allowedCommands = new ArrayList<>();
@@ -43,8 +43,20 @@ public class BasicUser implements User {
         sortCommands();
     }
 
-    public String getPrivilegeLevel() {
+    protected void addAllowedCommands(List<Command> newAllowedCommands) {
+        allowedCommands.addAll(newAllowedCommands);
+    }
+
+    protected void setCurrentLevel(PrivilegeLevel currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public String getPrivilegeLevelAsString() {
         return currentLevel.toString();
+    }
+
+    public PrivilegeLevel getPrivilegeLevel() {
+        return currentLevel;
     }
 
     public List<Command> getAllowedCommands() {
@@ -52,14 +64,7 @@ public class BasicUser implements User {
     }
 
     protected void sortCommands() {
-        allowedCommands.sort(new SortByCatagory());
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof BasicUser // instanceof handles nulls
-                && this.currentLevel.equals(((BasicUser) other).currentLevel)); // state check
+        allowedCommands.sort(new SortByCategory());
     }
 
     /** Checks if this privilege level have access to the given command*/
@@ -75,7 +80,7 @@ public class BasicUser implements User {
     /**
      * Comparator used to sort the commands in allowedCommands
      */
-    class SortByCatagory implements Comparator<Command> {
+    class SortByCategory implements Comparator<Command> {
         /**
          * Compare commands based on category, if they are the same, compare name of the command
          */
@@ -88,5 +93,12 @@ public class BasicUser implements User {
                 return a.toString().compareTo(b.toString());
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof BasicUser // instanceof handles nulls
+                && this.currentLevel.equals(((BasicUser) other).currentLevel)); // state check
     }
 }

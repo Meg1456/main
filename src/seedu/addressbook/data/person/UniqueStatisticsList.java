@@ -15,8 +15,8 @@ import seedu.addressbook.data.exception.DuplicateDataException;
  * @see AssignmentStatistics#equals(Object)
  * @see Utils#elementsAreUnique(Collection)
  */
-
 public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
+
     private final List<AssignmentStatistics> internalList = new ArrayList<>();
 
     /**
@@ -52,7 +52,7 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
 
     /**
      * Constructs a list from the items in the given collection.
-     * @param results a collection of results
+     * @param statistics a collection of statistics
      * @throws DuplicateStatisticsException if the {@code statistics} contains duplicate statistics
      */
     public UniqueStatisticsList(Collection<AssignmentStatistics> statistics) throws DuplicateStatisticsException {

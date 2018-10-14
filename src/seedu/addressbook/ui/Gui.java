@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import seedu.addressbook.Main;
 import seedu.addressbook.logic.Logic;
 
-
 /**
  * The GUI of the App
  */
@@ -53,5 +52,4 @@ public class Gui {
         mainWindow.setMainApp(mainApp);
         return mainWindow;
     }
-
 }

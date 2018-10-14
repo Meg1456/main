@@ -4,7 +4,6 @@ import java.util.List;
 
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
-
 /**
  * Lists all persons in the address book to the user.
  */
@@ -16,7 +15,6 @@ public class ListCommand extends Command {
             + "Displays all persons in the address book as a list with index numbers.\n\t"
             + "Example: " + COMMAND_WORD;
 
-
     @Override
     public CommandResult execute() {
         List<ReadOnlyPerson> allPersons = addressBook.getAllPersons().immutableListView();
@@ -25,7 +23,7 @@ public class ListCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.DETAILS;
+        return Category.PERSON;
     }
 
     @Override

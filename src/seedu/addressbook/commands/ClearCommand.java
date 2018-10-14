@@ -6,6 +6,7 @@ package seedu.addressbook.commands;
 public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Clears address book permanently.\n\t"
             + "Example: " + COMMAND_WORD;
 
@@ -24,7 +25,7 @@ public class ClearCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.DETAILS;
+        return Category.PERSON;
     }
 
     @Override

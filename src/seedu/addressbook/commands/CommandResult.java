@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
 /**
@@ -17,10 +17,13 @@ public class CommandResult {
 
     /** The list of persons that was produced by the command */
     private final List<? extends ReadOnlyPerson> relevantPersons;
+
     /** The list of exams that was produced by the command */
-    private final List<? extends Exam> relevantExams;
+    private final List<? extends ReadOnlyExam> relevantExams;
+
     /** The list of exams that was produced by the command */
     private final List<? extends AssignmentStatistics> relevantStatistics;
+
 
     public CommandResult(String feedbackToUser) {
         this.feedbackToUser = feedbackToUser;
@@ -36,13 +39,22 @@ public class CommandResult {
         this.relevantStatistics = null;
     }
 
-    public CommandResult(List<? extends Exam> relevantExams, String feedbackToUser,
+    public CommandResult(List<? extends ReadOnlyExam> relevantExams, String feedbackToUser) {
+        this.feedbackToUser = feedbackToUser;
+        this.relevantExams = relevantExams;
+        this.relevantStatistics = null;
+        this.relevantPersons = null;
+    }
+
+
+    public CommandResult(List<? extends ReadOnlyExam> relevantExams, String feedbackToUser,
                          List<? extends AssignmentStatistics> relevantStatistics) {
         this.feedbackToUser = feedbackToUser;
         this.relevantExams = relevantExams;
         this.relevantStatistics = relevantStatistics;
         this.relevantPersons = null;
     }
+
     /**
      * Returns list of persons relevant to the command command result, if any.
      */
@@ -53,7 +65,7 @@ public class CommandResult {
     /**
      * Returns list of exams relevant to the command command result, if any.
      */
-    public Optional<List<? extends Exam>> getRelevantExams() {
+    public Optional<List<? extends ReadOnlyExam>> getRelevantExams() {
         return Optional.ofNullable(relevantExams);
     }
 

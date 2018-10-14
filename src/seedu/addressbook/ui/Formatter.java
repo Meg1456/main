@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seedu.addressbook.data.person.Printable;
+import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
-
 
 /**
  * Used for formatting text for display. e.g. for adding text decorations.
@@ -85,5 +85,15 @@ public class Formatter {
             }
         }
         return String.format("%s: %s", fieldLabel, value);
+    }
+
+    /** Formats the given list of exams for displaying to the admin user. */
+    public String formatExam(List<? extends ReadOnlyExam> exams) {
+        final List<String> formattedExams = new ArrayList<>();
+        for (ReadOnlyExam exam : exams) {
+            formattedExams.add(exam.getAsTextShowAll());
+
+        }
+        return format(asIndexedList(formattedExams));
     }
 }

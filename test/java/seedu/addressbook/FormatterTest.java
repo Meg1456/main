@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.ui.Formatter;
 
@@ -35,7 +36,6 @@ public class FormatterTest {
         assertEquals(expected, formatter.format(persons));
     }
 
-
     @Test
     public void formatPersons() throws Exception {
         TestDataHelper helper = new TestDataHelper();
@@ -59,5 +59,15 @@ public class FormatterTest {
                 + " \t3. Person 3 Phone: 3 Email: 3@email Address: House of 3   Tags: [tag4][tag3]" + NEWLINE
                 + " " + NEWLINE;
         assertEquals(expected, formatter.format(persons));
+    }
+
+    @Test
+    public void formatAllExam() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Exam> exams = helper.generateExamList(false);
+        String expected = " \t1. Exam: Exam 1 Subject 1 01-02-2018 10:00 12:00 Held in 1" + NEWLINE
+                + " " + NEWLINE;
+        assertEquals(expected, formatter.formatExam(exams));
+
     }
 }

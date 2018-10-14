@@ -38,6 +38,10 @@ public class Phone implements Printable {
         return test.matches(PHONE_VALIDATION_REGEX);
     }
 
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
     @Override
     public String toString() {
         return value;
@@ -53,10 +57,6 @@ public class Phone implements Printable {
     @Override
     public int hashCode() {
         return value.hashCode();
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
     }
 
     @Override

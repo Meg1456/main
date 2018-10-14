@@ -79,6 +79,6 @@ public class AdaptedExam {
         final String examEndTime = this.examEndTime;
         final String examDetails = this.examDetails;
         final boolean isPrivate = this.isPrivate;
-        return new Exam(subjectName, examName, examDate, examStartTime, examEndTime, examDetails, isPrivate);
+        return new Exam(examName, subjectName, examDate, examStartTime, examEndTime, examDetails, isPrivate);
     }
 }

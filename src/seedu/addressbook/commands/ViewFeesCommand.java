@@ -4,7 +4,6 @@ import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 
-
 /**
  * Shows the fees owed with respect to the person identified in the last displayed index.
  * It's a private detail which is showed.
@@ -20,16 +19,15 @@ public class ViewFeesCommand extends Command {
 
     public static final String MESSAGE_VIEWFEE_PERSON_SUCCESS = "Name: %1$s";
 
-
-    public ViewFeesCommand(int targetVisibleIndex) {
-        super(targetVisibleIndex);
-    }
-
     /**
      * Constructor used for Privileges
      * Command constructed has no functionality
      * */
     public ViewFeesCommand() {
+    }
+
+    public ViewFeesCommand(int targetVisibleIndex) {
+        super(targetVisibleIndex);
     }
 
     @Override
@@ -45,6 +43,7 @@ public class ViewFeesCommand extends Command {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
         }
     }
+
     @Override
     public boolean isMutating() {
         return true;
@@ -52,8 +51,9 @@ public class ViewFeesCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.DETAILS;
+        return Category.PERSON;
     }
+
     @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;

@@ -8,6 +8,7 @@ import seedu.addressbook.data.person.UniquePersonList;
  *  Lists down the dates where the person's attendance has been taken.
  */
 public class ViewAttendanceCommand extends Command {
+
     public static final String COMMAND_WORD = "viewAtten";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Views the attendance of a student. \n"
             + "Parameters: n/STUDENTINDEXn\t"

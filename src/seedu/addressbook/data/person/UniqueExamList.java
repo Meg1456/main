@@ -3,6 +3,7 @@ package seedu.addressbook.data.person;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,8 +16,8 @@ import seedu.addressbook.data.exception.DuplicateDataException;
  * @see Exam#equals(Object)
  * @see Utils#elementsAreUnique(Collection)
  */
-
 public class UniqueExamList implements Iterable<Exam> {
+
     private final List<Exam> internalList = new ArrayList<>();
 
     /**
@@ -79,16 +80,16 @@ public class UniqueExamList implements Iterable<Exam> {
     }
 
     /**
-     * Checks if the list contains an equivalent person as the given argument.
+     * Checks if the list contains an equivalent exam as the given argument.
      */
-    public boolean contains(Exam toCheck) {
+    public boolean contains(ReadOnlyExam toCheck) {
         return internalList.contains(toCheck);
     }
 
     /**
      * Adds a exam to the list.
      *
-     * @throws DuplicateExamException if the person to add is a duplicate of an existing exam in the list.
+     * @throws DuplicateExamException if the exam to add is a duplicate of an existing exam in the list.
      */
     public void add(Exam toAdd) throws DuplicateExamException {
         if (contains(toAdd)) {
@@ -100,6 +101,7 @@ public class UniqueExamList implements Iterable<Exam> {
         //    }
         //}
         internalList.add(toAdd);
+        sort();
     }
 
     /**
@@ -107,19 +109,49 @@ public class UniqueExamList implements Iterable<Exam> {
      *
      * @throws ExamNotFoundException if no such person could be found in the list.
      */
-    public void remove(Exam toRemove) throws ExamNotFoundException {
+    public void remove(ReadOnlyExam toRemove) throws ExamNotFoundException {
         final boolean examFoundAndDeleted = internalList.remove(toRemove);
         if (!examFoundAndDeleted) {
             throw new ExamNotFoundException();
         }
     }
 
+    /**
+     * Unmodifiable java List view with elements cast as immutable {@link ReadOnlyExam}s.
+     * For use with other methods/libraries.
+     * Any changes to the internal list/elements are immediately visible in the returned list.
+     */
+    public List<ReadOnlyExam> immutableListView() {
+        return Collections.unmodifiableList(internalList);
+    }
 
     /**
      * Clears all exams in list.
      */
     public void clear() {
         internalList.clear();
+    }
+
+    /**
+     * Finds the equivalent exam from the list.
+     *
+     * @throws ExamNotFoundException if no such exam could be found in the list.
+     */
+    public Exam find(ReadOnlyExam exam) throws ExamNotFoundException {
+        //TODO: Fix potato
+        for (Exam p: internalList) {
+            if (p.equals(exam)) {
+                return p;
+            }
+        }
+        throw new ExamNotFoundException();
+    }
+
+    /**
+     * Sorts all exams in list by their subject names.
+     */
+    public void sort() {
+        internalList.sort((Exam name1, Exam name2)->name1.getSubjectName().compareToIgnoreCase(name2.getSubjectName()));
     }
 
     @Override
@@ -139,5 +171,4 @@ public class UniqueExamList implements Iterable<Exam> {
     public int hashCode() {
         return internalList.hashCode();
     }
-
 }

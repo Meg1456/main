@@ -11,10 +11,6 @@ public class HelpCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Shows program usage instructions.\n\t"
             + "Example: " + COMMAND_WORD;
-    @Override
-    public CommandResult execute() {
-        return new CommandResult(makeHelpMessage());
-    }
 
     /**
      * Creates the help message feedback to the user based on what commands they can access
@@ -34,6 +30,10 @@ public class HelpCommand extends Command {
         return message;
     }
 
+    @Override
+    public CommandResult execute() {
+        return new CommandResult(makeHelpMessage());
+    }
 
     @Override
     public String getCommandUsageMessage() {

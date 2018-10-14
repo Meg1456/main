@@ -39,6 +39,10 @@ public class Email implements Printable {
         return test.matches(EMAIL_VALIDATION_REGEX);
     }
 
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
     @Override
     public String toString() {
         return value;
@@ -54,11 +58,6 @@ public class Email implements Printable {
     @Override
     public int hashCode() {
         return value.hashCode();
-    }
-
-
-    public boolean isPrivate() {
-        return isPrivate;
     }
 
     @Override

@@ -17,6 +17,7 @@ import seedu.addressbook.data.tag.Tag;
  * Adds a person to the address book.
  */
 public class AddCommand extends Command {
+
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds a person to the address book. "
@@ -29,6 +30,14 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 
     private final Person toAdd;
+
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public AddCommand() {
+        this.toAdd = null;
+    }
 
     /**
      * Convenience constructor using raw values.
@@ -57,14 +66,6 @@ public class AddCommand extends Command {
         this.toAdd = toAdd;
     }
 
-    /**
-     * Constructor used for Privileges
-     * Command constructed has no functionality
-     * */
-    public AddCommand() {
-        this.toAdd = null;
-    }
-
     public ReadOnlyPerson getPerson() {
         return toAdd;
     }
@@ -86,7 +87,7 @@ public class AddCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.DETAILS;
+        return Category.PERSON;
     }
 
     @Override

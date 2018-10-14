@@ -79,7 +79,6 @@ public class UniquePersonList implements Iterable<Person> {
         return Collections.unmodifiableList(internalList);
     }
 
-
     /**
      * Checks if the list contains an equivalent person as the given argument.
      */
@@ -114,7 +113,6 @@ public class UniquePersonList implements Iterable<Person> {
         throw new PersonNotFoundException();
     }
 
-
     /**
      * Removes the equivalent person from the list.
      *
@@ -134,6 +132,34 @@ public class UniquePersonList implements Iterable<Person> {
         internalList.clear();
     }
 
+    /** Finds and returns the Person who has the given username in its Account
+     * @param username
+     * @return The Person who matches the username. This should be guaranteed to be unique.
+     * @throws PersonNotFoundException
+     */
+    public Person findPersonByUsername(String username) throws PersonNotFoundException {
+        //TODO: Fix potato
+        for (Person p: internalList) {
+            if (p.getAccount().isPresent() && p.getAccount().get().getUsername().equals(username)) {
+                return p;
+            }
+        }
+        throw new PersonNotFoundException();
+    }
+
+    /**Checks if UniquePersonList holds a Person who has given username in its Account
+     * @param username
+     * @return true if such a Person exists. False otherwise
+     */
+    public Boolean containsPersonWithUsername(String username) {
+        try {
+            findPersonByUsername(username);
+            return true;
+        } catch (PersonNotFoundException pne) {
+            return false;
+        }
+    }
+
     @Override
     public Iterator<Person> iterator() {
         return internalList.iterator();
@@ -144,12 +170,11 @@ public class UniquePersonList implements Iterable<Person> {
         return other == this // short circuit if same object
                 || (other instanceof UniquePersonList // instanceof handles nulls
                 && this.internalList.equals((
-                        (UniquePersonList) other).internalList));
+                (UniquePersonList) other).internalList));
     }
 
     @Override
     public int hashCode() {
         return internalList.hashCode();
     }
-
 }

@@ -13,9 +13,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.commands.ExitCommand;
+import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.logic.Logic;
 
@@ -59,8 +59,11 @@ public class MainWindow {
     public void displayResult(CommandResult result) {
         clearOutputConsole();
         final Optional<List<? extends ReadOnlyPerson>> resultPersons = result.getRelevantPersons();
+        final Optional<List<? extends ReadOnlyExam>> resultExams = result.getRelevantExams();
         if (resultPersons.isPresent()) {
             display(resultPersons.get());
+        } else if (resultExams.isPresent()) {
+            displayExams(resultExams.get());
         }
         display(result.feedbackToUser);
     }
@@ -81,13 +84,20 @@ public class MainWindow {
     private void display(List<? extends ReadOnlyPerson> persons) {
         display(new Formatter().format(persons));
     }
-
     /**
      * Displays the given messages on the output display area, after formatting appropriately.
      */
     private void display(String... messages) {
         outputConsole.setText(outputConsole.getText() + new Formatter().format(messages));
     }
+
+    /**
+     * Displays the list of exams in the output display area, formatted as an indexed list.
+     */
+    private void displayExams(List<? extends ReadOnlyExam> exams) {
+        display(new Formatter().formatExam(exams));
+    }
+
 
     /** Reads the user command on the CLI **/
     @FXML

@@ -1,15 +1,22 @@
 package seedu.addressbook;
 
+import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.StringJoiner;
 
 import seedu.addressbook.data.AddressBook;
-
+import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
@@ -18,7 +25,6 @@ import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Phone;
-
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -39,15 +45,16 @@ public class TestDataHelper {
 
     /** Test exam for testing**/
     public Exam math() throws Exception {
-        String subjectName = "Mathematics";
         String examName = "Math Mid-Terms 2018";
-        String date = "06062018";
-        String startTime = "0900";
-        String endTime = "1200";
+        String subjectName = "Mathematics";
+        String date = "06-06-2018";
+        String startTime = "09:00";
+        String endTime = "12:00";
         String details = "Held in MPSH";
         Boolean isPrivate = false;
-        return new Exam(subjectName, examName, date, startTime, endTime, details, isPrivate);
+        return new Exam(examName, subjectName, date, startTime, endTime, details, isPrivate);
     }
+
     /** Test fees for testing**/
     public Fees fees () throws Exception {
         String test = "123.45";
@@ -87,6 +94,19 @@ public class TestDataHelper {
         );
     }
 
+    /**
+     * Generates a valid exam using the given seed.
+     * Running this function with the same parameter values guarantees the returned exam will have the same state.
+     * Each unique seed will generate a unique Exam object.
+     *
+     * @param seed used to generate the exam data field values
+     * @param isExamPrivate determines if the exam will be private
+     */
+    public Exam generateExam(int seed, boolean isExamPrivate) throws Exception {
+        return new Exam(("Exam " + seed), ("Subject " + seed), "01-02-2018",
+                "10:00", "12:00", ("Held in " + seed), isExamPrivate);
+    }
+
     /**Generated the prefix for the field **/
     public String getPrefix (Phone phone) {
         return (phone.isPrivate() ? " pp/" : " p/");
@@ -104,23 +124,28 @@ public class TestDataHelper {
         return (isPrivate ? " pn/" : " n/");
     }
 
-    public String getDatePrefix (String value) {
+    public String getExamNamePrefix (Boolean isPrivate) {
+        return (isPrivate ? " pe/" : "e/");
+    }
+
+    public String getSubjectNamePrefix() {
+        return (" s/");
+    }
+
+    public String getDatePrefix() {
         return (" d/");
     }
-    public String getStartTimePrefix (String value) {
+
+    public String getStartTimePrefix() {
         return (" st/");
     }
 
-    public String getEndTimePrefix (String value) {
+    public String getEndTimePrefix() {
         return (" et/");
     }
 
-    public String getDetailsPrefix (String value) {
+    public String getDetailsPrefix() {
         return (" dt/");
-    }
-
-    public String getExamNamePrefix (String value, Boolean isPrivate) {
-        return (isPrivate ? " pen/" : " en/");
     }
 
     public String getTopScorerPrefix (String value) {
@@ -147,6 +172,10 @@ public class TestDataHelper {
         return (" mm/");
     }
 
+    public String getPrivatePrefix (Boolean isPrivate) {
+        return (isPrivate ? " p" : "");
+    }
+
     /** Generates the correct add command based on the person given */
     public String generateAddCommand(Person p) {
         StringJoiner cmd = new StringJoiner(" ");
@@ -167,7 +196,7 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Genreates the correcct addfees command based on the person given */
+    /** Generates the correct addfees command based on the person given */
     public String generateAddFeesCommand() {
         StringJoiner cmd = new StringJoiner(" ");
         cmd.add("addfees");
@@ -175,21 +204,20 @@ public class TestDataHelper {
         cmd.add(" 123.45");
         return cmd.toString();
     }
-    /** Generates the correct createexam command based on the exam given */
-    public String generateCreateExamCommand(Exam e) {
+
+    /** Generates the correct addexam command based on the exam given */
+    public String generateAddExamCommand(Exam e) {
         StringJoiner cmd = new StringJoiner(" ");
-        String subjectField = e.getSubjectName();
-        String examNameField = getPrefix(e.getExamName(), e.isPrivate()) + e.getExamName();
-        String dateField = getDatePrefix(e.getExamDate()) + removeSpecialChar(e.getExamDate());
-        String startTimeField = getStartTimePrefix(e.getExamStartTime())
-                + removeSpecialChar(e.getExamStartTime());
-        String endTimeField = getEndTimePrefix(e.getExamEndTime()) + removeSpecialChar(e.getExamEndTime());
-        String detailsField = getDetailsPrefix(e.getExamDetails()) + e.getExamDetails();
+        String examNameField = getExamNamePrefix(e.isPrivate()) + e.getExamName();
+        String subjectNameField = getSubjectNamePrefix() + e.getSubjectName();
+        String dateField = getDatePrefix() + e.getExamDate();
+        String startTimeField = getStartTimePrefix() + e.getExamStartTime();
+        String endTimeField = getEndTimePrefix() + e.getExamEndTime();
+        String detailsField = getDetailsPrefix() + e.getExamDetails();
 
-
-        cmd.add("createexam");
-        cmd.add(subjectField);
+        cmd.add("addexam");
         cmd.add(examNameField);
+        cmd.add(subjectNameField);
         cmd.add(dateField);
         cmd.add(startTimeField);
         cmd.add(endTimeField);
@@ -201,7 +229,7 @@ public class TestDataHelper {
     public String generateAddAssignmentStatistics(AssignmentStatistics s) {
         StringJoiner cmd = new StringJoiner(" ");
         String subjectField = s.getSubjectName();
-        String examNameField = getExamNamePrefix(s.getExamName(), s.isPrivate()) + s.getExamName();
+        String examNameField = getExamNamePrefix(s.isPrivate()) + s.getExamName();
         String topScorerField = getTopScorerPrefix(s.getTopScorer()) + s.getTopScorer();
         String averageScoreField = getAverageScorePrefix(s.getAverageScore()) + s.getAverageScore();
         String totalExamTakersField = getTotalExamTakersPrefix(s.getTotalExamTakers()) + s.getTotalExamTakers();
@@ -222,13 +250,51 @@ public class TestDataHelper {
     }
 
     /**
+     * Generates an ExamBook with auto-generated exams.
+     * @param isPrivateStatuses flags to indicate if all exams should be set to
+     *                          private.
+     */
+    public ExamBook generateExamBook(Boolean... isPrivateStatuses) throws Exception {
+        ExamBook examBook = new ExamBook();
+        addToExamBook(examBook, isPrivateStatuses);
+        return examBook;
+    }
+
+    /**
+     * Generates an ExamBook based on the list of Exams given.
+     */
+    public ExamBook generateExamBook(List<Exam> exams) throws Exception {
+        ExamBook examBook = new ExamBook();
+        addToExamBook(examBook, exams);
+        return examBook;
+    }
+
+    /**
+     * Adds auto-generated Exam objects to the given ExamBook
+     * @param examBook The ExamBook to which the Exams will be added
+     * @param isPrivateStatuses flags to indicate if the generated exams should be set to
+     *                          private.
+     */
+    public void addToExamBook(ExamBook examBook, Boolean... isPrivateStatuses) throws Exception {
+        addToExamBook(examBook, generateExamList(isPrivateStatuses));
+    }
+
+    /**
+     * Adds the given list of Exams to the given ExamBook
+     */
+    public void addToExamBook(ExamBook examBook, List<Exam> examsToAdd) throws Exception {
+        for (Exam p: examsToAdd) {
+            examBook.addExam(p);
+        }
+    }
+
+    /**
      * Removes special characters in a string for exam values
      */
     public String removeSpecialChar(String value) {
         String newValue = value.replaceAll("[^a-zA-Z0-9!@\\.,]", "");
         return newValue;
     }
-
 
     /**
      * Generates an AddressBook with auto-generated persons.
@@ -272,7 +338,7 @@ public class TestDataHelper {
     /**
      * Creates a list of Persons based on the give Person objects.
      */
-    public List<Person> generatePersonList(Person... persons) throws Exception {
+    public List<Person> generatePersonList(Person... persons) {
         List<Person> personList = new ArrayList<>();
         for (Person p: persons) {
             personList.add(p);
@@ -307,5 +373,133 @@ public class TestDataHelper {
         );
     }
 
+    /**
+     * Creates a list of Exams based on the give Exam objects.
+     */
+    public List<Exam> generateExamList(Exam... exams) throws Exception {
+        List<Exam> examList = new ArrayList<>();
+        for (Exam e: exams) {
+            examList.add(e);
+        }
+        return examList;
+    }
 
+    /**
+     * Generates a list of Exams based on the flags.
+     * @param isPrivateStatuses flags to indicate if the exams should be set to
+     *                          private.
+     */
+    public List<Exam> generateExamList(Boolean... isPrivateStatuses) throws Exception {
+        List<Exam> exams = new ArrayList<>();
+        int i = 1;
+        for (Boolean p: isPrivateStatuses) {
+            exams.add(generateExam(i++, p));
+        }
+        return exams;
+    }
+
+    /**
+     * Generates a valid date using a seed
+     */
+    public String generateDate(int seed) {
+        Long max = 0L;
+        Long min = 100000000000L;
+        SimpleDateFormat spf = new SimpleDateFormat("dd-MM-yyyy");
+        Random rnd = new Random(seed);
+        Long randomLong = (rnd.nextLong() % (max - min)) + min;
+        Date date = new Date(randomLong);
+        return removeSpecialChar(spf.format(date));
+    }
+
+    /**
+     * Generates a valid time using a seed
+     */
+    public String generateTime(int seed) {
+        Long max = 0L;
+        Long min = 100000000000L;
+        SimpleDateFormat spf = new SimpleDateFormat("HH:mm");
+        Random rnd = new Random(seed);
+        Long randomLong = (rnd.nextLong() % (max - min)) + min;
+        Date date = new Date(randomLong);
+        return removeSpecialChar(spf.format(date));
+    }
+
+    /**
+     * Generate the next time
+     */
+    public String addTimeInterval(String time) {
+        String timeString = new StringBuilder(time).insert(2, ":").toString();
+        SimpleDateFormat spf = new SimpleDateFormat("HH:mm");
+        try {
+            Date date = spf.parse(timeString);
+            Long nextTime = date.getTime();
+            nextTime += (2 * 60 * 60 * 1000);
+            Date nextDate = new Date(nextTime);
+            return removeSpecialChar(spf.format(nextDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    /**
+     * Class used to wrap the return arrays for generateThreePersons
+     */
+    public static class ThreePersons {
+        private List<Person> expected;
+        private List<Person> actual;
+
+        public ThreePersons() {
+            expected = new ArrayList<>();
+            actual = new ArrayList<>();
+        }
+        public List<Person> getExpected() {
+            return expected;
+        }
+
+        public void setExpected(List<Person> expected) {
+            // copies the list
+            for (Person person: expected) {
+                this.expected.add(new Person(person));
+            }
+        }
+
+        public List<Person> getActual() {
+            return actual;
+        }
+
+        public void setActual(List<Person> actual) {
+            // copies the list
+            for (Person person: actual) {
+                this.actual.add(new Person(person));
+            }
+        }
+
+        public Person getActualPerson(int index) {
+            return actual.get(index - DISPLAYED_INDEX_OFFSET);
+        }
+
+        public Person getExpectedPerson(int index) {
+            return expected.get(index - DISPLAYED_INDEX_OFFSET);
+        }
+
+        public void setBothPersons(int index, Account account) {
+            actual.get(index - DISPLAYED_INDEX_OFFSET).setAccount(account);
+            expected.get(index - DISPLAYED_INDEX_OFFSET).setAccount(account);
+        }
+    }
+
+    /**
+     * Generates a 3 Person object with given name. Returns the Lists wrapped in ThreePerson
+     */
+    public ThreePersons generateThreePersons() throws Exception {
+        ThreePersons threePersons = new ThreePersons();
+        final List<Person> p = new ArrayList<>();
+        p.add(generatePerson(1, true));
+        p.add(generatePerson(2, false));
+        p.add(generatePerson(3, false));
+        threePersons.setActual(p);
+        threePersons.setExpected(p);
+        return threePersons;
+    }
 }

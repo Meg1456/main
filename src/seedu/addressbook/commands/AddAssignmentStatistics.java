@@ -4,11 +4,11 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.UniqueStatisticsList;
 
-
 /**
  * Creates a new statistic in the statistics book.
  */
 public class AddAssignmentStatistics extends Command {
+
     public static final String COMMAND_WORD = "addstatistics";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds new statistic to the StatisticsBook. "
@@ -47,7 +47,6 @@ public class AddAssignmentStatistics extends Command {
         } catch (UniqueStatisticsList.DuplicateStatisticsException dpe) {
             return new CommandResult(MESSAGE_DUPLICATE_STATISTIC);
         }
-
     }
 
     @Override
@@ -55,6 +54,7 @@ public class AddAssignmentStatistics extends Command {
         return true;
     }
 
+    @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;
     }

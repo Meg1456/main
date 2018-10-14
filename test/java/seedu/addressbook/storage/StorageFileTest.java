@@ -18,6 +18,7 @@ import org.junit.rules.TemporaryFolder;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.AssignmentStatistics;
@@ -80,6 +81,14 @@ public class StorageFileTest {
     }
 
     @Test
+    public void load_invalidAccountFormat_exceptionThrown() throws Exception {
+        // The file contains valid xml data, but does not match the AddressBook class
+        StorageFile storage = getStorage("InvalidAccountData.txt", "ValidExamData.txt",
+                "InvalidStatistics.txt");
+        thrown.expect(StorageOperationException.class);
+        storage.load();
+    }
+    @Test
     public void load_invalidFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but does not match the AddressBook class
         StorageFile storage = getStorage("InvalidData.txt", "ValidExamData.txt",
@@ -109,10 +118,11 @@ public class StorageFileTest {
     @Test
     public void load_validFormat() throws Exception {
         HashMap<String, AddressBook> inputToExpectedOutputs = new HashMap<>();
-        inputToExpectedOutputs.put("ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true));
-        inputToExpectedOutputs.put("ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false));
-        inputToExpectedOutputs.put("ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true));
+        //inputToExpectedOutputs.put("ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true));
+        inputToExpectedOutputs.put("ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false, false));
+        inputToExpectedOutputs.put("ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true, false));
         inputToExpectedOutputs.put("ValidEmptyData.txt", AddressBook.empty());
+        inputToExpectedOutputs.put("ValidDataWithAccount.txt", getTestAddressBook(true, true));
 
         for (HashMap.Entry<String, AddressBook> inputToExpected : inputToExpectedOutputs.entrySet()) {
             final AddressBook actual = getStorage(inputToExpected.getKey()).load();
@@ -160,7 +170,7 @@ public class StorageFileTest {
 
     @Test
     public void save_validAddressBook() throws Exception {
-        AddressBook ab = getTestAddressBook(true);
+        AddressBook ab = getTestAddressBook(true, false);
         ExamBook eb = getTestExamBook();
         StatisticsBook sb = getTestStatisticsBook();
         StorageFile storage = getTempStorage();
@@ -174,11 +184,14 @@ public class StorageFileTest {
         storage = getTempStorage();
         storage.save(ab);
 
-
         assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPasswordLuc.txt"));
         assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPasswordLuc.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
 
+        ab = getTestAddressBook(true, true);
+        storage = getTempStorage();
+        storage.save(ab);
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAccount.txt"));
     }
 
     @Test
@@ -221,31 +234,36 @@ public class StorageFileTest {
     }
 
     private AddressBook getTestAddressBook() throws Exception {
-        return getTestAddressBook(false);
+        return getTestAddressBook(false, false);
     }
 
-    private AddressBook getTestAddressBook(boolean isUsingDefaultPassword) throws Exception {
+    private AddressBook getTestAddressBook(boolean isUsingDefaultPassword, boolean hasAccount) throws Exception {
         AddressBook ab = new AddressBook();
-        ab.addPerson(new Person(new Name("John Doe"),
+        final Person john = new Person(new Name("John Doe"),
                 new Phone("98765432", false),
                 new Email("johnd@gmail.com", false),
                 new Address("John street, block 123, #01-01", false),
-                Collections.emptySet()));
+                Collections.emptySet());
+        if (hasAccount) {
+            john.setAccount(new Account("user", "pw", "Admin"));
+        }
+        ab.addPerson(john);
         ab.addPerson(new Person(new Name("Betsy Crowe"),
-                new Phone("1234567", true),
-                new Email("betsycrowe@gmail.com", false),
-                new Address("Newgate Prison", true),
-                new HashSet<>(Arrays.asList(new Tag("friend"), new Tag("criminal")))));
+                                new Phone("1234567", true),
+                                new Email("betsycrowe@gmail.com", false),
+                                new Address("Newgate Prison", true),
+                                new HashSet<>(Arrays.asList(new Tag("friend"), new Tag("criminal")))));
         if (!isUsingDefaultPassword) {
             ab.setMasterPassword("newPassword");
         }
+
         return ab;
     }
 
     private ExamBook getTestExamBook() throws Exception {
         ExamBook eb = new ExamBook();
-        eb.addExam(new Exam("Mathematics", "Math Midterms", "01/12/2018", "09:00", "10:00", "Held in MPSH", false));
-        eb.addExam(new Exam("English", "English Midterms", "02/12/2018", "09:00", "10:00", "Held in MPSH", false));
+        eb.addExam(new Exam("Math Midterms", "Mathematics", "01-12-2018", "09:00", "10:00", "Held in MPSH", false));
+        eb.addExam(new Exam("English Midterms", "English", "02-12-2018", "09:00", "10:00", "Held in MPSH", false));
         return eb;
     }
 

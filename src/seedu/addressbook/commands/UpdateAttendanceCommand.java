@@ -7,11 +7,11 @@ import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 
-
 /**
  *  Clocks in the date and time where the student is present.
  */
 public class UpdateAttendanceCommand extends Command {
+
     public static final String COMMAND_WORD = "attendance";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Updates the attendance of a student. \n"
             + "Parameters: INDEXOFPERSON att/ATTENDANCE \n\t"

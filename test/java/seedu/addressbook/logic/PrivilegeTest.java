@@ -4,29 +4,30 @@ import static junit.framework.TestCase.assertEquals;
 import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.Collections;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.RaisePrivilegeCommand;
-import seedu.addressbook.commands.SayCommand;
+import seedu.addressbook.commands.ViewPrivilegeCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.person.Person;
 import seedu.addressbook.parser.Parser;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
 import seedu.addressbook.privilege.user.BasicUser;
+import seedu.addressbook.privilege.user.User;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 public class PrivilegeTest {
     /**
-     * See https://github.com/junit-team/junit4/wiki/rules#temporaryfolder-rule
+     * This tests for Commands that affects or depends on Privilege
      */
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
@@ -46,47 +47,47 @@ public class PrivilegeTest {
         CommandAssertions.setData(saveFile, addressBook, logic);
     }
 
-
     @Test
-    public void executeClearInsufficientPrivilege() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INSUFFICIENT_PRIVILEGE, "Admin", "Basic");
-        CommandAssertions.assertCommandBehavior("clear",
-                expectedMessage,
-                AddressBook.empty(),
-                false,
-                Collections.emptyList(),
-                true);
+    public void executeSayNotLoggedIn() throws Exception {
+        final String feedbackFormat = ViewPrivilegeCommand.MESSAGE_NOT_LOGGED_IN
+                + ViewPrivilegeCommand.MESSAGE_PRIVILEGE_FORMAT;
+        CommandAssertions.assertCommandBehavior("viewpri",
+                        String.format(feedbackFormat, User.PrivilegeLevel.Basic.toString()));
 
         privilege.raiseToTutor();
-        expectedMessage = String.format(MESSAGE_INSUFFICIENT_PRIVILEGE, "Admin", "Tutor");
-        CommandAssertions.assertCommandBehavior("clear",
-                expectedMessage,
-                AddressBook.empty(),
-                false,
-                Collections.emptyList(),
-                true);
-    }
-
-
-    @Test
-    public void executeSay() throws Exception {
-        CommandAssertions.assertCommandBehavior("say",
-                String.format(SayCommand.MESSAGE_FORMAT, privilege.getLevelAsString()));
-
-        privilege.raiseToTutor();
-        CommandAssertions.assertCommandBehavior("say",
-                String.format(SayCommand.MESSAGE_FORMAT, privilege.getLevelAsString()));
+        CommandAssertions.assertCommandBehavior("viewpri",
+                        String.format(feedbackFormat, User.PrivilegeLevel.Tutor.toString()));
 
         privilege.raiseToAdmin();
-        CommandAssertions.assertCommandBehavior("say",
-                String.format(SayCommand.MESSAGE_FORMAT, privilege.getLevelAsString()));
+        CommandAssertions.assertCommandBehavior("viewpri",
+                        String.format(feedbackFormat, User.PrivilegeLevel.Admin.toString()));
     }
+
+    @Test
+    public void executeSayLoggedIn() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        final Person testPerson = helper.adam();
+        final String feedbackFormat = String.format(ViewPrivilegeCommand.MESSAGE_LOGGED_IN, testPerson.getName())
+                + ViewPrivilegeCommand.MESSAGE_PRIVILEGE_FORMAT;
+
+        privilege.setMyPerson(testPerson);
+        CommandAssertions.assertCommandBehavior("viewpri",
+                String.format(feedbackFormat, User.PrivilegeLevel.Basic.toString()));
+
+        privilege.raiseToTutor();
+        CommandAssertions.assertCommandBehavior("viewpri",
+                String.format(feedbackFormat, User.PrivilegeLevel.Tutor.toString()));
+
+        privilege.raiseToAdmin();
+        CommandAssertions.assertCommandBehavior("viewpri",
+                String.format(feedbackFormat, User.PrivilegeLevel.Admin.toString()));
+    }
+
     @Test
     public void assertDefaultPassword() {
         final String defaultPassword = "default_pw";
         assertEquals(addressBook.getMasterPassword(), defaultPassword);
     }
-
 
     @Test
     public void executeRaisePrivilegeInvalidArg() throws Exception {
@@ -111,7 +112,7 @@ public class PrivilegeTest {
     public void executeRaisePrivilegeSuccessDefaultPassword() throws Exception {
         String defaultPassword = AddressBook.DEFAULT_MASTER_PASSWORD;
         CommandAssertions.assertCommandBehavior("raise " + defaultPassword,
-                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevel()));
+                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString()));
         assertEquals(privilege.getUser(), new AdminUser());
     }
 
@@ -119,13 +120,13 @@ public class PrivilegeTest {
     public void executeRaisePrivilegeSuccessChangedPassword() throws Exception {
         addressBook.setMasterPassword("new_Password");
         CommandAssertions.assertCommandBehavior("raise new_Password",
-                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevel()));
+                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString()));
         assertEquals(privilege.getUser(), new AdminUser());
     }
 
     @Test
     public void executeAdminCommandsInsufficientPrivilege() throws Exception {
-        final String[] inputs = {"clear", "viewall 1", "change default_pw new_pw" };
+        final String[] inputs = {"clear", "viewall 1", "editpw default_pw new_pw" };
         assertCommandsInsufficientPrivilege(inputs);
         privilege.raiseToTutor();
         assertCommandsInsufficientPrivilege(inputs);
@@ -133,7 +134,8 @@ public class PrivilegeTest {
 
     @Test
     public void executeTutorCommandsInsufficientPrivilege() throws Exception {
-        final String[] inputs = {"add Valid Name p/12345 e/valid@e.mail a/valid, address ", "delete 1"};
+        final String[] inputs = {"add Valid Name p/12345 e/valid@e.mail a/valid, address ",
+            "delete 1"};
         assertCommandsInsufficientPrivilege(inputs);
     }
 
@@ -146,5 +148,4 @@ public class PrivilegeTest {
                     privilege.getRequiredPrivilegeAsString(command), privilege.getLevelAsString()));
         }
     }
-
 }

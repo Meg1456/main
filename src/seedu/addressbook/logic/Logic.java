@@ -12,6 +12,7 @@ import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.parser.Parser;
 import seedu.addressbook.privilege.Privilege;
@@ -30,6 +31,9 @@ public class Logic {
 
     /** The list of person shown to the user most recently.  */
     private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
+
+    /** The list of exam shown to the user most recently.  */
+    private List<? extends ReadOnlyExam> lastShownExamList = Collections.emptyList();
 
     /**
      * Signals that an operation requiring password authentication failed.
@@ -76,6 +80,7 @@ public class Logic {
     public void setStatisticsBook(StatisticsBook statisticsBook) {
         this.statisticsBook = statisticsBook;
     }
+
     /**
      * Creates the StorageFile object based on the user specified path (if any) or the default storage path.
      * @throws StorageFile.InvalidStorageFilePathException if the target file path is incorrect.
@@ -111,6 +116,17 @@ public class Logic {
     }
 
     /**
+     * Unmodifiable view of the current last shown exams list.
+     */
+    public List<ReadOnlyExam> getLastShownExamList() {
+        return Collections.unmodifiableList(lastShownExamList);
+    }
+
+    protected void setLastShownExamList(List<? extends ReadOnlyExam> newList) {
+        lastShownExamList = newList;
+    }
+
+    /**
      * Parses the user command, executes it, and returns the result.
      * @throws Exception if there was any problem during command execution.
      */
@@ -132,16 +148,15 @@ public class Logic {
     private CommandResult execute(Command command) throws Exception {
         final CommandResult result;
 
-        command.setData(addressBook, lastShownList, privilege, examBook, statisticsBook);
+        command.setData(addressBook, lastShownList, lastShownExamList, privilege, examBook, statisticsBook);
 
         /** Checking instanceof IncorrectCommand to prevent overwriting the message of an incorrect command*/
         if (privilege.isAllowedCommand(command) || (command instanceof IncorrectCommand)) {
             result = command.execute();
         } else {
             result = new IncorrectCommand (String.format(MESSAGE_INSUFFICIENT_PRIVILEGE,
-                    privilege.getRequiredPrivilegeAsString(command),
-                    privilege.getLevelAsString()))
-                    .execute();
+                            privilege.getRequiredPrivilegeAsString(command),
+                            privilege.getLevelAsString())).execute();
         }
 
         if (command.isMutating()) {
@@ -152,11 +167,16 @@ public class Logic {
         return result;
     }
 
-    /** Updates the {@link #lastShownList} if the result contains a list of Persons. */
+    /** Updates the {@link #lastShownList} if the result contains a list of Persons.
+     *  Updates the {@link #lastShownExamList} if the result contains a list of Exams.
+     * */
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();
+        final Optional<List<? extends ReadOnlyExam>> examList = result.getRelevantExams();
         if (personList.isPresent()) {
             lastShownList = personList.get();
+        } else if (examList.isPresent()) {
+            lastShownExamList = examList.get();
         }
     }
 }

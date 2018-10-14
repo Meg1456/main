@@ -1,5 +1,7 @@
 = User Guide
 :site-section: UserGuide
+:toc:
+:toc-title: 
 :imagesDir: images
 :stylesDir: stylesheets
 ifdef::env-github[]
@@ -20,7 +22,12 @@ Please refer to the <<DeveloperGuide#setting-up, Setting up>> section to learn h
 +
 image::UiNew.png[]
 
-== Viewing help : `help`
+= Commands Available
+
+== General Commands
+Below are the generic commands:
+
+=== Viewing help : `help`
 
 Format: `help`
 
@@ -29,7 +36,16 @@ Format: `help`
 Help is also shown if you enter an incorrect command e.g. `abcd`
 ====
 
-== Adding a person: `add`
+
+=== Exiting the program : `exit`
+
+Exits the program. +
+Format: `exit`
+
+== Person Commands
+Below are the commands that deals with persons in the system:
+
+=== Adding a person: `add`
 
 Adds a person to the address book. +
 Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
@@ -49,12 +65,12 @@ Examples:
 * `add John Doe p/98765432 e/johnd@gmail.com a/John street, block 123, #01-01`
 * `add Betsy Crowe pp/1234567 e/betsycrowe@gmail.com pa/Newgate Prison t/criminal t/friend`
 
-== Listing all persons : `list`
+=== Listing all persons : `list`
 
 Shows a list of all persons in the address book. +
 Format: `list`
 
-== Finding all persons containing any keyword in their name: `find`
+=== Finding all persons containing any keyword in their name: `find`
 
 Finds persons whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
@@ -73,7 +89,7 @@ Returns `John Doe` but not `john`.
 * `find Betsy Tim John` +
 Returns Any person having names `Betsy`, `Tim`, or `John`.
 
-== Deleting a person : `delete`
+=== Deleting a person : `delete`
 
 Deletes the specified person from the address book. Irreversible. +
 Format: `delete INDEX`
@@ -93,7 +109,7 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-== View non-private details of a person : `view`
+=== View non-private details of a person : `view`
 
 Displays the non-private details of the specified person. +
 Format: `view INDEX`
@@ -113,7 +129,7 @@ Views the 2nd person in the address book.
 `view 1` +
 Views the 1st person in the results of the `find` command.
 
-== View all details of a person : `viewall`
+=== View all details of a person : `viewall`
 
 Displays all details (including private details) of the specified person. +
 Format: `viewall INDEX`
@@ -133,7 +149,21 @@ Views all details of the 2nd person in the address book.
 `viewall 1` +
 Views all details of the 1st person in the results of the `find` command.
 
-== Creating an exam : `createexam`
+
+=== View your own details : `viewself`
+
+Displays the all the details of the user, provided the user is logged in. +
+Format: `viewself`
+
+=== Clearing all entries : `clear`
+
+Clears all entries from the address book. +
+Format: `clear`
+
+== Exam Commands
+Below are the commands that deals with exam data:
+
+=== Creating an exam : `createexam`
 
 Adds an exam to the exam book. +
 Format: `createexam SUBJECTNAME [p]n/EXAMNAME  d/EXAMDATE st/EXAMSTARTTIME et/EXAMENDTIME dt/EXAMDETAILS`
@@ -151,7 +181,10 @@ Examples:
 
 * `createexam English n/Eng Finals d/012122017 st/0800 et/1000 dt/At School Hall`
 
-== Adding fees to a person: `addfees`
+== Fees Commands
+Below are the commands that deals with fees data:
+
+=== Adding fees to a person: `addfees`
 
 Adds a numerical fee to a person in the address book. +
 Format: `add INDEX FEE`
@@ -168,7 +201,7 @@ Examples:
 * `addfees 1 344.41`
 * `addfees 2 0.60`
 
-== View fees of a person : `viewfees`
+=== View fees of a person : `viewfees`
 
 Displays the fees(private) of the specified person. +
 Format: `viewfees INDEX`
@@ -188,7 +221,10 @@ Views fees of the 2nd person in the address book.
 `viewall 1` +
 Views fees of the 1st person in the results of the `find` command.
 
-== Raises your privilege level : `raise`
+== Privilege Commands
+Below are the commands that deals with privilege:
+
+=== Raises your privilege level : `raise`
 
 Raises the privilege level to Admin. Requires the master password. +
 Format: `viewall PASSWORD`
@@ -200,14 +236,14 @@ Examples:
 Raises your privilege level to Admin.
 ****
 
-== See your privilege level : `say`
+=== See your privilege level : `viewpri`
 
-Displays your current privilege level +
-Format: `say`
+Displays your current privilege level as well as the account you are logged in as +
+Format: `viewpri`
 
-== Change the password : `change`
+=== Change the master password : `editpw`
 Changes the master password. Requires the current master password and Admin privileges. +
-Format: `change OLD_PASSWORD NEW_PASSWORD`
+Format: `editpw OLD_PASSWORD NEW_PASSWORD`
 
 Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct. +
 Default master password is "default_pw".
@@ -215,21 +251,69 @@ Default master password is "default_pw".
 ****
 Examples:
 
-* `change default_pw new_pw` +
+* `editpw default_pw new_pw` +
 Changes the master password to "new_pw".
 ****
 
-== Clearing all entries : `clear`
+== Account Commands
+Below are the commands that deals with accounts:
 
-Clears all entries from the address book. +
-Format: `clear`
+=== Add an account to a person: `addacc`
+Adds an account to the target person. +
+Format: `addacc INDEX USERNAME PASSWORD USER_TYPE` +
+Creates an account for the person with INDEX as specified by the last shown list. +
+USERNAME and PASSWORD will be used for logging in. +
+USER_TYPE can be of type "Basic", "Tutor" or "Admin".
 
-== Exiting the program : `exit`
+****
+Examples:
 
-Exits the program. +
-Format: `exit`
+* `list`  +
+`addacc 1 JohnDoe1337 P455W0RD Admin` +
+Adds an account with the username of `JohnDoe1337` and password of `P455W0RD` to the first person in the list.
+****
 
-== Saving the data
+=== Login to an account: `login`
+Login to the account with the specified username and password. +
+Format: `login USERNAME PASSWORD` +
+Logs into the account with the given USERNAME and PASSWORD. +
+Sets the current privilege level to that of the account.
+
+****
+Examples:
+
+* `login 1 JohnDoe1337 P455W0RD Admin`
+Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
+****
+
+
+=== Logout of an account: `logout`
+Logout of the current account. +
+Format: `logout` +
+Logout from the currently signed in account. +
+Also resets the privilege back to the level of a Basic User.
+
+****
+Examples:
+
+* `logout`
+Logs out of the current account, provided there is privilege or account to relinquish.
+****
+
+=== Delete the account of a person: `delacc`
+Deletes the account of the target person. +
+Format: `delacc INDEX`
+Deletes the account of the person with INDEX as specified by the last shown list. +
+
+****
+Examples:
+
+* `list`  +
+`delacc 1` +
+Deletes the account of the first person in the list, provided that he has an account.
+****
+
+= Saving the data
 
 Address book data are saved in the hard disk automatically after any command that changes the data.
 
