@@ -219,7 +219,7 @@ public class Parser {
             return prepareDeleteAssessment(arguments);
 
         case ListAssessmentCommand.COMMAND_WORD:
-                return new ListAssessmentCommand();
+            return new ListAssessmentCommand();
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
         default:

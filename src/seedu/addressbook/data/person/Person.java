@@ -25,9 +25,9 @@ public class Person implements ReadOnlyPerson {
     private final Set<Tag> tags = new HashSet<>();
     //private final List<Assessment> assessments = new ArrayList<>();
     private Attendance attendance;
-    // private final Set<Tag> assessment = new HashSet<>();
-    // private Map<Assessment, Grades> assessment_dic = new HashMap<>();
-   private List<Assessment> assessments;
+    //private final Set<Tag> assessment = new HashSet<>();
+    //private Map<Assessment, Grades> assessment_dic = new HashMap<>();
+    private List<Assessment> assessments;
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -56,7 +56,6 @@ public class Person implements ReadOnlyPerson {
 
     /**
      * Only update the fees when called in AddFeesCommand
-     * @param Assessment Dictionary
      */
     public void setAssessments(Assessment assessment) {
         this.assessments.add(assessment);

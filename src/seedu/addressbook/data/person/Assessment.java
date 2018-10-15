@@ -9,7 +9,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 /**
  * Represents an assessment of the student
  */
-public class Assessment{
+public class Assessment {
 
     public static final String EXAM_NAME_EXAMPLE = "CG2271 Midterms";
 

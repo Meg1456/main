@@ -1,6 +1,5 @@
 package seedu.addressbook.data.person;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,7 +19,7 @@ public interface ReadOnlyPerson {
     Address getAddress();
     Optional<Account> getAccount();
     Fees getFees();
-    List<Assessment> getAssessments();
+
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
      * changes on the returned list will not affect the person's internal tags.
@@ -59,9 +58,7 @@ public interface ReadOnlyPerson {
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
-//        for (Assessment assessments : getAssessments()) {
-//            builder.append(assessments);
-//        }
+
         getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
         return builder.toString();
     }
@@ -83,9 +80,7 @@ public interface ReadOnlyPerson {
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
-//        for (Assessment assessments : getAssessments()) {
-//            builder.append(assessments);
-//        }
+
         getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
         return builder.toString();
     }
