@@ -1,6 +1,8 @@
 package seedu.addressbook.data.person;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -21,8 +23,11 @@ public class Person implements ReadOnlyPerson {
     private Optional<Account> account = Optional.empty();
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
+    //private final List<Assessment> assessments = new ArrayList<>();
     private Attendance attendance;
-
+    // private final Set<Tag> assessment = new HashSet<>();
+    // private Map<Assessment, Grades> assessment_dic = new HashMap<>();
+   private List<Assessment> assessments;
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -34,6 +39,7 @@ public class Person implements ReadOnlyPerson {
         this.tags.addAll(tags);
         this.attendance = new Attendance();
         this.fees = new Fees();
+        this.assessments = new ArrayList<>();
     }
 
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Account account) {
@@ -46,6 +52,14 @@ public class Person implements ReadOnlyPerson {
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getTags());
+    }
+
+    /**
+     * Only update the fees when called in AddFeesCommand
+     * @param Assessment Dictionary
+     */
+    public void setAssessments(Assessment assessment) {
+        this.assessments.add(assessment);
     }
 
     /**
@@ -82,6 +96,10 @@ public class Person implements ReadOnlyPerson {
 
     public Attendance getAttendance() {
         return attendance;
+    }
+
+    public List<Assessment> getAssessments() {
+        return new ArrayList<>(assessments);
     }
 
     @Override
