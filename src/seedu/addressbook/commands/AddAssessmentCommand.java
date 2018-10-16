@@ -4,7 +4,6 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.UniqueAssessmentsList;
 
-
 /**
  * Adds a person to the address book.
  */
