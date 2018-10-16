@@ -44,4 +44,24 @@ public class Assessment {
     public int hashCode() {
         return Objects.hash(examName);
     }
+
+    @Override
+
+    public String toString() {
+        return getAsTextShowAll();
+    }
+
+    public String getPrintableAssessmentString(boolean showPrivate) {
+        return examName;
+    }
+
+    /**
+     * Formats the assessment as text to show all.
+     */
+    public String getAsTextShowAll() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = getPrintableAssessmentString(true);
+        builder.append(stringChain);
+        return builder.toString();
+    }
 }
