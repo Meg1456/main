@@ -64,4 +64,11 @@ public class Assessment {
         builder.append(stringChain);
         return builder.toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Assessment // instanceof handles nulls
+                && this.examName.equals(((Assessment) other).examName)); // state check
+    }
 }
