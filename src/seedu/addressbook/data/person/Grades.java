@@ -14,7 +14,7 @@ public class Grades implements Printable {
     public static final String GRADE_VALIDATION_REGEX = "\\d+(\\.\\d+)?";
 
     private String grade;
-    private Person person;
+    //private Person person;
 
     public Grades() {}
 
@@ -23,7 +23,7 @@ public class Grades implements Printable {
      *
      * @throws IllegalValueException if given results string is invalid.
      */
-    public Grades(String grade, boolean isPrivate) throws IllegalValueException {
+    public Grades(String grade) throws IllegalValueException {
 
         String trimmedMarksScored = grade.trim();
         if (!isValidMarksScored(trimmedMarksScored)) {
