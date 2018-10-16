@@ -68,7 +68,7 @@ public class MainWindow {
             displayExams(resultExams.get());
         } else if (resultAssessment.isPresent()) {
             displayAssessments(resultAssessment.get());
-    }
+        }
         display(result.feedbackToUser);
     }
     /** Displays the welcome message**/

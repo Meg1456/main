@@ -223,6 +223,36 @@ public class CommandAssertions {
     }
 
     /**
+     * Executes the command and confirms that the result message is correct and
+     * also confirms that the following three parts of the Logic object's state are as expected:<br>
+     *      - the internal address book data are same as those in the {@code expectedAddressBook} <br>
+     *
+     *      if the command will write to file
+     *      - the storage file content matches data in {@code expectedAddressBook} <br>
+     */
+    public static void assertCommandBehavior(String inputCommand,
+                                             String expectedMessage,
+                                             AddressBook expectedAddressBook,
+                                             boolean writesToFile) throws Exception {
+        // If we need to test if the command writes to file correctly
+        // Injects the saveFile object to check
+        if (writesToFile) {
+            logic.setStorage(saveFile);
+        }
+        //Execute the command
+        CommandResult r = logic.execute(inputCommand);
+
+        //Confirm the result contains the right data
+        assertEquals(expectedMessage, r.feedbackToUser);
+
+        //Confirm the state of data is as expected
+        assertEquals(expectedAddressBook, addressBook);
+        if (writesToFile) {
+            assertEquals(addressBook, saveFile.load());
+        }
+    }
+
+    /**
      * Confirms the 'invalid argument index number behaviour' for the given command
      * targeting a single person in the last shown list, using visible index.
      * Used for commands in the form of COMMAND_WORD INDEX

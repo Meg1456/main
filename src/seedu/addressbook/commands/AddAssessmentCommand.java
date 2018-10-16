@@ -18,7 +18,7 @@ public class AddAssessmentCommand extends Command {
             + " Math Midterm";
 
     public static final String MESSAGE_SUCCESS = "New assessment added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This assessment already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_ASSESSMENT = "This assessment has already been entered!";
 
     private final Assessment toAdd;
 
@@ -53,7 +53,7 @@ public class AddAssessmentCommand extends Command {
             addressBook.addAssessment(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueAssessmentsList.DuplicateAssessmentException dpe) {
-            return new CommandResult(MESSAGE_DUPLICATE_PERSON);
+            return new CommandResult(MESSAGE_DUPLICATE_ASSESSMENT);
         }
     }
 
