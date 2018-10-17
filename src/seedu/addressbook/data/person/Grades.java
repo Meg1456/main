@@ -16,8 +16,6 @@ public class Grades implements Printable {
     private String grade;
     //private Person person;
 
-    public Grades() {}
-
     /**
      * Validates given results.
      *

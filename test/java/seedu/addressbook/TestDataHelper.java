@@ -78,7 +78,7 @@ public class TestDataHelper {
     }
 
     /** Test assessment for testing**/
-    public Assessment assess () throws Exception {
+    public final Assessment assess () throws Exception {
         String assessment = "CG2271 Midterm";
         return new Assessment(assessment);
     }

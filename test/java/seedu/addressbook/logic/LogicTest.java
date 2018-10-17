@@ -392,11 +392,12 @@ public class LogicTest {
         Assessment toBeAdded = helper.assess();
         AddressBook expected = new AddressBook();
         expected.addAssessment(toBeAdded);
+        List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
 
         // execute command and verify result
         assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
-                String.format(AddAssessmentCommand.MESSAGE_SUCCESS, toBeAdded),
-                expected, false);
+                String.format(AddAssessmentCommand.MESSAGE_SUCCESS, toBeAdded), expected, false,
+                dummyList);
     }
 
     @Test
@@ -406,13 +407,14 @@ public class LogicTest {
         Assessment toBeAdded = helper.assess();
         AddressBook expected = new AddressBook();
         expected.addAssessment(toBeAdded);
+        List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
 
         // setup starting state
         addressBook.addAssessment(toBeAdded); // statistic already in internal statistic book
 
         // execute command and verify result
         assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
-                AddAssessmentCommand.MESSAGE_DUPLICATE_ASSESSMENT, expected, false);
+                AddAssessmentCommand.MESSAGE_DUPLICATE_ASSESSMENT, expected, false, dummyList);
     }
 
     @Test

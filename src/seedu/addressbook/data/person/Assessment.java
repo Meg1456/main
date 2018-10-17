@@ -16,8 +16,6 @@ public class Assessment {
     private String examName;
     private List<Grades> grade;
 
-    public Assessment() {}
-
     /**
      * Validates given results.
      *
@@ -46,7 +44,6 @@ public class Assessment {
     }
 
     @Override
-
     public String toString() {
         return getAsTextShowAll();
     }
