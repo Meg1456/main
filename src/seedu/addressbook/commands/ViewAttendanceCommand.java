@@ -10,17 +10,24 @@ import seedu.addressbook.data.person.UniquePersonList;
 public class ViewAttendanceCommand extends Command {
 
     public static final String COMMAND_WORD = "viewAtten";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Views the attendance of a student. \n"
-            + "Parameters: n/STUDENTINDEXn\t"
-            + "Example: " + COMMAND_WORD + " "
-            + "n/Neow Bo Kai";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
+            + "Views the attendance of a student. \n"
+            + "Parameters: indexOfStudent \n"
+            + "\tExample: " + COMMAND_WORD + " " + "1";
 
-    public static final String MESSAGE_SUCCESS = "Attendance for student: ";
-    public static final String MESSAGE_DUPLICATE_EXAM = "No such student";
+    public static final String MESSAGE_SUCCESS = "Attendance for student, ";
 
     // Constructor
-    public ViewAttendanceCommand(String targetIndex) {
-        super(Integer.parseInt(targetIndex));
+    public ViewAttendanceCommand(int targetIndex) {
+        super(targetIndex);
+    }
+
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public ViewAttendanceCommand() {
+        // Does nothing
     }
 
     @Override
@@ -28,7 +35,7 @@ public class ViewAttendanceCommand extends Command {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
             final String output = person.viewAttendanceMethod();
-            return new CommandResult("Attendance of " + getTargetIndex() + ":" + output);
+            return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName() + ":\n" + output);
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);

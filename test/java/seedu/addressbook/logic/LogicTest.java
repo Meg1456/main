@@ -2,6 +2,7 @@ package seedu.addressbook.logic;
 
 import static junit.framework.TestCase.assertEquals;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
 import static seedu.addressbook.common.Messages.MESSAGE_NO_ARGS_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
@@ -35,8 +36,10 @@ import seedu.addressbook.commands.EditPasswordCommand;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
+import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAllCommand;
+import seedu.addressbook.commands.ViewAttendanceCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewFeesCommand;
 import seedu.addressbook.commands.ViewSelfCommand;
@@ -430,10 +433,10 @@ public class LogicTest {
         helper.addToExamBook(examBook, false, true);
 
         assertCommandBehavior("examslist",
-                                Command.getMessageForExamListShownSummary(expectedList),
-                                expected,
-                                true,
-                                expectedList);
+                Command.getMessageForExamListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
     }
 
     @Test
@@ -637,6 +640,7 @@ public class LogicTest {
                 threePersons.getActual(),
                 true);
     }
+
     @Test
     public void executeDeleteSelfExceptionThrown() throws Exception {
         TestDataHelper helper = new TestDataHelper();
@@ -829,8 +833,27 @@ public class LogicTest {
     @Test
     public void executeUpdateAttendanceInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateAttendanceCommand.MESSAGE_USAGE);
-        assertCommandBehavior("attendance 1 att/ ", expectedMessage);
+        assertCommandBehavior("attendance 1 d/29-09-1996 att/ ", expectedMessage);
         assertCommandBehavior("attendance 2", expectedMessage);
+    }
+
+    @Test
+    public void executeUpdateAttendanceInvalidDateFormat() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_DATE, UpdateAttendanceCommand.MESSAGE_USAGE);
+
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("attendance 1 d/123123-123 att/1 ",
+                expectedMessage,
+                expectedBook,
+                false,
+                personList);
     }
 
     @Test
@@ -844,20 +867,152 @@ public class LogicTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
         List<Person> threePersonsExpected = helper.generatePersonList(p1Expected, p2, p3);
 
-        AddressBook expected = helper.generateAddressBook(threePersonsExpected);
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        p1Expected.updateAttendanceMethod(currentDate, "1");
+        AddressBook expectedBook = helper.generateAddressBook(threePersonsExpected);
+        p1Expected.updateAttendanceMethod("29-09-2018", true, false);
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
 
-        assertCommandBehavior("attendance 1 att/1",
-                String.format(UpdateAttendanceCommand.MESSAGE_SUCCESS, 1),
-                expected,
+        assertCommandBehavior("attendance 1 d/29-09-2018 att/1",
+                String.format(UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()),
+                expectedBook,
                 false,
                 threePersons);
 
         assertEquals(p1.getAttendance(), p1Expected.getAttendance());
+    }
+
+    @Test
+    public void executeUpdateAttendanceNoInputDate() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p1Expected = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+        List<Person> threePersonsExpected = helper.generatePersonList(p1Expected, p2, p3);
+
+        AddressBook expectedBook = helper.generateAddressBook(threePersonsExpected);
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        p1Expected.updateAttendanceMethod(currentDate, true, false);
+
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        assertCommandBehavior("attendance 1 d/0 att/1",
+                String.format(UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()),
+                expectedBook,
+                false,
+                threePersons);
+
+        assertEquals(p1.getAttendance(), p1Expected.getAttendance());
+    }
+
+    @Test
+    public void executeUpdateAttendanceDuplicateDate() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        p1.updateAttendanceMethod("29-09-2018", true, false);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("attendance 1 d/29-09-2018 att/1",
+                UpdateAttendanceCommand.MESSAGE_DUPLICATE_ATTENDANCE,
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeViewAttendanceSuccess() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p1Expected = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+        p1Expected.updateAttendanceMethod("29-09-2018", true, false);
+
+        helper.addToAddressBook(addressBook, personListExpected);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("viewAtten 1",
+                ViewAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()
+                               + ":\n" + p1Expected.viewAttendanceMethod(),
+                expectedBook,
+                false,
+                personListExpected);
+    }
+
+    @Test
+    public void executeViewAttendanceNilAttendance() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p1Expected = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("viewAtten 1",
+                ViewAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()
+                        + ":\n" + p1Expected.viewAttendanceMethod(),
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeReplaceAttendanceSuccess() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        p1.updateAttendanceMethod("29-09-2018", true, false);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("replaceAtten 1 d/29-09-2018 att/1",
+                ReplaceAttendanceCommand.MESSAGE_SUCCESS + p1.getName(),
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeReplaceAttendanceNoAttendanceYet() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("replaceAtten 1 d/29-09-2018 att/1",
+                ReplaceAttendanceCommand.MESSAGE_NO_DUPLICATE_ATTENDANCE,
+                expectedBook,
+                false,
+                personList);
     }
 
     @Test
@@ -878,7 +1033,6 @@ public class LogicTest {
                 Collections.emptyList(),
                 true);
     }
-
 
     @Test
     public void executeDeleteExamInvalidArgsFormat() throws Exception {
@@ -1030,7 +1184,5 @@ public class LogicTest {
         assertCommandBehavior(String.format("editexam 1 e/%s", e1.getExamName()), expectedMessage);
     }
 
-
-
-
 }
+

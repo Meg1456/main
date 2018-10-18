@@ -5,26 +5,26 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
- *  Marks the date where the student is present.
+ *  Replaces the already marked attendance for the given date.
  */
-public class UpdateAttendanceCommand extends Command {
+public class ReplaceAttendanceCommand extends Command {
 
-    public static final String COMMAND_WORD = "attendance";
+    public static final String COMMAND_WORD = "replaceAtten";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
-            + "Updates the attendance of a student. \n"
+            + "Replaces the pre-existing attendance of a student. \n"
             + "Parameters: indexOfPerson d/dd-mm-yyyy att/attendance \n"
             + "\tExample: " + COMMAND_WORD + " " + "1 d/29-09-2018 att/1 \n"
             + "\tTo input today's date, input d/0";
 
-    public static final String MESSAGE_SUCCESS = "Attendance updated for: ";
-    public static final String MESSAGE_DUPLICATE_ATTENDANCE = "Attendance has already been taken.\n"
-            + "Please use `replaceAtten` command to overwrite current attendance.";
+    public static final String MESSAGE_SUCCESS = "Attendance replaced for: ";
+    public static final String MESSAGE_NO_DUPLICATE_ATTENDANCE = "Attendance has yet to be taken.\n"
+            + "Please use `attendance` command to add attendance";
 
     private boolean isPresent;
     private String date;
 
     // Constructor
-    public UpdateAttendanceCommand(int targetIndex, String date, boolean isPresent) {
+    public ReplaceAttendanceCommand(int targetIndex, String date, boolean isPresent) {
         super(targetIndex); // super is calling the constructor of the parent function
         this.date = date;
         this.isPresent = isPresent;
@@ -34,7 +34,7 @@ public class UpdateAttendanceCommand extends Command {
      * Constructor used for Privileges
      * Command constructed has no functionality
      * */
-    public UpdateAttendanceCommand() {
+    public ReplaceAttendanceCommand() {
         // Does nothing
     }
 
@@ -42,9 +42,9 @@ public class UpdateAttendanceCommand extends Command {
     public CommandResult execute() {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
-            boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, true);
-            if (isDuplicateDate) {
-                return new CommandResult(String.format((MESSAGE_DUPLICATE_ATTENDANCE)));
+            boolean noDuplicateDate = person.replaceAttendanceMethod(date, isPresent, false);
+            if (noDuplicateDate) {
+                return new CommandResult(String.format((MESSAGE_NO_DUPLICATE_ATTENDANCE)));
             } else {
                 return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName());
             }

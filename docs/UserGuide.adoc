@@ -466,6 +466,50 @@ Example:
 `deleteassess 2` +
 Deletes the 2nd assessment in the address book.
 
+=== Updates the attendance of a person: `attendance`
+Updates the attendance of the target person. +
+Format: `attendance INDEX d/DATE att/ATTENDANCE`
+Updates the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
+
+****
+Examples:
+
+* `list`  +
+`attendance 1 d/29-09-2018 att/1` +
+Marks the attendance of the first person in the list as present for the date 29th September 2018.
+
+
+* `list`  +
+`attendance 1 d/0 att/0` +
+Marks the attendance of the first person in the list as abesnt for Today's date.
+****
+
+=== Replaces the attendance of a person: `replaceAtten`
+Replaces the current attendance of the target person. +
+Format: `replaceAtten INDEX d/DATE att/ATTENDANCE`
+Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
+
+****
+Examples:
+
+* `list`  +
+`replaceAtten 1 d/29-09-2018 att/1` +
+Marks the attendance of the first person in the list as present for the date 29th September 2018.
+****
+
+=== View the attendance of a person: `viewAtten`
+View the attendance of the target person. +
+Format: `viewAtten INDEX`
+View the attendance of the person with INDEX as specified by the last shown list. +
+
+****
+Examples:
+
+* `list`  +
+`viewAtten 1` +
+Views the attendance of the first person in the list.
+****
+
 = Saving the data
 
 Address book, exam book and statistics book data are saved in the hard disk automatically after any command that changes the data.

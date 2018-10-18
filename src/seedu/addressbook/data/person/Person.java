@@ -82,18 +82,6 @@ public class Person implements ReadOnlyPerson {
         this.account = Optional.empty();
     }
 
-    public void updateAttendanceMethod(String currentDate, String isPresent) {
-        attendance.addAttendance(currentDate, isPresent);
-    }
-
-    public String viewAttendanceMethod() {
-        return attendance.viewAttendance();
-    }
-
-    public Attendance getAttendance() {
-        return attendance;
-    }
-
     public List<Assessment> getAssessments() {
         return new ArrayList<>(assessments);
     }
@@ -150,4 +138,25 @@ public class Person implements ReadOnlyPerson {
     public String toString() {
         return getAsTextShowAll();
     }
+
+    /** Has a boolean to check if the date is a duplicate **/
+    public boolean updateAttendanceMethod(String date, Boolean isPresent, Boolean overWrite) {
+        boolean duplicateDate = attendance.addAttendance(date, isPresent, overWrite);
+        return duplicateDate;
+    }
+
+    public String viewAttendanceMethod() {
+        return attendance.viewAttendance();
+    }
+
+    public Attendance getAttendance() {
+        return attendance;
+    }
+
+    /** Replaces the attendance if there is already a duplicate **/
+    public boolean replaceAttendanceMethod(String date, Boolean isPresent, Boolean overWrite) {
+        boolean noDuplicateDate = !attendance.addAttendance(date, isPresent, overWrite);
+        return noDuplicateDate;
+    }
+
 }
