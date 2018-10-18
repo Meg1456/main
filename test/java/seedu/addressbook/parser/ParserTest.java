@@ -13,10 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.addressbook.TestDataHelper;
+import seedu.addressbook.commands.AddAssessmentCommand;
 import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.AddExamCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.DeleteAssessmentCommand;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.EditExamCommand;
 import seedu.addressbook.commands.ExamsListCommand;
@@ -24,12 +26,14 @@ import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.IncorrectCommand;
+import seedu.addressbook.commands.ListAssessmentCommand;
 import seedu.addressbook.commands.ListCommand;
 import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Name;
@@ -358,6 +362,51 @@ public class ParserTest {
         }
     }
 
+    @Test
+    public void addAssessmentCommand_validAssessmentData_parsedCorrectly() {
+        try {
+            final Assessment testAssessment = generateTestAssessment();
+            final String input = convertAssessmentToAddAssessmentCommandString(testAssessment);
+            final AddAssessmentCommand result = parseAndAssertCommandType(input, AddAssessmentCommand.class);
+            assertEquals(result.getAssessment(), testAssessment);
+        } catch (IllegalValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void listAssessmentCommand_parsedCorrectly() {
+        final String input = "listassess";
+        parseAndAssertCommandType(input, ListAssessmentCommand.class);
+    }
+
+    /**
+     * Test single index argument commands
+     */
+    @Test
+    public void deleteAssessmentCommand_noArgs() {
+        final String[] inputs = { "deleteassess", "deleteassess " };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                DeleteAssessmentCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void deleteAssessmentCommand_argsIsNotSingleNumber() {
+        final String[] inputs = { "deleteassess notAnumber ", "deleteassess 8*wh12", "deleteassess 1 2 3 4 5" };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                DeleteAssessmentCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void deleteAssessmentCommand_numericArg_indexParsedCorrectly() {
+        final int testIndex = 1;
+        final String input = "deleteassess " + testIndex;
+        final DeleteAssessmentCommand result = parseAndAssertCommandType(input, DeleteAssessmentCommand.class);
+        assertEquals(result.getTargetIndex(), testIndex);
+    }
+
     /**
      * Test edit exam command
      */
@@ -458,6 +507,16 @@ public class ParserTest {
     }
 
     /** **/
+    private static Assessment generateTestAssessment() throws IllegalValueException {
+        try {
+            return new Assessment(Assessment.EXAM_NAME_EXAMPLE
+            );
+        } catch (IllegalValueException ive) {
+            throw new IllegalValueException("test assessment data should be valid by definition");
+        }
+    }
+
+    /** **/
     private static String convertExamToAddExamCommandString(Exam exam) {
         TestDataHelper helper = new TestDataHelper();
         String examNameField = helper.getExamNamePrefix(exam.isPrivate()) + exam.getExamName();
@@ -473,6 +532,14 @@ public class ParserTest {
                 + subjectNameField + dateField + startTimeField
                 + endTimeField + detailsField;
         return addExamCommand;
+    }
+
+    /** **/
+    private static String convertAssessmentToAddAssessmentCommandString(Assessment assessment) {
+        String examNameField = assessment.getExamName();
+
+        String addAssessmentCommand = "addassess " + examNameField;
+        return addAssessmentCommand;
     }
 
     /**
