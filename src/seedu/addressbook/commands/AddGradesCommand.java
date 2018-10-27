@@ -22,9 +22,7 @@ public class AddGradesCommand extends Command {
             + "Example: " + COMMAND_WORD
             + " 1 2 85";
 
-    public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added!: %1$s";
-    public static final String MESSAGE_INVALID_PERSON = "This person does not exist in the address book";
-    public static final String MESSAGE_INVALID_ASSESSMENT = "This assessment does not exist in the address book";
+    public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added!";
 
     private final int assessIndex;
     private final int gradesVal;

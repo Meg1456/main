@@ -24,6 +24,7 @@ import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.AddExamCommand;
 import seedu.addressbook.commands.AddFeesCommand;
+import seedu.addressbook.commands.AddGradesCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
@@ -193,6 +194,9 @@ public class Parser {
 
         case AddExamCommand.COMMAND_WORD:
             return prepareAddExam(arguments);
+
+        case AddGradesCommand.COMMAND_WORD:
+            return prepareAddGrades(arguments);
 
         case AddAccountCommand.COMMAND_WORD:
             return prepareAddAccount(arguments);
@@ -546,6 +550,35 @@ public class Parser {
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddAccountCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the AddGrades command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareAddGrades(String args) {
+        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddGradesCommand.MESSAGE_USAGE));
+        }
+
+        String[] arr = matcher.group("keywords").split("\\s+");
+        if (arr.length != 3) {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 3, arr.length,
+                    AddGradesCommand.MESSAGE_USAGE));
+        }
+        try {
+            final int targetPersonIndex = parseArgsAsDisplayedIndex(arr[0]);
+            final int targetAssessmentIndex = parseArgsAsDisplayedIndex(arr[1]);
+            final int targetGrades = parseArgsAsDisplayedIndex(arr[2]);
+            return new AddGradesCommand(targetPersonIndex, targetAssessmentIndex, targetGrades);
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddGradesCommand.MESSAGE_USAGE));
         }
     }
 

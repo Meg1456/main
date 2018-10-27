@@ -2,41 +2,27 @@ package seedu.addressbook.data.person;
 
 import java.util.Objects;
 
-import seedu.addressbook.data.exception.IllegalValueException;
+//import seedu.addressbook.data.exception.IllegalValueException;
+
 /**
- * Represents student's value.s
+ * Represents student's values
  */
 public class Grades implements Printable {
 
     public static final String GRADE_EXAMPLE = "27";
 
-    public static final String GRADE_CONSTRAINTS = "May include up two decimal places only";
-    public static final String GRADE_VALIDATION_REGEX = "\\d+(\\.\\d+)?";
+    //public static final String MESSAGE_GRADE_CONSTRAINTS = "May include up two decimal places only";
 
     private int value;
 
     private Person person;
 
     /**
-     * Validates given results.
-     *
-     * @throws IllegalValueException if given results string is invalid.
-     */
-    /*public Grades(int grade) throws IllegalValueException {
-
-        this.value = grade;
-    } */
+     * Validates given grades.
+     * */
 
     public Grades(int grade) {
-
         this.value = grade;
-    }
-
-    /**
-     * Checks if a given string is a valid marks scored.
-     */
-    public static boolean isValidGrades(String value) {
-        return value.matches(GRADE_VALIDATION_REGEX);
     }
 
     @Override
