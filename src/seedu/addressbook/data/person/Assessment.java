@@ -12,6 +12,8 @@ import seedu.addressbook.data.exception.IllegalValueException;
 public class Assessment {
 
     public static final String EXAM_NAME_EXAMPLE = "CG2271 Midterms";
+    public static final String MESSAGE_ASSESSMENT_CONSTRAINTS = "Assessment name can contain $";
+    public static final String ASSESSMENT_VALIDATION_REGEX = "^((?!\\$).)*$";
 
     private String examName;
     private List<Grades> grade;
@@ -22,15 +24,25 @@ public class Assessment {
      * @throws IllegalValueException if given results string is invalid.
      */
     public Assessment(String examName) throws IllegalValueException {
+        if (!isValidAssessment(examName)) {
+            throw new IllegalValueException(MESSAGE_ASSESSMENT_CONSTRAINTS);
+        }
         this.examName = examName.trim();
         this.grade = new ArrayList<>();
+    }
+
+    /**
+     * Returns true if a given string is a valid assessment.
+     */
+    public static boolean isValidAssessment(String test) {
+        return test.matches(ASSESSMENT_VALIDATION_REGEX);
     }
 
     public List<Grades> getGrade() {
         return new ArrayList<>(grade);
     }
 
-    public void setGrade(Grades grade) {
+    public void addGrade(Grades grade) {
         this.grade.add(grade);
     }
 

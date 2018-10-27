@@ -48,6 +48,15 @@ public abstract class Command {
     }
 
     /**
+     * Signals that the target assessment index is out of bounds of the last viewed assessment listing
+     */
+    public static class AssessmentIndexOutOfBoundsException extends IndexOutOfBoundsException {
+        public AssessmentIndexOutOfBoundsException(String message) {
+            super(message);
+        }
+    }
+
+    /**
      * @param targetIndex last visible listing index of the target person
      */
     public Command(int targetIndex) {
@@ -136,8 +145,8 @@ public abstract class Command {
      *
      * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
-    protected Assessment getTargetAssessment() throws IndexOutOfBoundsException {
-        return relevantAssessments.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
+    protected Assessment getTargetAssessment(int targetIndex) throws IndexOutOfBoundsException {
+        return relevantAssessments.get(targetIndex - DISPLAYED_INDEX_OFFSET);
     }
 
     public int getTargetIndex() {

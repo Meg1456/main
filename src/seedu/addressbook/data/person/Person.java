@@ -24,8 +24,9 @@ public class Person implements ReadOnlyPerson {
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
     private final Set<Exam> exams = new HashSet<>();
+    private final Set<Assessment> assessments = new HashSet<>();
     private Attendance attendance;
-    private List<Assessment> assessments;
+
 
     /**
      * Assumption: Every field must be present and not null.
@@ -38,7 +39,6 @@ public class Person implements ReadOnlyPerson {
         this.tags.addAll(tags);
         attendance = new Attendance();
         this.fees = new Fees();
-        this.assessments = new ArrayList<>();
     }
 
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
@@ -68,7 +68,7 @@ public class Person implements ReadOnlyPerson {
     /**
      * Only update the fees when called in AddFeesCommand
      */
-    public void setAssessments(Assessment assessment) {
+    public void addAssessment(Assessment assessment) {
         this.assessments.add(assessment);
     }
 
