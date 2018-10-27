@@ -20,11 +20,13 @@ public class Person implements ReadOnlyPerson {
     private Phone phone;
     private Email email;
     private Address address;
-    private Optional<Account> account = Optional.empty();
+    private Account account;
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
+    private final Set<Exam> exams = new HashSet<>();
     private Attendance attendance;
     private List<Assessment> assessments;
+
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -34,19 +36,31 @@ public class Person implements ReadOnlyPerson {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        this.attendance = new Attendance();
+        attendance = new Attendance();
         this.fees = new Fees();
         this.assessments = new ArrayList<>();
     }
 
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Account account) {
-        this(name, phone, email, address, tags);
-        this.account = Optional.ofNullable(account);
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  Account account, Set<Exam> exams) {
+        this(name, phone, email, address, tags, exams);
+        this.account = account;
     }
 
     /**
-     * Copy constructor.
+     * Assumption: Every field must be present and not null.
      */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Set<Exam> exams) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        attendance = new Attendance();
+        this.fees = new Fees();
+        this.exams.addAll(exams);
+    }
+
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getTags());
     }
@@ -74,12 +88,46 @@ public class Person implements ReadOnlyPerson {
         tags.addAll(replacement);
     }
 
+    /**
+     * Only adds the exam when called in RegisterExamCommand
+     * @param exam to add into person
+     */
+    public void addExam(Exam exam) {
+        exams.add(exam);
+    }
+
+    /**
+     * Checks if the exam is already registered
+     */
+    public boolean isExamPresent(Exam exam) {
+        boolean present = false;
+        if (exams.contains(exam)) {
+            present = true;
+        }
+        return present;
+    }
+
+    /**
+     * Removes the specified exam
+     * @param exam to remove from person
+     */
+    public void removeExam(Exam exam) {
+        exams.remove(exam);
+    }
+
+    /**
+     * Clears all exams
+     */
+    public void clearExams() {
+        exams.clear();
+    }
+
     public void setAccount(Account account) {
-        this.account = Optional.ofNullable(account);
+        this.account = account;
     }
 
     public void removeAccount() {
-        this.account = Optional.empty();
+        account = null;
     }
 
     public List<Assessment> getAssessments() {
@@ -112,13 +160,18 @@ public class Person implements ReadOnlyPerson {
     }
 
     @Override
+    public Set<Exam> getExams() {
+        return new HashSet<>(exams);
+    }
+
+    @Override
     public Set<Tag> getTags() {
         return new HashSet<>(tags);
     }
 
     @Override
     public Optional<Account> getAccount() {
-        return account;
+        return Optional.ofNullable(account);
     }
 
     @Override
@@ -131,7 +184,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, fees, exams, tags);
     }
 
     @Override

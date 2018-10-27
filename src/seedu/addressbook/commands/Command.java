@@ -39,6 +39,15 @@ public abstract class Command {
     private int targetIndex = -1;
 
     /**
+     * Signals that the target exam index is out of bounds of the last viewed exams listing
+     */
+    public static class ExamIndexOutOfBoundsException extends IndexOutOfBoundsException {
+        public ExamIndexOutOfBoundsException(String message) {
+            super(message);
+        }
+    }
+
+    /**
      * @param targetIndex last visible listing index of the target person
      */
     public Command(int targetIndex) {
@@ -79,6 +88,16 @@ public abstract class Command {
     }
 
     /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of fees.
+     *
+     * @param personsDisplayed used to generate summary
+     * @return summary message for fees displayed
+     */
+    public static String getMessageForFeesListShownSummary(List<? extends ReadOnlyPerson> personsDisplayed) {
+        return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, personsDisplayed.size());
+    }
+
+    /**
      * Executes the command and returns the result.
      */
     public abstract CommandResult execute();
@@ -104,7 +123,7 @@ public abstract class Command {
     }
 
     /**
-     * Extracts the the target person in the last shown list from the given arguments.
+     * Extracts the target person in the last shown list from the given arguments.
      *
      * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
@@ -113,14 +132,13 @@ public abstract class Command {
     }
 
     /**
-     * Extracts the the target person in the last shown list from the given arguments.
+     * Extracts the target person in the last shown list from the given arguments.
      *
      * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
     protected Assessment getTargetAssessment() throws IndexOutOfBoundsException {
         return relevantAssessments.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
     }
-
 
     public int getTargetIndex() {
         return targetIndex;
@@ -148,12 +166,23 @@ public abstract class Command {
     public abstract String getCommandUsageMessage();
 
     /**
-     * Extracts the the target exams in the last shown list from the given arguments.
+     * Extracts the target exam in the last shown exam list from the given arguments.
      *
-     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
+     * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
      */
-    public ReadOnlyExam getTargetExam() throws IndexOutOfBoundsException {
-        return relevantExams.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
+    public ReadOnlyExam getTargetExam(int targetExamIndex) throws ExamIndexOutOfBoundsException {
+        try {
+            return relevantExams.get(targetExamIndex - DISPLAYED_INDEX_OFFSET);
+        } catch (IndexOutOfBoundsException e) {
+            throw new ExamIndexOutOfBoundsException(e.getMessage());
+        }
+    }
+
+    /**
+     * Checks if the command can potentially change the exam data to be stored
+     */
+    public boolean isExamMutating() {
+        return false;
     }
 
 }

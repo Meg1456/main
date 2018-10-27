@@ -1,7 +1,11 @@
 package seedu.addressbook.commands;
 
+import java.util.Set;
+
 import seedu.addressbook.common.Messages;
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege;
 
@@ -37,6 +41,13 @@ public class DeleteCommand extends Command {
             final ReadOnlyPerson target = getTargetPerson();
             privilege.checkTargetIsSelf(target);
             addressBook.removePerson(target);
+            Set<Exam> examSet = target.getExams();
+            for (Exam e: examSet) {
+                Exam examAfter = new Exam(e);
+                examAfter.setTakers(examAfter.getTakers() - 1);
+                examBook.updateExam(e, examAfter);
+                addressBook.updateExam(e, examAfter);
+            }
             return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, target));
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -44,11 +55,18 @@ public class DeleteCommand extends Command {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
         } catch (Privilege.SelfTargetingException ste) {
             return new CommandResult(MESSAGE_DELETING_SELF);
+        } catch (UniqueExamList.ExamNotFoundException enfe) {
+            return new CommandResult(Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK);
         }
     }
 
     @Override
     public boolean isMutating() {
+        return true;
+    }
+
+    @Override
+    public boolean isExamMutating() {
         return true;
     }
 

@@ -1,6 +1,7 @@
 package seedu.addressbook.commands;
 
 import seedu.addressbook.common.Messages;
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
 
@@ -12,11 +13,13 @@ public class DeleteExamCommand extends Command {
     public static final String COMMAND_WORD = "deleteexam";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
-            + "Deletes the exam identified by the index number used in the last exams listing.\n\t"
+            + "Deletes the exam identified by the index number in the last exams listing.\n\t"
             + "Parameters: INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_EXAM_SUCCESS = "Deleted Exam: %1$s";
+    public static final String MESSAGE_DELETE_EXAM_SUCCESS = "Deleted %1$s";
+
+    private int targetExamIndex;
 
     /**
      * Constructor used for Privileges
@@ -25,17 +28,19 @@ public class DeleteExamCommand extends Command {
     public DeleteExamCommand() {
     }
 
-    public DeleteExamCommand(int targetVisibleIndex) {
-        super(targetVisibleIndex);
+    public DeleteExamCommand(int targetExamIndex) {
+        this.targetExamIndex = targetExamIndex;
     }
 
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyExam target = getTargetExam();
+            final ReadOnlyExam target = getTargetExam(targetExamIndex);
+            Exam initial = new Exam(target);
             examBook.removeExam(target);
+            addressBook.removeExam(initial);
             return new CommandResult(String.format(MESSAGE_DELETE_EXAM_SUCCESS, target));
-        } catch (IndexOutOfBoundsException ie) {
+        } catch (ExamIndexOutOfBoundsException eie) {
             return new CommandResult(Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX);
         } catch (ExamNotFoundException enfe) {
             return new CommandResult(Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK);
@@ -44,6 +49,11 @@ public class DeleteExamCommand extends Command {
 
     @Override
     public boolean isMutating() {
+        return true;
+    }
+
+    @Override
+    public boolean isExamMutating() {
         return true;
     }
 

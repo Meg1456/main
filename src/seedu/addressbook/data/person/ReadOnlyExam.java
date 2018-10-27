@@ -1,7 +1,7 @@
 package seedu.addressbook.data.person;
 
 /**
- * A read-only immutable interface for a Person in the exambook.
+ * A read-only immutable interface for an Exam in the exam book.
  * Implementations should guarantee: details are present and not null, field values are validated.
  */
 public interface ReadOnlyExam {
@@ -12,15 +12,16 @@ public interface ReadOnlyExam {
     String getExamStartTime();
     String getExamEndTime();
     String getExamDetails();
+    int getTakers();
     boolean isPrivate();
-    String getPrintableExamString(boolean showPrivate);
+    String getPrintableExamString();
 
     /**
      * Formats the exam as text to show all.
      */
     default String getAsTextShowAll() {
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = getPrintableExamString(true);
+        final String stringChain = getPrintableExamString();
         builder.append(stringChain);
         return builder.toString();
     }
@@ -38,6 +39,6 @@ public interface ReadOnlyExam {
                 && other.getExamStartTime().equals(this.getExamStartTime())
                 && other.getExamEndTime().equals(this.getExamEndTime())
                 && other.getExamDetails().equals(this.getExamDetails())
-                && (other.isPrivate() == this.isPrivate()));
+                && (other.isPrivate() == this.isPrivate())); //Does not include takers
     }
 }

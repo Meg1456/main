@@ -45,11 +45,11 @@ public class Logic {
     public static class WrongPasswordEnteredException extends Exception {}
 
     public Logic() throws Exception {
-        privilege = new Privilege();
         setStorage(initializeStorage());
         setAddressBook(storage.load());
         setExamBook(storage.loadExam());
         setStatisticsBook(storage.loadStatistics());
+        initPrivilege();
     }
 
     Logic(Storage storageFile, AddressBook addressBook, ExamBook examBook, StatisticsBook statisticsBook, Privilege
@@ -63,6 +63,14 @@ public class Logic {
         setAddressBook(addressBook);
         setExamBook(examBook);
         setStatisticsBook(statisticsBook);
+    }
+
+    /** Sets privilege as Admin if addressBook isPermAdmin, else set to Basic*/
+    public void initPrivilege() {
+        privilege = new Privilege();
+        if (addressBook.isPermAdmin()) {
+            privilege.raiseToAdmin();
+        }
     }
 
     public void setStorage(Storage storage) {
@@ -93,6 +101,7 @@ public class Logic {
     private StorageFile initializeStorage()
             throws StorageFile.InvalidStorageFilePathException,
             StorageFile.InvalidInitialisationException {
+
         return new StorageFile();
     }
 
@@ -166,28 +175,33 @@ public class Logic {
         command.setData(addressBook, lastShownList, lastShownExamList, lastShownAssessmentList, privilege, examBook,
                 statisticsBook);
 
-        /** Checking instanceof IncorrectCommand to prevent overwriting the message of an incorrect command*/
+        // Checking instanceof IncorrectCommand to prevent overwriting the message of an incorrect command
         if (privilege.isAllowedCommand(command) || (command instanceof IncorrectCommand)) {
             result = command.execute();
         } else {
             result = new IncorrectCommand (String.format(MESSAGE_INSUFFICIENT_PRIVILEGE,
-                            privilege.getRequiredPrivilegeAsString(command),
-                            privilege.getLevelAsString())).execute();
+                    privilege.getRequiredPrivilegeAsString(command),
+                    privilege.getLevelAsString())).execute();
         }
 
         if (command.isMutating()) {
             storage.save(addressBook);
-            storage.saveExam(examBook);
             storage.saveStatistics(statisticsBook);
+        }
+        if (command.isExamMutating()) {
+            storage.saveExam(examBook);
         }
         return result;
     }
 
     /** Updates the {@link #lastShownList} if the result contains a list of Persons.
      *  Updates the {@link #lastShownExamList} if the result contains a list of Exams.
+     *  Updates the {@link #lastShownAssessmentList} if the result contains a list of Assessments.
      * */
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();
+        personList.ifPresent(a -> lastShownList = a);
+
         final Optional<List<? extends ReadOnlyExam>> examList = result.getRelevantExams();
         final Optional<List<? extends Assessment>> assessmentList = result.getRelevantAssessments();
         if (personList.isPresent()) {

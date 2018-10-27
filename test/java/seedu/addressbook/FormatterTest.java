@@ -29,7 +29,8 @@ public class FormatterTest {
     public void formatPerson() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person toBePrinted = helper.adam();
-        final String expected = " \t1. Adam Brown  Email: adam@gmail.com    Tags: [tag1][tag2]" + NEWLINE
+        final String expected = " \t1. Adam Brown" + NEWLINE + " " + NEWLINE + " Email: adam@gmail.com" + NEWLINE + " "
+                + NEWLINE + " " + NEWLINE + "  Tags: [tag1][tag2]" + NEWLINE
                 + " " + NEWLINE;
         List<Person> persons = new ArrayList<>();
         persons.add(toBePrinted);
@@ -40,23 +41,25 @@ public class FormatterTest {
     public void formatPersons() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Person> persons = helper.generatePersonList(false);
-        String expected = " \t1. Person 1 Phone: 1 Email: 1@email Address: House of 1   Tags: [tag1][tag2]" + NEWLINE
-                + " " + NEWLINE;
+        final String personFormat = " \t%1$d. Person %1$d" + NEWLINE + " Phone: %1$d" + NEWLINE
+                + " Email: %1$d@email" + NEWLINE
+                + " Address: House of %1$d" + NEWLINE + " " + NEWLINE
+                + "  Tags: [tag%2$d][tag%3$d]" + NEWLINE;
+        String expected = String.format(personFormat, 1, 1, 2) + " " + NEWLINE;
         assertEquals(expected, formatter.format(persons));
 
-        /**List of 3 people, all fields non-private**/
+        //List of 3 people, all fields non-private
         persons = helper.generatePersonList(false, false , false);
-        expected = " \t1. Person 1 Phone: 1 Email: 1@email Address: House of 1   Tags: [tag1][tag2]" + NEWLINE
-                + " \t2. Person 2 Phone: 2 Email: 2@email Address: House of 2   Tags: [tag2][tag3]" + NEWLINE
-                + " \t3. Person 3 Phone: 3 Email: 3@email Address: House of 3   Tags: [tag4][tag3]" + NEWLINE
-                + " " + NEWLINE;
+        expected = String.format(personFormat, 1, 1, 2) + String.format(personFormat, 2, 2, 3)
+                + String.format(personFormat, 3, 4, 3) + " " + NEWLINE;
         assertEquals(expected, formatter.format(persons));
 
-        /**List of 3 people, all fields non-private**/
+        //List of 3 people, all fields non-private*
         persons = helper.generatePersonList(false, true , false);
-        expected = " \t1. Person 1 Phone: 1 Email: 1@email Address: House of 1   Tags: [tag1][tag2]" + NEWLINE
-                + " \t2. Person 2      Tags: [tag2][tag3]" + NEWLINE
-                + " \t3. Person 3 Phone: 3 Email: 3@email Address: House of 3   Tags: [tag4][tag3]" + NEWLINE
+        expected = String.format(personFormat, 1, 1, 2)
+                + " \t2. Person 2" + NEWLINE + " " + NEWLINE + " " + NEWLINE
+                + " " + NEWLINE + " " + NEWLINE + "  Tags: [tag2][tag3]" + NEWLINE
+                + String.format(personFormat, 3, 4, 3)
                 + " " + NEWLINE;
         assertEquals(expected, formatter.format(persons));
     }
@@ -64,9 +67,10 @@ public class FormatterTest {
     @Test
     public void formatAllExam() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        List<Exam> exams = helper.generateExamList(false);
-        String expected = " \t1. Exam: Exam 1 Subject 1 01-02-2018 10:00 12:00 Held in 1" + NEWLINE
-                + " " + NEWLINE;
+        List<Exam> exams = helper.generateExamList(false, true);
+        final String examFormat = " \t%1$d. %2$sExam: Exam %1$d Subject %1$d 01-02-2018 10:00 12:00 Held in %1$d 0"
+                + NEWLINE;
+        String expected = String.format(examFormat, 1, "") + String.format(examFormat, 2, "private ") + " " + NEWLINE;
         assertEquals(expected, formatter.formatExam(exams));
 
     }

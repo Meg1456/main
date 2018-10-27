@@ -15,11 +15,17 @@ public class ClearExamsCommand extends Command {
     @Override
     public CommandResult execute() {
         examBook.clear();
+        addressBook.clearAllExam();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
     @Override
     public boolean isMutating() {
+        return true;
+    }
+
+    @Override
+    public boolean isExamMutating() {
         return true;
     }
 

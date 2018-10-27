@@ -1,5 +1,8 @@
 package seedu.addressbook.common;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,5 +36,21 @@ public class Utils {
             }
         }
         return true;
+    }
+
+    /**
+     * Checks if a given string is a valid date.
+     */
+    public static boolean isValidDate(String value) {
+        boolean valid;
+        final String format = "dd-MM-yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        try {
+            String parsedDate = LocalDate.parse(value, formatter).format(formatter);
+            valid = value.equals(parsedDate);
+        } catch (DateTimeParseException ex) {
+            valid = false;
+        }
+        return valid;
     }
 }

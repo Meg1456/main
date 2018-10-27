@@ -14,6 +14,7 @@ import seedu.addressbook.commands.LoginCommand;
 import seedu.addressbook.commands.LogoutCommand;
 import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.ViewCommand;
+import seedu.addressbook.commands.ViewExamsCommand;
 import seedu.addressbook.commands.ViewPrivilegeCommand;
 import seedu.addressbook.commands.ViewSelfCommand;
 
@@ -31,7 +32,8 @@ public class BasicUser implements User {
             new LoginCommand(),
             new LogoutCommand(),
             new ExitCommand(),
-            new ViewSelfCommand()
+            new ViewSelfCommand(),
+            new ViewExamsCommand()
     );
     private List<Command> allowedCommands;
     private PrivilegeLevel currentLevel;

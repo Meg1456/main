@@ -3,6 +3,7 @@ package seedu.addressbook.data;
 import java.util.Optional;
 
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniqueAssessmentsList;
@@ -11,8 +12,6 @@ import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateAssessmentEx
 import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
-
-
 
 /**
  * Represents the entire address book. Contains the data of the address book.
@@ -23,6 +22,7 @@ public class AddressBook {
     private final UniquePersonList allPersons;
     private final UniqueAssessmentsList allAssessments;
     private String masterPassword;
+    private boolean isPermAdmin;
 
     /**
      * Creates an empty address book.
@@ -37,7 +37,7 @@ public class AddressBook {
      * Constructs an address book with the given data.
      *
      * @param persons external changes to this will not affect this address book
-     * @param masterPassword
+     * @param masterPassword contains the master password to raise Privilege to Admin level
      */
     public AddressBook(UniquePersonList persons, UniqueAssessmentsList assessments, String masterPassword) {
         allPersons = new UniquePersonList(persons);
@@ -115,6 +115,37 @@ public class AddressBook {
     }
 
     /**
+     * Updates a particular exam to its new value
+     * @param exam the original exam
+     * @param newExam the new exam to be updated to
+     */
+    public void updateExam(Exam exam, Exam newExam) {
+        allPersons.updateExam(exam, newExam);
+    }
+
+    /**
+     * Removes a particular exam from all persons
+     * @param exam the exam
+     */
+    public void removeExam(Exam exam) {
+        allPersons.removeExam(exam);
+    }
+
+    /**
+     * Removes all exams from all persons
+     */
+    public void clearAllExam() {
+        allPersons.clearAllExam();
+    }
+
+    /**
+     * Loops through the list
+     */
+    public String loopFeesPerson(ReadOnlyPerson person) throws PersonNotFoundException {
+        return allPersons.loopFees(person);
+    }
+
+    /**
      * Clears all persons from the address book.
      */
     public void clear() {
@@ -137,6 +168,14 @@ public class AddressBook {
 
     public String getMasterPassword() {
         return masterPassword;
+    }
+
+    public boolean isPermAdmin() {
+        return isPermAdmin;
+    }
+
+    public void setPermAdmin(boolean permAdmin) {
+        isPermAdmin = permAdmin;
     }
 
     @Override

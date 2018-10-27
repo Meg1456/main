@@ -8,8 +8,10 @@ import seedu.addressbook.commands.AddExamCommand;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.DeleteExamCommand;
+import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.EditExamCommand;
 import seedu.addressbook.commands.ExamsListCommand;
+import seedu.addressbook.commands.RegisterExamCommand;
 import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAttendanceCommand;
@@ -26,6 +28,8 @@ public class TutorUser extends BasicUser {
             new ExamsListCommand(),
             new DeleteExamCommand(),
             new EditExamCommand(),
+            new RegisterExamCommand(),
+            new DeregisterExamCommand(),
             new UpdateAttendanceCommand(),
             new ReplaceAttendanceCommand(),
             new ViewAttendanceCommand()

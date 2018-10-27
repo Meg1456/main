@@ -19,12 +19,13 @@ public interface ReadOnlyPerson {
     Address getAddress();
     Optional<Account> getAccount();
     Fees getFees();
-
+    Set<Exam> getExams();
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
      * changes on the returned list will not affect the person's internal tags.
      */
     Set<Tag> getTags();
+
 
     /**
      * Returns true if the values inside this object is same as those of the other
@@ -36,8 +37,7 @@ public interface ReadOnlyPerson {
                 && other.getName().equals(this.getName()) // state checks here onwards
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
-                && other.getAddress().equals(this.getAddress())
-                && other.getAccount().equals(this.getAccount()));
+                && other.getAddress().equals(this.getAddress()));
     }
 
     /**
@@ -58,8 +58,17 @@ public interface ReadOnlyPerson {
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
-
-        getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
+        for (Exam exam : getExams()) {
+            builder.append("\n");
+            if (exam.isPrivate()) {
+                builder.append("{");
+            }
+            builder.append(exam);
+            if (exam.isPrivate()) {
+                builder.append("}");
+            }
+        }
+        getAccount().ifPresent(a -> builder.append(" User Type:").append(a.getPrintableString(true)));
         return builder.toString();
     }
 
@@ -81,7 +90,7 @@ public interface ReadOnlyPerson {
             builder.append(tag);
         }
 
-        getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
+        getAccount().ifPresent(a -> builder.append(" User Type:").append(a.getPrintableString(true)));
         return builder.toString();
     }
 
@@ -95,6 +104,24 @@ public interface ReadOnlyPerson {
                 getName(),
                 getFees());
         builder.append(stringChain);
+        return builder.toString();
+    }
+
+    /**
+     * Formats the person as text, showing name and exams.
+     */
+    default String getAsTextShowExam() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = Formatter.getPrintableString(
+                true,
+                getName());
+        builder.append(stringChain);
+        for (Exam exam : getExams()) {
+            if (exam.isPrivate()) {
+                continue;
+            }
+            builder.append("Exam: ").append(exam).append("\n");
+        }
         return builder.toString();
     }
 }
