@@ -1,8 +1,6 @@
 package seedu.addressbook.data.person;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -130,8 +128,8 @@ public class Person implements ReadOnlyPerson {
         account = null;
     }
 
-    public List<Assessment> getAssessments() {
-        return new ArrayList<>(assessments);
+    public Set<Assessment> getAssessments() {
+        return new HashSet<>(assessments);
     }
 
     @Override

@@ -20,6 +20,7 @@ public interface ReadOnlyPerson {
     Optional<Account> getAccount();
     Fees getFees();
     Set<Exam> getExams();
+    Set<Assessment> getAssessments();
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
      * changes on the returned list will not affect the person's internal tags.
@@ -104,6 +105,21 @@ public interface ReadOnlyPerson {
                 getName(),
                 getFees());
         builder.append(stringChain);
+        return builder.toString();
+    }
+
+    /**
+     * Formats the person as text, showing name and assessments.
+     */
+    default String getAsTextShowAssess() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = Formatter.getPrintableString(
+                true,
+                getName());
+        builder.append(stringChain);
+        for (Assessment assessment : getAssessments()) {
+            builder.append("Assessment: ").append(assessment).append("\n");
+        }
         return builder.toString();
     }
 
