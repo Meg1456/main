@@ -132,6 +132,25 @@ public class Person implements ReadOnlyPerson {
         return new HashSet<>(assessments);
     }
 
+    /**
+     * Checks if the assessment is already added
+     */
+    public boolean isAssessmentPresent(Assessment assessment) {
+        boolean present = false;
+        if (assessments.contains(assessment)) {
+            present = true;
+        }
+        return present;
+    }
+
+    /**
+     * Removes the specified assessment
+     * @param assessment to remove from person
+     */
+    public void removeAssessment(Assessment assessment) {
+        assessments.remove(assessment);
+    }
+
     @Override
     public Name getName() {
         return name;
