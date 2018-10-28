@@ -1,4 +1,4 @@
-package seedu.addressbook.commands.attendance;
+package seedu.addressbook.commands.assessment;
 
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;

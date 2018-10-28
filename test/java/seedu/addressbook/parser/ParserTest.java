@@ -17,7 +17,9 @@ import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteGradesCommand;
 import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
 import seedu.addressbook.commands.exams.ExamsListCommand;
@@ -160,6 +162,38 @@ public class ParserTest {
         final String input = "viewall " + testIndex;
         final ViewAllCommand result = parseAndAssertCommandType(input, ViewAllCommand.class);
         assertEquals(result.getTargetIndex(), testIndex);
+    }
+
+    @Test
+    public void viewGradesCommand_noArgs() {
+        final String[] inputs = { "viewgrades", "viewgrades " };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void viewGradesCommand_argsIsNotSingleNumber() {
+        final String[] inputs = { "viewgrades notAnumber ", "viewgrades 8*wh12", "viewgrades 1 2 3 4 5" };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void viewGradesCommand_numericArg_indexParsedCorrectly() {
+        final int testIndex = 2;
+        final String input = "viewgrades " + testIndex;
+        final ViewGradesCommand result = parseAndAssertCommandType(input, ViewGradesCommand.class);
+        assertEquals(result.getTargetIndex(), testIndex);
+    }
+
+    /**
+     * Test double index argument commands
+     */
+    @Test
+    public void deleteGradesCommand_noArgs() {
+        final String[] inputs = { "deletegrades", "deletegrades " };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
     /**

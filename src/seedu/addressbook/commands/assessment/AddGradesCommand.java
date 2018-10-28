@@ -1,5 +1,7 @@
-package seedu.addressbook.commands;
+package seedu.addressbook.commands.assessment;
 
+import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;

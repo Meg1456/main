@@ -1,5 +1,7 @@
-package seedu.addressbook.commands;
+package seedu.addressbook.commands.assessment;
 
+import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
@@ -30,7 +32,7 @@ public class ViewGradesCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson target = getTargetPerson();
+            final ReadOnlyPerson target = getTargetReadOnlyPerson();
             if (!addressBook.containsPerson(target)) {
                 return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
             }
