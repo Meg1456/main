@@ -32,6 +32,7 @@ import seedu.addressbook.commands.DeleteAccountCommand;
 import seedu.addressbook.commands.DeleteAssessmentCommand;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.DeleteExamCommand;
+import seedu.addressbook.commands.DeleteGradesCommand;
 import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.EditExamCommand;
 import seedu.addressbook.commands.EditPasswordCommand;
@@ -261,6 +262,9 @@ public class Parser {
 
         case ListAssessmentCommand.COMMAND_WORD:
             return new ListAssessmentCommand();
+
+        case DeleteGradesCommand.COMMAND_WORD:
+            return prepareDeleteGrades(arguments);
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
             return new HelpCommand();
@@ -788,6 +792,34 @@ public class Parser {
             return new DeleteExamCommand(targetIndex);
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteExamCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the delete grades command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareDeleteGrades(String args) {
+        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeregisterExamCommand.MESSAGE_USAGE));
+        }
+
+        String[] arr = matcher.group("keywords").split("\\s+");
+        if (arr.length != 2) {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, arr.length,
+                    DeleteGradesCommand.MESSAGE_USAGE));
+        }
+        try {
+            final int targetIndex = parseArgsAsDisplayedIndex(arr[0]);
+            final int targetAssessmentIndex = parseArgsAsDisplayedIndex(arr[1]);
+            return new DeleteGradesCommand(targetIndex, targetAssessmentIndex);
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteGradesCommand.MESSAGE_USAGE));
         }
     }
 
