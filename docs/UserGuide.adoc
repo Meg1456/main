@@ -427,7 +427,7 @@ Deletes the account of the first person in the list, provided that he has an acc
 ****
 
 == Grade Commands
-Below are the commands that deals with grades of students:
+Below are the commands that deals with grades/assessments of students:
 
 === Adding an Assessment : `addassess`
 
@@ -465,6 +465,52 @@ Example:
 * `listassess` +
 `deleteassess 2` +
 Deletes the 2nd assessment in the address book.
+
+=== Adding grades to a person : `addgrades`
+
+Adds grades to selected student/person for a specific assessment listed in addressbook. +
+Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
+
+****
+Words in `UPPER_CASE` are the parameters. There are three parameter for this command, which are the index of the person
+or student, index of the appropriate assessment and the grades themselves.
+
+****
+
+Examples:
+
+* `addgrades 1 1 89` +
+* Here, the indices have been selected after carrying out the `list` and `listassess` commands respectively
+
+=== Viewing grades of a person : `viewgrades`
+
+View the grades  for all assessments of a selected student/person. +
+Format: `viewgrades PERSON_INDEX`
+
+****
+Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person
+or studen whos grades you want to view.
+
+****
+
+Examples:
+
+* `viewgrades 1` +
+*  The results will be displayed as a list of assessments the student has taken and their corresponding grades.
+
+=== Deleting a grade : `deletegrades`
+Deletes the specified assessment and respective grades of a student. It is irreversible. +
+Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
+
+****
+Deletes the grades and assessment at the specified `ASSESSMENT_INDEX` of a person specific by the `PERSON_INDEX`.
+The index refers to the index number shown in the most recent person and assessments listing respectively.
+****
+
+Example:
+
+* `deletegrades 1 2` +
+Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
 
 == Attendance Commands
 
