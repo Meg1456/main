@@ -2,7 +2,6 @@ package seedu.addressbook.data.person;
 
 import java.util.Objects;
 
-//import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
  * Represents student's values
@@ -11,11 +10,7 @@ public class Grades implements Printable {
 
     public static final String GRADE_EXAMPLE = "27";
 
-    //public static final String MESSAGE_GRADE_CONSTRAINTS = "May include up two decimal places only";
-
     private int value;
-
-    private Person person;
 
     /**
      * Validates given grades.
@@ -50,14 +45,6 @@ public class Grades implements Printable {
 
     public int getValue() {
         return value;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 
 }

@@ -12,8 +12,8 @@ import seedu.addressbook.data.exception.IllegalValueException;
 public class Assessment {
 
     public static final String EXAM_NAME_EXAMPLE = "CG2271 Midterms";
-    public static final String MESSAGE_ASSESSMENT_CONSTRAINTS = "Assessment name can contain $";
-    public static final String ASSESSMENT_VALIDATION_REGEX = "^((?!\\$).)*$";
+    public static final String MESSAGE_ASSESSMENT_CONSTRAINTS = "Assessment name can contain alpha-numeric characters";
+    public static final String ASSESSMENT_VALIDATION_REGEX = "^.*$";
 
     private String examName;
     private Map<Person, Grades> grade;

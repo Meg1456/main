@@ -208,7 +208,7 @@ public class Parser {
             return prepareAddGrades(arguments);
 
         case ViewGradesCommand.COMMAND_WORD:
-            return prepareViewGrades(arguments);
+            return prepareSingleIndexCommand(arguments, new ViewGradesCommand());
 
         case AddAccountCommand.COMMAND_WORD:
             return prepareAddAccount(arguments);
@@ -401,22 +401,6 @@ public class Parser {
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     ViewAllCommand.MESSAGE_USAGE));
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the view grades command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareViewGrades(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new ViewGradesCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewGradesCommand.MESSAGE_USAGE));
         }
     }
 

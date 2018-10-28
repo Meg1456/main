@@ -29,7 +29,6 @@ public class Person implements ReadOnlyPerson {
     private final Set<Assessment> assessments = new HashSet<>();
     private Attendance attendance;
 
-
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -68,7 +67,7 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
-     * Only update the fees when called in AddFeesCommand
+     * Only update the assessment when called in AddAssessmentCommand
      */
     public void addAssessment(Assessment assessment) {
         this.assessments.add(assessment);
@@ -140,11 +139,11 @@ public class Person implements ReadOnlyPerson {
      * Checks if the assessment is already added
      */
     public boolean isAssessmentPresent(Assessment assessment) {
-        boolean present = false;
+        boolean assessmentPresent = false;
         if (assessments.contains(assessment)) {
-            present = true;
+            assessmentPresent = true;
         }
-        return present;
+        return assessmentPresent;
     }
 
     /**

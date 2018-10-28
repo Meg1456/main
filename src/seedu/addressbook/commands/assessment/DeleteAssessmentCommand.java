@@ -23,7 +23,7 @@ public class DeleteAssessmentCommand extends Command {
     private final int assessIndex;
 
     /**
-     * Constructor used for Privileges
+     * Constructor used for Assessments
      * Command constructed has no functionality
      * */
     public DeleteAssessmentCommand() {
@@ -40,7 +40,7 @@ public class DeleteAssessmentCommand extends Command {
             final Assessment target = getTargetAssessment(assessIndex);
             addressBook.removeAssessment(target);
             return new CommandResult(String.format(MESSAGE_DELETE_ASSESSMENT_SUCCESS, target));
-        } catch (IndexOutOfBoundsException ie) {
+        } catch (AssessmentIndexOutOfBoundsException aie) {
             return new CommandResult(Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX);
         } catch (AssessmentNotFoundException nfe) {
             return new CommandResult(Messages.MESSAGE_ASSESSMENT_NOT_IN_ADDRESSBOOK);

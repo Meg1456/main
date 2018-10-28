@@ -466,6 +466,8 @@ Example:
 `deleteassess 2` +
 Deletes the 2nd assessment in the address book.
 
+== Attendance Commands
+
 === Updates the attendance of a person: `attendance`
 Updates the attendance of the target person. +
 Format: `attendance INDEX d/DATE att/ATTENDANCE`

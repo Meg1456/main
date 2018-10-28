@@ -141,9 +141,7 @@ public interface ReadOnlyPerson {
      */
     default String getAsTextShowAssess() {
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = Formatter.getPrintableString(
-                true,
-                getName());
+        final String stringChain = Formatter.getPrintableString(true, getName());
         builder.append(stringChain);
         for (Assessment assessment : getAssessments()) {
             builder.append("Assessment: ").append(assessment).append(" ").append(assessment.getGrade(this))

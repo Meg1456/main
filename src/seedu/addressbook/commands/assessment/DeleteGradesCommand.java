@@ -5,7 +5,6 @@ import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
@@ -42,8 +41,7 @@ public class DeleteGradesCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson targetPerson = getTargetPerson();
-            final Person person = addressBook.findPerson(targetPerson);
+            final Person person = addressBook.findPerson(getTargetReadOnlyPerson());
 
             final Assessment assessment = getTargetAssessment(targetAssessmentIndex);
 

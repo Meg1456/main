@@ -8,7 +8,6 @@ import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
 
-import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
@@ -52,8 +51,7 @@ public class AddGradesCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson target = getTargetPerson();
-            final Person person = addressBook.findPerson(target);
+            final Person person = addressBook.findPerson(getTargetReadOnlyPerson());
 
             final Assessment targetAssess = getTargetAssessment(assessIndex);
             person.addAssessment(targetAssess);
