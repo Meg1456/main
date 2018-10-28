@@ -8,7 +8,7 @@ import java.util.List;
 
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
-import seedu.addressbook.ui.Formatter;
+import seedu.addressbook.formatter.Formatter;
 
 /**
  * A list of persons. Does not allow null elements or duplicates.
@@ -146,9 +146,8 @@ public class UniquePersonList implements Iterable<Person> {
      * @throws PersonNotFoundException Person cannot be found with the given username in internalList
      */
     public Person findPersonByUsername(String username) throws PersonNotFoundException {
-        //TODO: Fix potato
         for (Person p: internalList) {
-            if (p.getAccount().isPresent() && p.getAccount().get().getUsername().equals(username)) {
+            if (p.getAccount().filter(acc -> acc.getUsername().equals(username)).isPresent()) {
                 return p;
             }
         }

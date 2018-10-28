@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import seedu.addressbook.TestDataHelper;
-import seedu.addressbook.commands.CommandResult;
-import seedu.addressbook.commands.CommandResult.MessageType;
+import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.MessageType;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
@@ -97,6 +97,37 @@ public class CommandAssertions {
                 isRelevantPersonsExpected,
                 lastShownList,
                 false);
+    }
+
+    /**
+     * Executes the command and confirms that the result message is correct and
+     * Assumes the command does not write to file
+     * MessageType specify which console the message is supposed to be written to
+     * @see #assertCommandBehavior(String, String, AddressBook, boolean, List, boolean)
+     */
+    public static void assertCommandBehavior(String inputCommand,
+                                             String expectedMessage,
+                                             MessageType messageType,
+                                             AddressBook expectedAddressBook,
+                                             boolean isRelevantPersonsExpected,
+                                             List<? extends ReadOnlyPerson> lastShownList) throws Exception {
+        if (messageType.equals(MessageType.STATUS)) {
+            assertCommandBehavior(inputCommand,
+                    expectedMessage,
+                    "",
+                    expectedAddressBook,
+                    isRelevantPersonsExpected,
+                    lastShownList,
+                    false);
+        } else if (messageType.equals(MessageType.OUTPUT)) {
+            assertCommandBehavior(inputCommand,
+                    "",
+                    expectedMessage,
+                    expectedAddressBook,
+                    isRelevantPersonsExpected,
+                    lastShownList,
+                    false);
+        }
     }
 
     /**
