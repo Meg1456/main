@@ -1,5 +1,8 @@
 package seedu.addressbook.commands;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
@@ -56,9 +59,9 @@ public class AddGradesCommand extends Command {
             final Assessment targetAssess = getTargetAssessment(assessIndex);
             person.addAssessment(targetAssess);
 
-            Grades grades = new Grades(gradesVal);
-            grades.setPerson(person);
-            targetAssess.addGrade(grades);
+            Grades grade = new Grades(gradesVal);
+
+            targetAssess.addGrade(person, grade);
 
             return new CommandResult(String.format(MESSAGE_ADD_GRADE_SUCCESS));
 

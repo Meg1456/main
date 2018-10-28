@@ -55,6 +55,7 @@ import seedu.addressbook.commands.ViewAttendanceCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewExamsCommand;
 import seedu.addressbook.commands.ViewFeesCommand;
+import seedu.addressbook.commands.ViewGradesCommand;
 import seedu.addressbook.commands.ViewPrivilegeCommand;
 import seedu.addressbook.commands.ViewSelfCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -197,6 +198,9 @@ public class Parser {
 
         case AddGradesCommand.COMMAND_WORD:
             return prepareAddGrades(arguments);
+
+        case ViewGradesCommand.COMMAND_WORD:
+            return prepareViewGrades(arguments);
 
         case AddAccountCommand.COMMAND_WORD:
             return prepareAddAccount(arguments);
@@ -396,6 +400,22 @@ public class Parser {
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     ViewCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the view grades command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareViewGrades(String args) {
+        try {
+            final int targetIndex = parseArgsAsDisplayedIndex(args);
+            return new ViewGradesCommand(targetIndex);
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewGradesCommand.MESSAGE_USAGE));
         }
     }
 

@@ -1,7 +1,7 @@
 package seedu.addressbook.data.person;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -16,7 +16,7 @@ public class Assessment {
     public static final String ASSESSMENT_VALIDATION_REGEX = "^((?!\\$).)*$";
 
     private String examName;
-    private List<Grades> grade;
+    private Map<Person, Grades> grade;
 
     /**
      * Validates given results.
@@ -28,7 +28,7 @@ public class Assessment {
             throw new IllegalValueException(MESSAGE_ASSESSMENT_CONSTRAINTS);
         }
         this.examName = examName.trim();
-        this.grade = new ArrayList<>();
+        this.grade = new HashMap<>();
     }
 
     /**
@@ -38,12 +38,12 @@ public class Assessment {
         return test.matches(ASSESSMENT_VALIDATION_REGEX);
     }
 
-    public List<Grades> getGrade() {
-        return new ArrayList<>(grade);
+    public Grades getGrade(ReadOnlyPerson person) {
+        return this.grade.get(person);
     }
 
-    public void addGrade(Grades grade) {
-        this.grade.add(grade);
+    public void addGrade(Person person, Grades grades) {
+        grade.put(person, grades);
     }
 
     public String getExamName() {

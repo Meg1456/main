@@ -21,12 +21,12 @@ public interface ReadOnlyPerson {
     Fees getFees();
     Set<Exam> getExams();
     Set<Assessment> getAssessments();
+
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
      * changes on the returned list will not affect the person's internal tags.
      */
     Set<Tag> getTags();
-
 
     /**
      * Returns true if the values inside this object is same as those of the other
@@ -109,7 +109,7 @@ public interface ReadOnlyPerson {
     }
 
     /**
-     * Formats the person as text, showing name and assessments.
+     * Formats the person as text, showing name and assessments + grades.
      */
     default String getAsTextShowAssess() {
         final StringBuilder builder = new StringBuilder();
@@ -118,7 +118,7 @@ public interface ReadOnlyPerson {
                 getName());
         builder.append(stringChain);
         for (Assessment assessment : getAssessments()) {
-            builder.append("Assessment: ").append(assessment).append("\n");
+            builder.append("Assessment: ").append(assessment).append(" ").append(assessment.getGrade(this)).append("\n");
         }
         return builder.toString();
     }
