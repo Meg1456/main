@@ -118,7 +118,8 @@ public interface ReadOnlyPerson {
                 getName());
         builder.append(stringChain);
         for (Assessment assessment : getAssessments()) {
-            builder.append("Assessment: ").append(assessment).append(" ").append(assessment.getGrade(this)).append("\n");
+            builder.append("Assessment: ").append(assessment).append(" ").append(assessment.getGrade(this))
+                    .append("\n");
         }
         return builder.toString();
     }

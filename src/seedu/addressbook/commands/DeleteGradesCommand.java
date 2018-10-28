@@ -2,13 +2,8 @@ package seedu.addressbook.commands;
 
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.Exam;
-import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
-import seedu.addressbook.data.person.UniqueAssessmentsList;
-import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
@@ -23,7 +18,8 @@ public class DeleteGradesCommand extends Command {
             + "Parameters: PERSON_INDEX ASSESSMENT_INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1 1";
 
-    public static final String MESSAGE_DELETE_GRADES_SUCCESS = "Grades for this assessment hav been deleted! %1$s\n\t";
+    public static final String MESSAGE_DELETE_GRADES_SUCCESS = "Grades for this assessment have been deleted - "
+            + "%1$s\n\t";
     public static final String MESSAGE_ASSESSMENT_NOT_PRESENT =
             "The assessment has not been added to this person!";
 

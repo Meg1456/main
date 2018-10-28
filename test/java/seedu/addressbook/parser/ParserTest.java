@@ -401,7 +401,7 @@ public class ParserTest {
 
     @Test
     public void deleteAssessmentCommand_numericArg_indexParsedCorrectly() {
-        final int testIndex = 1;
+        final int testIndex = -1;
         final String input = "deleteassess " + testIndex;
         final DeleteAssessmentCommand result = parseAndAssertCommandType(input, DeleteAssessmentCommand.class);
         assertEquals(result.getTargetIndex(), testIndex);

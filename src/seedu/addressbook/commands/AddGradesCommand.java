@@ -1,8 +1,5 @@
 package seedu.addressbook.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
