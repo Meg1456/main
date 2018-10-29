@@ -33,8 +33,8 @@ public class AddGradesCommand extends Command {
      * Command constructed has no functionality
      * */
     public AddGradesCommand() {
-        this.assessIndex = -1;
-        this.gradesVal = -1;
+        assessIndex = -1;
+        gradesVal = -1;
     }
 
     /**

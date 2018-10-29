@@ -402,8 +402,11 @@ being stored in the AddressBook. The current set of commands include:
 
 . `Adding a new statistics`
 . `Adding a new assessment`
-. `Deleting an assessment`
 . `Listing all assessments'
+. `Deleting an assessment`
+. `Adding grades for a student`
+. `Viewing all grades for a student`
+. `Deleting a specific grade for a student`
 
 An Example of how feature 2 - `Adding a new assessment to the AddressBook` works:
 
@@ -412,6 +415,54 @@ An Example of how feature 2 - `Adding a new assessment to the AddressBook` works
   not be entered.
 . These assessments reflect the exams/homework of the school in general. This list of assessments can then be used to add
   grades to a particular student.
+
+This is demonstrated by the following sequence diagram:
+[[fig-AddAssessmentDiagram]]
+.Sequence Diagram of adding a new assessment
+image::Assessment_Seq_Diagram.png[width="800"]
+
+==== Design Considerations
+
+===== Aspect: 'Assessment' and 'Grades' as classes
+
+* **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment while a reference to the grades is given to person.
+** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades.
+** Cons: This is a little more tedious in terms of coding.
+* **Alternative 2:** The Assessment and Grades are combined into a single class with different parameters to take in the exam name and grade respectively.
+** Pros: -
+** Cons: Cannot view list of assessments separately.
+
+An example of Alternative 1 is demonstrated in the following diagram:
+[[fig-AssessmentandGrades]]
+image::Assessment_Aspect_Example.png[width="800"]
+
+===== Aspect: Data structure to store grades
+
+* **Alternative 1 (current choice):** The grades are stored using a Map data structure under Assessment class
+** Pros: Allows easy reference to person class.
+** Cons: Cannot sort/ order the entries if required.
+* **Alternative 2:** The grades are stored using a 'List' data structure under Assessment class
+** Pros: Can sort the grades alphabetically if required.
+** Cons: Difficult to link grades to person.
+
+===== Aspect: Data type for Grades value
+
+* **Alternative 1 (current choice):** The grades are stored as an integer.
+** Pros: Since the ClassRepo is targeted at Secondary Schools where marks out of 100 are usually awarded rather than letter grades, integer makes more sense.
+** Cons: Can only enter whole numbers (Possible improvement: Change to float)
+* **Alternative 2:** Store the grades as a String
+** Pros: Can also enter letter grades (A, B, C etc. if required)
+** Cons: -
+
+===== Aspect: Creation and Storage of Statistics Book
+
+* **Alternative 1 (current choice):** A separate Statistics Book is created to store the statistics of all assessments. Also, these statistics are stored in a separate txt file (statistics.txt) from AddressBook
+** Pros: These assessment statistics have no link to person. They are a set of separate information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
+** Cons: Using an extra storage file implies that additional methods and file paths are needed. Makes code lengthier and repetitive.
+* **Alternative 2:** Store statistics in AddressBook itself.
+** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed. Reduces duplication of files.
+** Cons: It is messy and confusing. Unrelated data is stored together.
+
 // end::Grades[]
 
 == Documentation

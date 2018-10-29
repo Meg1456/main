@@ -426,6 +426,7 @@ Examples:
 Deletes the account of the first person in the list, provided that he has an account.
 ****
 
+// tag::Grades[]
 == Grade Commands
 Below are the commands that deals with grades/assessments of students:
 
@@ -511,6 +512,7 @@ Example:
 
 * `deletegrades 1 2` +
 Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
+// end::Grades[]
 
 == Attendance Commands
 
