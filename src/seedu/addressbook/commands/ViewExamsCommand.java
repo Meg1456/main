@@ -46,7 +46,7 @@ public class ViewExamsCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.EXAM;
     }
 
     @Override

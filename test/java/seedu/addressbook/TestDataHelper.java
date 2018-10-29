@@ -52,7 +52,7 @@ public class TestDataHelper {
         String startTime = "09:00";
         String endTime = "12:00";
         String details = "Held in MPSH";
-        Boolean isPrivate = false;
+        boolean isPrivate = false;
         return new Exam(examName, subjectName, date, startTime, endTime, details, isPrivate);
     }
 

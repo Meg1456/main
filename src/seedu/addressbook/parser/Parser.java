@@ -114,15 +114,14 @@ public class Parser {
                     + " d/(?<date>[^/]+)"
                     + " att/(?<isPresent>[0-1])");
 
-
     private static final Pattern EDIT_EXAM_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>[^/]+)"
-                    + "(p/(?<isPrivate>[^/]+))?"
-                    + "(e/(?<examName>[^/]+))?"
-                    + "(s/(?<subjectName>[^/]+))?"
-                    + "(d/(?<examDate>[^/]+))?" // '/' forward slashes are reserved for delimiter prefixes
-                    + "(st/(?<examStartTime>[^/]+))?"
-                    + "(et/(?<examEndTime>[^/]+))?"
-                    + "(dt/(?<examDetails>[^/]+))?");
+            + "(p/(?<isPrivate>[^/]+))?"
+            + "(e/(?<examName>[^/]+))?"
+            + "(s/(?<subjectName>[^/]+))?"
+            + "(d/(?<examDate>[^/]+))?" // '/' forward slashes are reserved for delimiter prefixes
+            + "(st/(?<examStartTime>[^/]+))?"
+            + "(et/(?<examEndTime>[^/]+))?"
+            + "(dt/(?<examDetails>[^/]+))?");
 
     private static final Pattern ASSESSMENT_DATA_ARGS_FORMAT = //'/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<examName>[^/]+)");

@@ -39,7 +39,7 @@ created with JavaFX. It is written in Java, and has about 10 kLoC.
 |Attached below is a link to the sections I contributed to the User Guide of our project.
 |===
 
-<<../UserGuide.adoc#grades,Grades/Assessment Section>>
+<<../UserGuide.adoc#Grades,Grades/Assessment Section>>
 
 == Contributions to the Developer Guide
 
@@ -47,5 +47,5 @@ created with JavaFX. It is written in Java, and has about 10 kLoC.
 |Attached below is a link to the sections I contributed to the Developer Guide.
 |===
 
-<<./DeveloperGuide.adoc#grades,Implementation of Grades/Assessment Feature>>
+<<./DeveloperGuide.adoc#Grades,Implementation of Grades/Assessment Feature>>
 

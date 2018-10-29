@@ -20,10 +20,10 @@ Feature: Privilege
 
 === Mick Lee
 image::micklwl.png[width="150", align="left"]
-{empty}[http://github.com/micklwl[github]]
+{empty}[http://github.com/micklwl[github]] [<<micklwl#, portfolio>>]
 
 Role: Bug catcher +
-Responsibilities: Managing subjects + exams +
+Responsibilities: Managing code tests +
 Feature: Exams and Examlist
 
 '''

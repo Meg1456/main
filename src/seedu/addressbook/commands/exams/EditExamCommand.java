@@ -43,6 +43,13 @@ public class EditExamCommand extends Command {
     public EditExamCommand() {
     }
 
+    /**
+     * Constructor for edit exam Command
+     * @param targetExamIndex is the index number of the exam to have its details changed
+     * @param changedDetails contains the details to be changed
+     * @throws IllegalValueException if there are no details to be changed
+     */
+
     public EditExamCommand(int targetExamIndex, Map<ExamField, String> changedDetails) throws IllegalValueException {
         if (changedDetails.isEmpty()) {
             throw new IllegalValueException(MESSAGE_NO_ARGS_FOUND + MESSAGE_USAGE);

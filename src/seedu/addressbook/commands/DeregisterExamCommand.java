@@ -10,7 +10,7 @@ import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
- * Deregisters a person identified using its last displayed index for a exam identified using its last displayed index.
+ * Deregisters a person identified using its last displayed index for an exam identified using its last displayed index.
  */
 public class DeregisterExamCommand extends Command {
     public static final String COMMAND_WORD = "deregexam";

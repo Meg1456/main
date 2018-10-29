@@ -50,6 +50,7 @@ public class Utils {
 
     /**
      * Checks if a given string is a valid date.
+     * Solution below adapted from https://stackoverflow.com/a/30578421
      */
     public static boolean isValidDate(String value) {
         boolean valid;
