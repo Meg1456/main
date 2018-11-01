@@ -10,7 +10,9 @@ ifdef::env-github[]
 endif::[]
 
 == Introduction
-ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing their school details*. ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing their school details*.
+ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). Interested? Jump to the
+<<Quick Start>> to get started. Enjoy!
 
 == Quick Start
 
@@ -23,11 +25,19 @@ image::UiNew.png[]
 
 == Commands Available
 
+This sections documents all the commands available to the user:
+
+[NOTE]
+image:Admin.png[16,16] commands require Admin privileges to run +
+image:Tutor.png[16,16] commands require Tutor privileges to run +
+image:Basic.png[16,16] commands require no privilege to run.
+
 === General Commands
-Below are the generic commands:
+Below are the general commands:
 
-==== Viewing help : `help`
+==== Viewing help : `help` image:Basic.png[16,16]
 
+Displays the list of commands the user can run. +
 Format: `help`
 
 [TIP]
@@ -35,16 +45,88 @@ Format: `help`
 Help is also shown if you enter an incorrect command e.g. `abcd`
 =====
 
-
-==== Exiting the program : `exit`
+==== Exiting the program : `exit` image:Basic.png[16,16]
 
 Exits the program. +
 Format: `exit`
 
+// tag::privilege[]
+[[privilege]]
+=== Privilege Commands
+Below are the commands that deals with privilege:
+
+==== Raises your privilege level : `raise` image:Basic.png[16,16]
+
+Raises the privilege level to Admin. Requires the master password. +
+Format: `viewall PASSWORD`
+
+[NOTE]
+====
+The default master password when first deploying ClassRepo is `default_pw`.
+====
+
+****
+Examples:
+
+* `raise default_pw` +
+Raises your privilege level to Admin.
+****
+
+==== See your privilege level : `viewpri` image:Basic.png[16,16]
+
+Displays your current privilege level as well as the account you are logged in as +
+Format: `viewpri`
+
+
+==== Change the master password : `editpw` image:Admin.png[16,16]
+Changes the master password. Requires the current master password and Admin privileges. +
+Format: `editpw OLD_PASSWORD NEW_PASSWORD`
+
+Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct. +
+
+[NOTE]
+====
+It is recommended to change the master password when first deploying ClassRepo.
+====
+
+****
+Examples:
+
+* `editpw default_pw new_pw` +
+Changes the master password to "new_pw".
+****
+
+==== Sets default privilege : `perm` image:Admin.png[16,16]
+
+Sets/Unsets the privilege to be Admin when starting a session. +
+Format: `perm BOOLEAN` +
+Enter `BOOLEAN` as `true` to set the default privilege to be Admin. +
+Enter `BOOLEAN` as `false` to set the default privilege to be Basic.
+
+
+[NOTE]
+====
+This is recommended to be only done on machines that you are certain only administrators of your school have access to.
+====
+
+****
+Examples:
+
+* `raise default_pw` +
+`perm true` +
+Sets the default privilege when starting a session to be Admin.
+
+* `raise default_pw` +
+`perm false` +
+Sets the default privilege when starting a session to be Basic.
+****
+// end::privilege[]
+
 === Person Commands
 Below are the commands that deals with persons in the system:
 
-==== Adding a person: `add`
+==== Adding a person: `add` image:Admin.png[16,16]
+
 
 Adds a person to the address book. +
 Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
@@ -64,12 +146,31 @@ Examples:
 * `add John Doe p/98765432 e/johnd@gmail.com a/John street, block 123, #01-01`
 * `add Betsy Crowe pp/1234567 e/betsycrowe@gmail.com pa/Newgate Prison t/criminal t/friend`
 
-==== Listing all persons : `list`
+==== Listing all persons (simplied view): `list` image:Basic.png[16,16]
+
 
 Shows a list of all persons in the address book. +
+
+[NOTE]
+====
+This shows only the names of each person in the addressbook. +
+For a more detailed view, refer to <<listall, List (detailed view)>>
+====
+
 Format: `list`
 
-==== Finding all persons containing any keyword in their name: `find`
+[[listall]]
+==== Listing all persons (detailed view) : `listall`  image:Tutor.png[16,16]
+Displays all persons (showing all non-private details) in the address book as a list with index numbers. +
+Format: `listall` +
+
+****
+Examples:
+
+* `listall` +
+****
+
+==== Finding all persons containing any keyword in their name: `find` image:Basic.png[16,16]
 
 Finds persons whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
@@ -88,14 +189,14 @@ Returns `John Doe` but not `john`.
 * `find Betsy Tim John` +
 Returns Any person having names `Betsy`, `Tim`, or `John`.
 
-==== Deleting a person : `delete`
+==== Deleting a person : `delete` image:Admin.png[16,16]
 
-Deletes the specified person from the address book. Updates the exams the person is registered for in the exam book and for all persons registered for them in the address book. Irreversible. +
+Deletes the specified person from the address book. Irreversible. +
 Format: `delete INDEX`
 
 ****
 Deletes the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent persons listing.
+The index refers to the index number shown in the most recent listing.
 ****
 
 Examples:
@@ -108,14 +209,14 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-==== View non-private details of a person : `view`
+==== View non-private details of a person : `view` image:Basic.png[16,16]
 
 Displays the non-private details of the specified person. +
 Format: `view INDEX`
 
 ****
 Views the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent persons listing.
+The index refers to the index number shown in the most recent listing.
 ****
 
 Examples:
@@ -128,14 +229,14 @@ Views the 2nd person in the address book.
 `view 1` +
 Views the 1st person in the results of the `find` command.
 
-==== View all details of a person : `viewall`
+==== View all details of a person : `viewall` image:Tutor.png[16,16]
 
 Displays all details (including private details) of the specified person. +
 Format: `viewall INDEX`
 
 ****
 Views all details of the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent persons listing.
+The index refers to the index number shown in the most recent listing.
 ****
 
 Examples:
@@ -148,15 +249,14 @@ Views all details of the 2nd person in the address book.
 `viewall 1` +
 Views all details of the 1st person in the results of the `find` command.
 
+==== View your own details : `viewself`  image:Basic.png[16,16]
 
-==== View your own details : `viewself`
-
-Displays the all the details (including private details) of the user, provided the user is logged in. +
+Displays the all the details of the user, provided the user is logged in. +
 Format: `viewself`
 
-==== Clearing all entries : `clear`
+==== Clearing all entries : `clear`  image:Admin.png[16,16]
 
-Clears all entries from the address book. Reset all the exams in the exam book. +
+Clears all entries from the address book. +
 Format: `clear`
 
 //tag::Exam[]
@@ -200,11 +300,15 @@ Edits the specified exam from the exam book. Persons registered for the correspo
 Format: `editexam INDEX [p/PRIVATESTATUS] [e/EXAMNAME] [s/SUBJECTNAME] [d/EXAMDATE] [st/EXAMSTARTTIME] [et/EXAMENDTIME] [dt/EXAMDETAILS]`
 
 ****
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional,
-however at least 1 of the optional items must be present. Order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, order of parameters are fixed.
 
-The index refers to the index number shown in the most recent exams listing.
+Put a `p` before the examname prefix to mark it as `private`. `private` details can only
+be seen using the `viewall` command.
 ****
+
+Examples:
+
+* `createexam Mathematics n/Math Mid-terms d/01122018 st/0900 et/1200 dt/At MPSH` +
 
 [NOTE]
 =====
@@ -259,8 +363,6 @@ The person index refers to the index number shown in the most recent persons lis
 The exam index refers to the index number shown in the most recent exams listing.
 ****
 
-Example:
-
 * `examslist` +
 `list` +
 `deregexam 2` +
@@ -291,7 +393,7 @@ Format: `clearexams`
 === Fees Commands
 Below are the commands that deals with fees data:
 
-==== Adding fees to a person: `addfees`
+==== Adding fees to a person: `addfees` image:Admin.png[16,16]
 
 Adds a numerical fee to a person in the address book. +
 Format: `add INDEX FEE`
@@ -308,7 +410,7 @@ Examples:
 * `addfees 1 344.41`
 * `addfees 2 0.60`
 
-==== View fees of a person : `viewfees`
+==== View fees of a person : `viewfees`  image:Admin.png[16,16]
 
 Displays the fees(private) of the specified person. +
 Format: `viewfees INDEX`
@@ -328,52 +430,17 @@ Views fees of the 2nd person in the address book.
 `viewall 1` +
 Views fees of the 1st person in the results of the `find` command.
 
-=== Privilege Commands
-Below are the commands that deals with privilege:
-
-==== Raises your privilege level : `raise`
-
-Raises the privilege level to Admin. Requires the master password. +
-Format: `viewall PASSWORD`
-
-****
-Examples:
-
-* `raise default_pw` +
-Raises your privilege level to Admin.
-****
-
-==== See your privilege level : `viewpri`
-
-Displays your current privilege level as well as the account you are logged in as +
-Format: `viewpri`
-
-==== Change the master password : `editpw`
-Changes the master password. Requires the current master password and Admin privileges. +
-Format: `editpw OLD_PASSWORD NEW_PASSWORD`
-
-Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct. +
-[NOTE]
-=====
-The default master password is "default_pw".
-=====
-
-****
-Examples:
-
-* `editpw default_pw new_pw` +
-Changes the master password to "new_pw".
-****
-
+// tag::account[]
+[[account]]
 === Account Commands
 Below are the commands that deals with accounts:
 
-==== Add an account to a person: `addacc`
+==== Add an account to a person: `addacc`  image:Admin.png[16,16]
 Adds an account to the target person. +
 Format: `addacc INDEX USERNAME PASSWORD USER_TYPE` +
-
 Creates an account for the person with INDEX as specified by the last shown list. +
 USERNAME and PASSWORD will be used for logging in. +
+
 [NOTE]
 =====
 USER_TYPE can be of type "Basic", "Tutor" or "Admin".
@@ -387,34 +454,7 @@ Examples:
 Adds an account with the username of `JohnDoe1337` and password of `P455W0RD` to the first person in the list.
 ****
 
-==== Login to an account: `login`
-Login to the account with the specified username and password. +
-Format: `login USERNAME PASSWORD` +
-Logs into the account with the given USERNAME and PASSWORD. +
-Sets the current privilege level to that of the account.
-
-****
-Examples:
-
-* `login 1 JohnDoe1337 P455W0RD Admin`
-Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
-****
-
-
-==== Logout of an account: `logout`
-Logout of the current account. +
-Format: `logout` +
-Logout from the currently signed in account. +
-Also resets the privilege back to the level of a Basic User.
-
-****
-Examples:
-
-* `logout`
-Logs out of the current account, provided there is privilege or account to relinquish.
-****
-
-==== Delete the account of a person: `delacc`
+==== Delete the account of a person: `delacc`  image:Admin.png[16,16]
 Deletes the account of the target person. +
 Format: `delacc INDEX`
 Deletes the account of the person with INDEX as specified by the last shown list. +
@@ -427,8 +467,41 @@ Examples:
 Deletes the account of the first person in the list, provided that he has an account.
 ****
 
+==== Login to an account: `login`  image:Basic.png[16,16]
+Login to the account with the specified username and password. +
+Format: `login USERNAME PASSWORD` +
+Logs into the account with the given USERNAME and PASSWORD. +
+Sets the current privilege level to that of the account.
+
+****
+Examples:
+
+* `login 1 JohnDoe1337 P455W0RD Admin`
+Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
+****
+
+==== Logout of an account: `logout`  image:Basic.png[16,16]
+Logout of the current account. +
+Format: `logout` +
+Logout from the currently signed in account. +
+Also resets the privilege back to the level of a Basic User.
+
+****
+Examples:
+
+* `logout`
+Logs out of the current account, provided there is privilege or account to relinquish.
+****
+
+==== Displays the list of people with account: `listacc`  image:Basic.png[16,16]
+Shows a list of all persons with an account in the address book. +
+Format: `listacc`
+// end::account[]
+
 // tag::Grades[]
-== Grade Commands
+
+=== Grade Commands
+
 Below are the commands that deals with grades/assessments of students:
 
 ==== Adding an Assessment : `addassess`
@@ -463,10 +536,6 @@ The index refers to the index number shown in the most recent assessments listin
 ****
 
 Example:
-
-* `listassess` +
-`deleteassess 2` +
-Deletes the 2nd assessment in the address book.
 
 ==== Adding grades to a person : `addgrades`
 
@@ -540,30 +609,14 @@ Replaces the current attendance of the target person. +
 Format: `replaceAtten INDEX d/DATE att/ATTENDANCE`
 Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
 
-****
-Examples:
-
-* `list`  +
-`replaceAtten 1 d/29-09-2018 att/1` +
-Marks the attendance of the first person in the list as present for the date 29th September 2018.
-****
-
 ==== View the attendance of a person: `viewAtten`
 View the attendance of the target person. +
 Format: `viewAtten INDEX`
 View the attendance of the person with INDEX as specified by the last shown list. +
 
-****
-Examples:
-
-* `list`  +
-`viewAtten 1` +
-Views the attendance of the first person in the list.
-****
 
 == Saving the data
 
-Address book, exam book and statistics book data are saved in the hard disk automatically after any command that changes the data.
+Address book data are saved in the hard disk automatically after any command that changes the data.
 
-There is no need to save manually. In the project root folder, address book data are saved in a file called `addressbook.txt`,
-exam book data are saved in a file called `exams.txt` and statistics book data are saved in a file called `statistics.txt`.
+There is no need to save manually. Address book data are saved in a file called `addressbook.txt` in the project root folder.

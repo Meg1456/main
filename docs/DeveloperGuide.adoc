@@ -306,28 +306,30 @@ image::RegisterExam_Sequence_Diagram.png[width="800"]
 
 // tag::privilege[]
 === Privilege Feature
+
 [[fig-PrivilegeDiagram]]
-.Structure of the Privilege Component
-image::Privilege.png[width="800"]
+.Class Diagram of the Privilege Component
+image::Privilege.png[width="600"]
 
 ==== Current Implementation
-Logic is assigned to one Privilege object at all times. Privilege contains a User and a Person.
-The User interface defines what access level the Privilege object have, which is implemented by BasicUser, TutorUser and AdminUser. +
-BasicUser is the class with the lowest access level, and the ancestor to other 2 User classes. +
-To create an increasing level of access, each User of a higher level inherits from the successively lower one. +
-Each User level have their own list of new commands they can run, which is appended to the list inherited from their parent. +
-Account class, which contains its respective Privilege object, is the way to assign a privilege level to a Person. +
-Account also holds authentication details required for logging in. + 
-When switching Privilege levels, the Privilege attached to Logic will point its UserType and myPerson to that in the desired Privilege level, as seen below in the Object Diagram and Sequence Diagram. +
+
+*Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
+*User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
+*BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
+To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
+*User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
+
+*Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
+When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
 
 [[fig-PrivilegeObjectDiagram]]
 .How switching Privilege is implemented (Object Diagram)
-image::PrivilegeObjectDiagram.png[width="900"]
+image::PrivilegeObjectDiagram.png[width="700"]
 
 [[fig-LoginSequenceDiagram]]
 .Sequence Diagram for Login Command
 image::Login_Sequence_Diagram.png[width="600"]
-
+---
 ==== Design Considerations
 
 ===== Aspect: How to define a privilege level of Privilege
@@ -600,6 +602,10 @@ Students, teachers and staff of Secondary Schools. +
 [appendix]
 == User Stories
 
++++ <details><summary> +++
+Click to Expand
++++ </summary><div> +++
+
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
 
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
@@ -652,11 +658,18 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 _{More to be added}_
 
++++ </div></details> +++
+
 [appendix]
 == Use Cases
 
++++ <details><summary> +++
+Click to Expand
++++ </summary><div> +++
+
 (For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
 
+[discrete]
 === Use case: Add person
 [discrete]
 ==== Actors: Tutor, Admin
@@ -1148,6 +1161,8 @@ Use case ends.
 Use case ends.
 
 _{More to be added}_
+
++++ </div></details> +++
 
 [appendix]
 == Non Functional Requirements
