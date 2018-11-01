@@ -546,12 +546,18 @@ Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 Words in `UPPER_CASE` are the parameters. There are three parameter for this command, which are the index of the person
 or student, index of the appropriate assessment and the grades themselves.
 
+*NOTE*: You MUST list all persons and assessments first before using this command! +
+i.e. Indices are selected after first carrying out the `list` and `listassess` commands respectively
+
 ****
 
 Examples:
 
+* `list`
+* `listassess`
 * `addgrades 1 1 89` +
-* Here, the indices have been selected after carrying out the `list` and `listassess` commands respectively
+
+- Restriction of v1.3: The grades can only be 'int' values, not 'float'
 
 ==== Viewing grades of a person : `viewgrades`
 
@@ -560,7 +566,7 @@ Format: `viewgrades PERSON_INDEX`
 
 ****
 Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person
-or studen whos grades you want to view.
+or student whose grades you want to view.
 
 ****
 
@@ -574,14 +580,17 @@ Deletes the specified assessment and respective grades of a student. It is irrev
 Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 
 ****
-Deletes the grades and assessment at the specified `ASSESSMENT_INDEX` of a person specific by the `PERSON_INDEX`.
+Deletes the assessment and respective grades for the specified `PERSON_INDEX` and `ASSESSMENT_INDEX`.
 The index refers to the index number shown in the most recent person and assessments listing respectively.
+*NOTE*: You must first list all persons and assessments before using this command!
 ****
 
 Example:
 
 * `deletegrades 1 2` +
 Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
+- *IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
+for the assessment in second index as seen in list assess command.
 // end::Grades[]
 
 == Attendance Commands
