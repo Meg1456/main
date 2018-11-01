@@ -1,11 +1,10 @@
 = Meghana Narayanan - Project Portfolio
+
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
 == PROJECT: ClassRepo
-
----
 
 == *Overview*
 ClassRepo is an enhanced AddressBook application, which is targeted at Secondary Schools to provide them with an easy

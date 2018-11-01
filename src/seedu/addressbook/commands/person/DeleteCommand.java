@@ -37,10 +37,10 @@ public class DeleteCommand extends Command {
 
             Set<Exam> examSet = target.getExams();
             for (Exam e: examSet) {
-                Exam examAfter = new Exam(e);
-                examAfter.setTakers(examAfter.getTakers() - 1);
-                examBook.updateExam(e, examAfter);
-                addressBook.updateExam(e, examAfter);
+                Exam updatedExam = new Exam(e);
+                updatedExam.setTakers(updatedExam.getTakers() - 1);
+                examBook.updateExam(e, updatedExam);
+                addressBook.updateExam(e, updatedExam);
             }
             return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, target), updatedList);
         } catch (IndexOutOfBoundsException ie) {

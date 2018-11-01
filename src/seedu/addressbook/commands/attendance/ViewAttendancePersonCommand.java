@@ -37,7 +37,7 @@ public class ViewAttendancePersonCommand extends Command {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
             final String output = person.viewAttendanceMethod();
-            return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName() + ":\n" + output);
+            return new CommandResult(MESSAGE_SUCCESS + person.getName() + ":\n" + output);
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);

@@ -135,8 +135,9 @@ public class AdaptedPerson {
         }
 
         // second call only happens if phone/email/address are all not null
-        return Utils.isAnyNull(name, phone, email, address)
-                || Utils.isAnyNull(phone.value, email.value, address.value);
+        return Utils.isAnyNull(name, phone, email, address, fees)
+                || Utils.isAnyNull(phone.value, email.value, address.value)
+                || Utils.isAnyNull(phone.isPrivate, email.isPrivate, address.isPrivate);
     }
 
     /**

@@ -32,7 +32,7 @@ public class UpdateAttendanceCommand extends Command {
     // Constructor
     public UpdateAttendanceCommand(int targetIndex, String date, boolean isPresent) throws IllegalValueException {
         super(targetIndex); // super is calling the constructor of the parent function
-        if (!isValidDate(date)) {
+        if (!isValidDate(date) && !"0".equals(date)) {
             throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
         }
         this.date = date;
@@ -53,9 +53,9 @@ public class UpdateAttendanceCommand extends Command {
             Person person = addressBook.findPerson(getTargetPerson());
             boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, false);
             if (isDuplicateDate) {
-                return new CommandResult(String.format((MESSAGE_DUPLICATE_ATTENDANCE)));
+                return new CommandResult(MESSAGE_DUPLICATE_ATTENDANCE);
             } else {
-                return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName());
+                return new CommandResult(MESSAGE_SUCCESS + person.getName());
             }
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);

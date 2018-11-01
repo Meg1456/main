@@ -3,6 +3,7 @@ package seedu.addressbook.data.person;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
@@ -93,7 +94,7 @@ public interface ReadOnlyPerson {
         }
 
         getAccount().ifPresent(a -> builder.append('\n')
-                .append("User Type:")
+                .append("User Type: ")
                 .append(a.getPrintableString(true)));
         return builder.toString();
     }
@@ -174,19 +175,19 @@ public interface ReadOnlyPerson {
     }
 
     /**
-     * Formats the person as text, showing name and exams.
+     * Formats the person as text, showing name and non-private exams.
      */
     default String getAsTextShowExam() {
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = Formatter.getPrintableString(
-                true,
-                getName());
-        builder.append(stringChain);
-        for (Exam exam : getExams()) {
-            if (exam.isPrivate()) {
-                continue;
+        if (getExams().isEmpty()) {
+            builder.append(Messages.MESSAGE_NO_NON_PRIVATE_EXAMS);
+        } else {
+            for (Exam exam : getExams()) {
+                if (exam.isPrivate()) {
+                    continue;
+                }
+                builder.append(exam.getPrintableExamString()).append("\n");
             }
-            builder.append("Exam: ").append(exam).append("\n");
         }
         return builder.toString();
     }

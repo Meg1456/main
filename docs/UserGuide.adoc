@@ -127,7 +127,6 @@ Below are the commands that deals with persons in the system:
 
 ==== Adding a person: `add` image:Admin.png[16,16]
 
-
 Adds a person to the address book. +
 Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
 
@@ -266,10 +265,10 @@ Below are the commands that deals with exam data:
 ==== Adding an exam : `addexam`
 
 Adds an exam to the exam book. +
-Format: `addexam [p]e/EXAMNAME s/SUBJECTNAME d/EXAMDATE st/EXAMSTARTTIME et/EXAMENDTIME dt/EXAMDETAILS`
+Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
 
 ****
-Words in `UPPER_CASE` are the parameters, items in SQUARE_BRACKETS are optional. Order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed.
 
 Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
@@ -297,22 +296,16 @@ Deletes the 2nd exam in the exam book.
 
 ==== Editing an exam : `editexam`
 Edits the specified exam from the exam book. Persons registered for the corresponding exam will have the exam details updated as well. +
-Format: `editexam INDEX [p/PRIVATESTATUS] [e/EXAMNAME] [s/SUBJECTNAME] [d/EXAMDATE] [st/EXAMSTARTTIME] [et/EXAMENDTIME] [dt/EXAMDETAILS]`
+Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXAM_DATE] [st/EXAM_START_TIME] [et/EXAM_END_TIME] [dt/EXAM_DETAILS]`
 
 ****
-Words in `UPPER_CASE` are the parameters, order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
 
-Put a `p` before the examname prefix to mark it as `private`. `private` details can only
-be seen using the `viewall` command.
 ****
-
-Examples:
-
-* `createexam Mathematics n/Math Mid-terms d/01122018 st/0900 et/1200 dt/At MPSH` +
 
 [NOTE]
 =====
-PRIVATESTATUS is denoted by `y` for private and `n` for non-private.
+PRIVATE_STATUS is denoted by `y` for private and `n` for non-private.
 =====
 
 Examples:
@@ -331,12 +324,12 @@ Format: `examslist`
 ==== Registering for an exam : `regexam`
 
 Registers a specified person for a specified exam. +
-Format: `regexam PERSONINDEX EXAMINDEX`
+Format: `regexam PERSON_INDEX EXAM_INDEX`
 
 ****
 Registers a specified person for a specified exam.
-The person index refers to the index number shown in the most recent persons listing.
-The exam index refers to the index number shown in the most recent exams listing.
+The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
+The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
 ****
 
 [NOTE]
@@ -349,23 +342,24 @@ Example:
 
 * `examslist` +
 `list` +
-`regexam 2` +
+`regexam 2 2` +
 Registers the 2nd person in the address book for the 2nd exam in the exam book.
 
 ==== Deregistering for an exam : `deregexam`
 
 Deregister a specified person for a specified exam. +
-Format: `deregexam PERSONINDEX EXAMINDEX`
+Format: `deregexam PERSON_INDEX EXAM_INDEX`
 
 ****
-Deregisters a specified person for a specified exam.
-The person index refers to the index number shown in the most recent persons listing.
-The exam index refers to the index number shown in the most recent exams listing.
+Degisters a specified person for a specified exam.
+The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
+The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
+=======
 ****
 
 * `examslist` +
 `list` +
-`deregexam 2` +
+`deregexam 2 2` +
 Deregisters the 2nd person in the address book for the 2nd exam in the exam book.
 
 ==== Viewing exams : `viewexams`
@@ -374,7 +368,7 @@ View the non-private exams for a person at the specified `INDEX`. +
 Format: `viewexams INDEX`
 
 ****
-Views the exams of the person at the specified `INDEX`.
+Views the non-private exams of the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent persons listing.
 ****
 

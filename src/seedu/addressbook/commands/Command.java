@@ -11,9 +11,11 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege;
 
@@ -148,6 +150,7 @@ public abstract class Command {
      * Extracts the the target (mutable) person in the last shown list from the given arguments.
      *
      * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
+     * @throws PersonNotFoundException if no such Person can be found in the address book
      */
 
     protected Person getTargetPerson() throws IndexOutOfBoundsException, PersonNotFoundException {
@@ -189,16 +192,27 @@ public abstract class Command {
     public abstract String getCommandUsageMessage();
 
     /**
-     * Extracts the target exam in the last shown exam list from the given arguments.
+     * Extracts the target (mutable) exam in the last shown exam list from the given arguments.
+     *
+     * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
+     * @throws ExamNotFoundException if no such Exam cannot be found in the exam book
+     */
+    public Exam getTargetExam(int targetExamIndex) throws ExamIndexOutOfBoundsException, ExamNotFoundException {
+        return examBook.findExam(getTargetReadOnlyExam(targetExamIndex));
+    }
+
+    /**
+     * Extracts the the target (immutable) exam in the last shown exam list from the given arguments.
      *
      * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
      */
-    public ReadOnlyExam getTargetExam(int targetExamIndex) throws ExamIndexOutOfBoundsException {
+    protected ReadOnlyExam getTargetReadOnlyExam(int targetExamIndex) throws ExamIndexOutOfBoundsException {
         try {
             return relevantExams.get(targetExamIndex - DISPLAYED_INDEX_OFFSET);
         } catch (IndexOutOfBoundsException e) {
             throw new ExamIndexOutOfBoundsException(e.getMessage());
         }
+
     }
 
     /**

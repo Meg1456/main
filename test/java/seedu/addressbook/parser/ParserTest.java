@@ -450,11 +450,11 @@ public class ParserTest {
                 //no index
                 String.format("editexam e/%s s/%s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
                         Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
                 // no exam name prefix
                 String.format("editexam 1 %s s/%s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
                         Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE)
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE)
         };
         String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
