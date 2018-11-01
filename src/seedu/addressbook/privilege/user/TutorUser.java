@@ -4,6 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddGradesCommand;
+import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteGradesCommand;
+import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
 import seedu.addressbook.commands.attendance.ViewAttendanceDateCommand;
@@ -20,7 +26,6 @@ import seedu.addressbook.commands.fees.ListFeesCommand;
 import seedu.addressbook.commands.fees.ViewFeesCommand;
 import seedu.addressbook.commands.person.ListAllCommand;
 import seedu.addressbook.commands.person.ViewAllCommand;
-
 
 /**
  * Represents a user with Tutor access
@@ -41,6 +46,13 @@ public class TutorUser extends BasicUser {
             new ViewAttendanceDateCommand(),
             new EditFeesCommand(),
             new ListFeesCommand(),
+            new ListDueFeesCommand(),
+            new AddAssessmentCommand(),
+            new ListAssessmentCommand(),
+            new DeleteAssessmentCommand(),
+            new AddGradesCommand(),
+            new ViewGradesCommand(),
+            new DeleteGradesCommand(),
             new ListDueFeesCommand(),
             new ViewFeesCommand()
     );
