@@ -23,6 +23,7 @@ public interface ReadOnlyPerson {
     Address getAddress();
     Optional<Account> getAccount();
     Fees getFees();
+    Attendance getAttendance();
     Set<Exam> getExams();
     Set<Assessment> getAssessments();
 
@@ -68,6 +69,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
+        getAttendance();
 
         builder.append(stringChain)
                 .append("Tags: ");
@@ -102,6 +104,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
+        getAttendance();
         builder.append(stringChain)
                 .append("Tags: ");
         for (Tag tag : getTags()) {
@@ -120,6 +123,20 @@ public interface ReadOnlyPerson {
     default String getAsTextShowAccount() {
         final StringBuilder builder = new StringBuilder(getName().getPrintableString(true));
         getAccount().ifPresent(a -> builder.append(" User Type: ").append(a.getPrintableString(true)));
+        return builder.toString();
+    }
+
+    /**
+     * Formats the person as text, showing name and fees and status due.
+     */
+    default String getAsTextShowDueFee() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = Formatter.getPrintableString(
+                true,
+                getName(),
+                getFees());
+        builder.append(stringChain);
+        builder.append("Overdue!\n");
         return builder.toString();
     }
 
