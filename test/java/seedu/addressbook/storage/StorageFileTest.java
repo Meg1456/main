@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
@@ -221,6 +222,50 @@ public class StorageFileTest {
         storage.save(ab);
         assertExamsFilesEqual(storage, getStorage("ValidData.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
+    }
+
+    @Test
+    public void personHasMissingExamInExamBook_exceptionThrown() throws Exception {
+        ExamBook eb = getTestExamBook();
+        AddressBook ab = getTestAddressBook();
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        final Person john = new Person(new Name("John Doe"),
+                new Phone("98765432", false),
+                new Email("johnd@gmail.com", false),
+                new Address("John street, block 123, #01-01", false),
+                Collections.emptySet());
+        ab.getAllPersons().find(john).addExam(e1);
+        StorageFile storage = getTempStorage();
+        thrown.expect(StorageOperationException.class);
+        storage.syncAddressBookExamBook(ab, eb);
+    }
+
+    @Test
+    public void personHasAllExamsInExamBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false, 0);
+        Exam e2 = helper.generateExam(2, true, 2);
+        Exam e3 = helper.generateExam(3, false, 1);
+        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
+        ExamBook eb = helper.generateExamBook(threeExams);
+
+        Person p1 = helper.generatePerson(1, true, 2, true, 4);
+        Person p2 = helper.generatePerson(2, true, 3, false, 5);
+        Person p3 = helper.generatePerson(3, true, 3, false, 6);
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+        AddressBook ab = helper.generateAddressBook(threePersons);
+
+        StorageFile storage = getTempStorage();
+
+        Person p12 = helper.generatePerson(1, true, 2, true, 0);
+        Person p22 = helper.generatePerson(2, true, 3, false, 2);
+        Person p32 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> threePersons2 = helper.generatePersonList(p12, p22, p32);
+        AddressBook ab2 = helper.generateAddressBook(threePersons2);
+
+        storage.syncAddressBookExamBook(ab, eb);
+        assertEquals(ab, ab2);
     }
 
     /**

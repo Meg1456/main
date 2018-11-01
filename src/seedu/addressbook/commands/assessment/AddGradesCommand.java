@@ -22,7 +22,7 @@ public class AddGradesCommand extends Command {
             + "Example: " + COMMAND_WORD
             + " 1 2 85";
 
-    public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added!";
+    public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added to %1$s for %2$s assessment";
 
     private final int assessIndex;
     private final int gradesVal;
@@ -50,7 +50,7 @@ public class AddGradesCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            final Person person = addressBook.findPerson(getTargetReadOnlyPerson());
+            final Person person = getTargetPerson();
 
             final Assessment targetAssess = getTargetAssessment(assessIndex);
             person.addAssessment(targetAssess);
@@ -59,14 +59,15 @@ public class AddGradesCommand extends Command {
 
             targetAssess.addGrade(person, grade);
 
-            return new CommandResult(String.format(MESSAGE_ADD_GRADE_SUCCESS));
+            return new CommandResult(String.format(MESSAGE_ADD_GRADE_SUCCESS, person.getName(), targetAssess));
 
         } catch (UniquePersonList.PersonNotFoundException pnf) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         } catch (AssessmentIndexOutOfBoundsException aie) {
             return new CommandResult(Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX);
+        } catch (IndexOutOfBoundsException pie) {
+            return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
-
     }
 
     @Override

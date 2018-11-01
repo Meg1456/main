@@ -35,7 +35,6 @@ public class MainWindow {
     @FXML
     private TextField commandInput;
 
-
     @FXML
     private TextArea outputConsole;
 

@@ -280,7 +280,7 @@ public class UniquePersonList implements Iterable<Person> {
      * Removes an exam for all persons
      * @param exam the exam to be removed
      */
-    public void removeExam(Exam exam) {
+    public void removeExam(ReadOnlyExam exam) {
         for (Person p: internalList) {
             if (p.isExamPresent(exam)) {
                 p.removeExam(exam);

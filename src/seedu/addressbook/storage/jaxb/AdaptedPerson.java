@@ -44,7 +44,6 @@ public class AdaptedPerson {
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
-
     @XmlElement
     private AdaptedAccount account;
 
@@ -100,6 +99,7 @@ public class AdaptedPerson {
         for (Tag tag : source.getTags()) {
             tagged.add(new AdaptedTag(tag));
         }
+
         if (source.getAccount().isPresent()) {
             account = new AdaptedAccount(source.getAccount().get());
         }
@@ -135,8 +135,9 @@ public class AdaptedPerson {
         }
 
         // second call only happens if phone/email/address are all not null
-        return Utils.isAnyNull(name, phone, email, address)
-                || Utils.isAnyNull(phone.value, email.value, address.value);
+        return Utils.isAnyNull(name, phone, email, address, fees)
+                || Utils.isAnyNull(phone.value, email.value, address.value)
+                || Utils.isAnyNull(phone.isPrivate, email.isPrivate, address.isPrivate);
     }
 
     /**
@@ -158,7 +159,6 @@ public class AdaptedPerson {
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
         Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
-
 
         if (!optAccount.isPresent()) {
             final Person person = new Person(name, phone, email, address, tags, examList);

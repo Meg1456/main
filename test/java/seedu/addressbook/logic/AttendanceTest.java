@@ -1,8 +1,8 @@
 package seedu.addressbook.logic;
 
 import static junit.framework.TestCase.assertEquals;
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
 
@@ -107,7 +107,7 @@ public class AttendanceTest {
 
     @Test
     public void executeUpdateAttendanceInvalidDateFormat() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_DATE, UpdateAttendanceCommand.MESSAGE_USAGE);
+        String expectedMessage = MESSAGE_DATE_CONSTRAINTS;
 
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -142,7 +142,7 @@ public class AttendanceTest {
         logic.setLastShownList(threePersons);
 
         assertCommandBehavior("attendance 1 d/29-09-2018 att/1",
-                String.format(UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()),
+                UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName(),
                 expectedBook,
                 false,
                 threePersons);
@@ -315,7 +315,7 @@ public class AttendanceTest {
 
     @Test
     public void executeReplaceAttendanceInvalidDateFormat() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_DATE, ReplaceAttendanceCommand.MESSAGE_USAGE);
+        String expectedMessage = MESSAGE_DATE_CONSTRAINTS;
 
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -391,7 +391,7 @@ public class AttendanceTest {
         p1.updateAttendanceMethod(currentDate, true, false);
 
         assertCommandBehavior("replaceAtten 1 d/0 att/0",
-                String.format(ReplaceAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()),
+                ReplaceAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName(),
                 expectedBook,
                 false,
                 onePersons);
@@ -474,7 +474,7 @@ public class AttendanceTest {
 
     @Test
     public void executeViewAttendanceDateInvalidDateFormat() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_DATE + ViewAttendanceDateCommand.MESSAGE_USAGE);
+        String expectedMessage = MESSAGE_DATE_CONSTRAINTS + ViewAttendanceDateCommand.MESSAGE_USAGE;
 
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
