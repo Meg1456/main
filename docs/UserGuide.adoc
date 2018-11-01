@@ -559,7 +559,7 @@ Examples:
 * `listassess`
 * `addgrades 1 1 89` +
 
-- Restriction of v1.3: The grades can only be 'int' values, not 'float'
+- Restriction in v1.3: The grades can only be 'int' values, not 'float'
 
 ==== Viewing grades of a person : `viewgrades`
 
