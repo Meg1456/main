@@ -1,8 +1,12 @@
 package seedu.addressbook.commands.attendance;
 
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
+import static seedu.addressbook.common.Utils.isValidDate;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
+import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 
@@ -26,8 +30,11 @@ public class UpdateAttendanceCommand extends Command {
     private String date;
 
     // Constructor
-    public UpdateAttendanceCommand(int targetIndex, String date, boolean isPresent) {
+    public UpdateAttendanceCommand(int targetIndex, String date, boolean isPresent) throws IllegalValueException {
         super(targetIndex); // super is calling the constructor of the parent function
+        if (!isValidDate(date)) {
+            throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
+        }
         this.date = date;
         this.isPresent = isPresent;
     }
@@ -43,8 +50,8 @@ public class UpdateAttendanceCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            Person person = addressBook.findPerson(getTargetReadOnlyPerson());
-            boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, true);
+            Person person = addressBook.findPerson(getTargetPerson());
+            boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, false);
             if (isDuplicateDate) {
                 return new CommandResult(String.format((MESSAGE_DUPLICATE_ATTENDANCE)));
             } else {

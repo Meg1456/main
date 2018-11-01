@@ -2,6 +2,7 @@ package seedu.addressbook.parser;
 
 import static java.lang.Integer.parseInt;
 import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
@@ -23,7 +24,6 @@ import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.RegisterExamCommand;
 import seedu.addressbook.commands.ViewExamsCommand;
-
 import seedu.addressbook.commands.account.AddAccountCommand;
 import seedu.addressbook.commands.account.DeleteAccountCommand;
 import seedu.addressbook.commands.account.ListAccountCommand;
@@ -38,7 +38,8 @@ import seedu.addressbook.commands.assessment.ListAssessmentCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
-import seedu.addressbook.commands.attendance.ViewAttendanceCommand;
+import seedu.addressbook.commands.attendance.ViewAttendanceDateCommand;
+import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
@@ -64,7 +65,6 @@ import seedu.addressbook.commands.privilege.EditPasswordCommand;
 import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
 import seedu.addressbook.commands.privilege.SetPermanentAdminCommand;
 import seedu.addressbook.commands.privilege.ViewPrivilegeCommand;
-
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
@@ -114,6 +114,9 @@ public class Parser {
             Pattern.compile("(?<targetIndex>.+)"
                     + " d/(?<date>[^/]+)"
                     + " att/(?<isPresent>[0-1])");
+
+    private static final Pattern ATTENDANCE_VIEW_DATE_FORMAT =
+            Pattern.compile("d/(?<date>[^/]+)"); // '/' forward slashes are reserved for delimiter prefixes
 
     private static final Pattern EDIT_EXAM_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>[^/]+)"
             + "(p/(?<isPrivate>[^/]+))?"
@@ -237,8 +240,11 @@ public class Parser {
         case ReplaceAttendanceCommand.COMMAND_WORD:
             return prepareReplaceAttendance(arguments);
 
-        case ViewAttendanceCommand.COMMAND_WORD:
+        case ViewAttendancePersonCommand.COMMAND_WORD:
             return prepareViewAttendance(arguments);
+
+        case ViewAttendanceDateCommand.COMMAND_WORD:
+            return prepareViewDateAttendance(arguments);
 
         case ExamsListCommand.COMMAND_WORD:
             return new ExamsListCommand();
@@ -642,6 +648,9 @@ public class Parser {
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
                     UpdateAttendanceCommand.MESSAGE_USAGE));
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
+                    + UpdateAttendanceCommand.MESSAGE_USAGE));
         }
 
     }
@@ -655,7 +664,7 @@ public class Parser {
         // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    UpdateAttendanceCommand.MESSAGE_USAGE));
+                    ReplaceAttendanceCommand.MESSAGE_USAGE));
         }
         try {
             final int targetIndex = parseInt(matcher.group("targetIndex"));
@@ -675,26 +684,56 @@ public class Parser {
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
                     UpdateAttendanceCommand.MESSAGE_USAGE));
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
+                    + ReplaceAttendanceCommand.MESSAGE_USAGE));
         }
 
     }
 
     /**
-     * Parses arguments in the context of the view attendance command.
+     * Parses arguments in the context of the view attendance person command.
      */
     private Command prepareViewAttendance(String args) {
         final Matcher matcher = PERSON_INDEX_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewAttendanceCommand.MESSAGE_USAGE));
+                    ViewAttendancePersonCommand.MESSAGE_USAGE));
         }
 
         try {
             final int targetIndex = parseInt(matcher.group("targetIndex"));
-            return new ViewAttendanceCommand(targetIndex);
+            return new ViewAttendancePersonCommand(targetIndex);
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the view attendance date command.
+     */
+    private Command prepareViewDateAttendance(String args) {
+        final Matcher matcher = ATTENDANCE_VIEW_DATE_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewAttendanceDateCommand.MESSAGE_USAGE));
+        }
+        try {
+            if (!"0".equals(matcher.group("date"))) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                dateFormat.parse(matcher.group("date").trim());
+            }
+
+            return new ViewAttendanceDateCommand(matcher.group("date"));
+        } catch (NumberFormatException nfe) { //do the most specific catch on top
+            return new IncorrectCommand(nfe.getMessage());
+        } catch (java.text.ParseException pe) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + ViewAttendanceDateCommand.MESSAGE_USAGE));
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
+                    + ViewAttendanceDateCommand.MESSAGE_USAGE));
         }
     }
 

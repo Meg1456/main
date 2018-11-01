@@ -23,6 +23,7 @@ public interface ReadOnlyPerson {
     Address getAddress();
     Optional<Account> getAccount();
     Fees getFees();
+    Attendance getAttendance();
     Set<Exam> getExams();
     Set<Assessment> getAssessments();
 
@@ -68,6 +69,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
+        getAttendance();
 
         builder.append(stringChain)
                 .append("Tags: ");
@@ -108,6 +110,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
+        getAttendance();
         builder.append(stringChain)
                 .append("Tags: ");
         for (Tag tag : getTags()) {

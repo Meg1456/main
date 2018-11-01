@@ -12,6 +12,7 @@ import java.util.Set;
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -231,6 +232,36 @@ public class UniquePersonList implements Iterable<Person> {
         }
     }
 
+    /** Iterates through the UniquePersonList to check the attendance of each person
+     * @param date of which list of present people should generate
+     * @return A list of present people
+     */
+    public List listOfPresentPeople (String date) {
+        List <Name> listOfPresent = new ArrayList<>();
+        for (Person p: internalList) {
+            Boolean isPresent = p.viewAttendanceDateMethod(date);
+            if (isPresent) {
+                listOfPresent.add(p.getName());
+            }
+        }
+        return listOfPresent;
+    }
+
+    /** Iterates through the UniquePersonList to check the attendance of each person
+     * @param date of which list of present people should generate
+     * @return A list of absent/no attendance(default absent) people
+     */
+    public List listOfAbsentPeople (String date) {
+        List <Name> listOfAbsent = new ArrayList<>();
+        for (Person p: internalList) {
+            Boolean isPresent = p.viewAttendanceDateMethod(date);
+            if (!isPresent) {
+                listOfAbsent.add(p.getName());
+            }
+        }
+        return listOfAbsent;
+    }
+
     /**
      * Checks an exam to its new values for all persons
      * @param exam the original exam
@@ -265,6 +296,7 @@ public class UniquePersonList implements Iterable<Person> {
             p.clearExams();
         }
     }
+
     @Override
     public Iterator<Person> iterator() {
         return internalList.iterator();

@@ -9,9 +9,9 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  *  Lists down the dates where the person's attendance has been taken.
  */
-public class ViewAttendanceCommand extends Command {
+public class ViewAttendancePersonCommand extends Command {
 
-    public static final String COMMAND_WORD = "viewAtten";
+    public static final String COMMAND_WORD = "viewAttenPerson";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Views the attendance of a student. \n"
             + "Parameters: indexOfStudent \n"
@@ -20,7 +20,7 @@ public class ViewAttendanceCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Attendance for student, ";
 
     // Constructor
-    public ViewAttendanceCommand(int targetIndex) {
+    public ViewAttendancePersonCommand(int targetIndex) {
         super(targetIndex);
     }
 
@@ -28,14 +28,14 @@ public class ViewAttendanceCommand extends Command {
      * Constructor used for Privileges
      * Command constructed has no functionality
      * */
-    public ViewAttendanceCommand() {
+    public ViewAttendancePersonCommand() {
         // Does nothing
     }
 
     @Override
     public CommandResult execute() {
         try {
-            Person person = addressBook.findPerson(getTargetReadOnlyPerson());
+            Person person = addressBook.findPerson(getTargetPerson());
             final String output = person.viewAttendanceMethod();
             return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName() + ":\n" + output);
 

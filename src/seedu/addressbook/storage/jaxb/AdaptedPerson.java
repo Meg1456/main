@@ -36,8 +36,12 @@ public class AdaptedPerson {
     @XmlElement(required = true)
     private AdaptedContactDetail address;
 
+    //    @XmlElement(required = true)
+    //    private AdaptedAttendance attendance;
+
     @XmlElement
     private List<AdaptedExam> exams = new ArrayList<>();
+
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
     @XmlElement
@@ -83,6 +87,8 @@ public class AdaptedPerson {
         address.value = source.getAddress().value;
 
         fees = new AdaptedFees(source.getFees());
+
+        //attendance = new AdaptedAttendance(source.getAttendance());
 
         exams = new ArrayList<>();
         for (Exam exam : source.getExams()) {
