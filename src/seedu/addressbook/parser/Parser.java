@@ -45,7 +45,8 @@ import seedu.addressbook.commands.exams.ClearExamsCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
 import seedu.addressbook.commands.exams.ExamsListCommand;
-import seedu.addressbook.commands.fees.AddFeesCommand;
+import seedu.addressbook.commands.fees.EditFeesCommand;
+import seedu.addressbook.commands.fees.ListDueFeesCommand;
 import seedu.addressbook.commands.fees.ListFeesCommand;
 import seedu.addressbook.commands.fees.ViewFeesCommand;
 import seedu.addressbook.commands.general.ExitCommand;
@@ -158,7 +159,7 @@ public class Parser {
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
 
-        case AddFeesCommand.COMMAND_WORD:
+        case EditFeesCommand.COMMAND_WORD:
             return prepareFees(arguments);
 
         case DeleteCommand.COMMAND_WORD:
@@ -243,7 +244,10 @@ public class Parser {
             return new ExamsListCommand();
 
         case ListFeesCommand.COMMAND_WORD:
-            return prepareFeesList();
+            return new ListFeesCommand();
+
+        case ListDueFeesCommand.COMMAND_WORD:
+            return new ListDueFeesCommand();
 
         case DeleteExamCommand.COMMAND_WORD:
             return prepareDeleteExam(arguments);
@@ -337,7 +341,7 @@ public class Parser {
     }
     //TODO: Generalize the prepare functions
     /**
-     * Parses arguments in the context of the AddFeesCommand command.
+     * Parses arguments in the context of the EditFeesCommand command.
      *
      * @param args full command args string
      * @return the prepared command
@@ -346,11 +350,11 @@ public class Parser {
         final Matcher matcher = FEES_DATA_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
         if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddFeesCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditFeesCommand.MESSAGE_USAGE));
         }
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(matcher.group("index"));
-            return new AddFeesCommand(
+            return new EditFeesCommand(
                     targetIndex,
                     matcher.group("fees"),
                     matcher.group("date")
@@ -388,18 +392,6 @@ public class Parser {
             return new ViewFeesCommand(targetIndex);
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewFeesCommand.MESSAGE_USAGE));
-        }
-    }
-
-    /**
-     * Prepare arguments in the context of feeslist command
-     */
-    private Command prepareFeesList() {
-        try {
-            return new ListFeesCommand(parseArgsAsDisplayedIndex("1"));
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewAllCommand.MESSAGE_USAGE));
         }
     }
 
@@ -885,7 +877,7 @@ public class Parser {
 
     /**
      * Stores the new values of exam to be edited to.
-    */
+     */
     private static Map<ExamField, String> storeNewDetails(Matcher matcher) {
         Map<ExamField, String> result = new HashMap<>();
         Optional<String> examName = Optional.ofNullable(matcher.group("examName"));
