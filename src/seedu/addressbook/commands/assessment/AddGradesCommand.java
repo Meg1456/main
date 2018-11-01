@@ -1,6 +1,7 @@
 package seedu.addressbook.commands.assessment;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -12,7 +13,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  * Adds a grade to person based on person index and assessment index.
  */
-public class AddGradesCommand extends Command {
+public class AddGradesCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "addgrades";
 
@@ -24,17 +25,13 @@ public class AddGradesCommand extends Command {
 
     public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added to %1$s for %2$s assessment";
 
-    private final int assessIndex;
-    private final int gradesVal;
+    private int gradesVal;
 
     /**
      * Constructor used for Privileges
      * Command constructed has no functionality
      * */
-    public AddGradesCommand() {
-        assessIndex = -1;
-        gradesVal = -1;
-    }
+    public AddGradesCommand() { }
 
     /**
      * Convenience constructor using raw values.
@@ -42,8 +39,8 @@ public class AddGradesCommand extends Command {
      * @throws IllegalValueException if any of the raw values are invalid
      */
     public AddGradesCommand (int targetPersonIndex, int targetAssessIndex, int gradesVal) {
-        super (targetPersonIndex);
-        assessIndex = targetAssessIndex;
+        setTargetIndex(targetPersonIndex, ObjectTargeted.PERSON);
+        setTargetIndex(targetAssessIndex, ObjectTargeted.ASSESSMENT);
         this.gradesVal = gradesVal;
     }
 
@@ -52,7 +49,7 @@ public class AddGradesCommand extends Command {
         try {
             final Person person = getTargetPerson();
 
-            final Assessment targetAssess = getTargetAssessment(assessIndex);
+            final Assessment targetAssess = getTargetAssessment();
             person.addAssessment(targetAssess);
 
             Grades grade = new Grades(gradesVal);

@@ -37,6 +37,8 @@ import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
 import seedu.addressbook.commands.attendance.ViewAttendanceDateCommand;
 import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
@@ -165,7 +167,7 @@ public class Parser {
             return prepareFees(arguments);
 
         case DeleteCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new DeleteCommand());
+            return prepareSingleIndexCommand(arguments, new DeleteCommand(), ObjectTargeted.PERSON);
 
         case ClearCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ClearCommand());
@@ -180,10 +182,10 @@ public class Parser {
             return prepareVoidCommand(arguments, new ListAllCommand());
 
         case ViewCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewCommand());
+            return prepareSingleIndexCommand(arguments, new ViewCommand(), ObjectTargeted.PERSON);
 
         case ViewAllCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewAllCommand());
+            return prepareSingleIndexCommand(arguments, new ViewAllCommand(), ObjectTargeted.PERSON);
 
         case ExitCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ExitCommand());
@@ -210,13 +212,14 @@ public class Parser {
             return prepareAddGrades(arguments);
 
         case ViewGradesCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewGradesCommand());
+            return prepareSingleIndexCommand(arguments, new ViewGradesCommand(), ObjectTargeted.PERSON);
 
         case AddAccountCommand.COMMAND_WORD:
             return prepareAddAccount(arguments);
 
         case DeleteAccountCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand());
+            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand(),
+                    ObjectTargeted.PERSON);
 
         case ListAccountCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ListAccountCommand());
@@ -270,13 +273,13 @@ public class Parser {
             return prepareDeregisterExam(arguments);
 
         case ViewExamsCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewExamsCommand());
+            return prepareSingleIndexCommand(arguments, new ViewExamsCommand(), ObjectTargeted.PERSON);
 
         case AddAssessmentCommand.COMMAND_WORD:
             return prepareAddAssessment(arguments);
 
         case DeleteAssessmentCommand.COMMAND_WORD:
-            return prepareDeleteAssessment(arguments);
+            return prepareSingleIndexCommand(arguments, new DeleteAssessmentCommand(), ObjectTargeted.ASSESSMENT);
 
         case ListAssessmentCommand.COMMAND_WORD:
             return new ListAssessmentCommand();
@@ -377,10 +380,12 @@ public class Parser {
      * @param args full command args string
      * @return the prepared command
      */
-    private Command prepareSingleIndexCommand(String args, Command command) {
+    private Command prepareSingleIndexCommand(String args,
+                                              IndexFormatCommand command,
+                                              ObjectTargeted objectTargeted) {
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(args);
-            command.setTargetIndex(targetIndex);
+            command.setTargetIndex(targetIndex, objectTargeted);
             return command;
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -871,22 +876,6 @@ public class Parser {
             );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the delete assessment command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareDeleteAssessment(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new DeleteAssessmentCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    DeleteAssessmentCommand.MESSAGE_USAGE));
         }
     }
 

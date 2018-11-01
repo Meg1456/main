@@ -173,7 +173,7 @@ public class StorageFile extends Storage {
         } catch (JAXBException jaxbe) {
             throw new StorageOperationException("Error parsing file data format");
         } catch (IllegalValueException ive) {
-            throw new StorageOperationException("File contains illegal data values; data type constraints not met");
+            throw new StorageOperationException(ive.getMessage());
         }
     }
 

@@ -74,4 +74,9 @@ public class ViewAttendanceDateCommand extends Command {
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;
     }
+
+    @Override
+    public Category getCategory() {
+        return Category.ATTENDANCE;
+    }
 }

@@ -1,7 +1,6 @@
 package seedu.addressbook.commands;
 
 import static seedu.addressbook.common.Messages.MESSAGE_FEES_LISTED_OVERVIEW;
-import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
 import java.util.List;
 
@@ -11,12 +10,8 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.Exam;
-import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
-import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
-import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege;
 
 /**
@@ -32,7 +27,9 @@ public abstract class Command {
         GENERAL,
         ACCOUNT,
         ASSESSMENT,
-        EXAM
+        EXAM,
+        FEES,
+        ATTENDANCE
     }
 
     protected static Privilege privilege;
@@ -42,7 +39,6 @@ public abstract class Command {
     protected List<? extends ReadOnlyPerson> relevantPersons;
     protected List<? extends Assessment> relevantAssessments;
     protected List<? extends ReadOnlyExam> relevantExams;
-    private int targetIndex = -1;
 
     /**
      * Signals that the target exam index is out of bounds of the last viewed exams listing
@@ -60,16 +56,6 @@ public abstract class Command {
         public AssessmentIndexOutOfBoundsException(String message) {
             super(message);
         }
-    }
-
-    /**
-     * @param targetIndex last visible listing index of the target person
-     */
-    public Command(int targetIndex) {
-        this.setTargetIndex(targetIndex);
-    }
-
-    protected Command() {
     }
 
     /**
@@ -124,7 +110,7 @@ public abstract class Command {
         this.addressBook = addressBook;
         this.statisticsBook = statisticsBook;
         this.relevantPersons = relevantPersons;
-        // Privilege is static
+        // privilege is static
         Command.privilege = privilege;
     }
 
@@ -135,43 +121,6 @@ public abstract class Command {
         this.examBook = exambook;
         this.relevantExams = relevantExams;
         this.relevantAssessments = relevantAssessments;
-    }
-
-    /**
-     * Extracts the the target (immutable) person in the last shown list from the given arguments.
-     *
-     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
-     */
-    protected ReadOnlyPerson getTargetReadOnlyPerson() throws IndexOutOfBoundsException {
-        return relevantPersons.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
-    }
-
-    /**
-     * Extracts the the target (mutable) person in the last shown list from the given arguments.
-     *
-     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
-     * @throws PersonNotFoundException if no such Person can be found in the address book
-     */
-
-    protected Person getTargetPerson() throws IndexOutOfBoundsException, PersonNotFoundException {
-        return addressBook.findPerson(getTargetReadOnlyPerson());
-    }
-
-    /**
-     * Extracts the the target assessment in the last shown list from the given arguments.
-     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
-     */
-
-    protected Assessment getTargetAssessment(int targetIndex) throws IndexOutOfBoundsException {
-        return relevantAssessments.get(targetIndex - DISPLAYED_INDEX_OFFSET);
-    }
-
-    public int getTargetIndex() {
-        return targetIndex;
-    }
-
-    public void setTargetIndex(int targetIndex) {
-        this.targetIndex = targetIndex;
     }
 
     //TODO: Fix potato code
@@ -190,30 +139,6 @@ public abstract class Command {
      * Returns the usage message to be used to construct HelpCommand's message
      */
     public abstract String getCommandUsageMessage();
-
-    /**
-     * Extracts the target (mutable) exam in the last shown exam list from the given arguments.
-     *
-     * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
-     * @throws ExamNotFoundException if no such Exam cannot be found in the exam book
-     */
-    public Exam getTargetExam(int targetExamIndex) throws ExamIndexOutOfBoundsException, ExamNotFoundException {
-        return examBook.findExam(getTargetReadOnlyExam(targetExamIndex));
-    }
-
-    /**
-     * Extracts the the target (immutable) exam in the last shown exam list from the given arguments.
-     *
-     * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
-     */
-    protected ReadOnlyExam getTargetReadOnlyExam(int targetExamIndex) throws ExamIndexOutOfBoundsException {
-        try {
-            return relevantExams.get(targetExamIndex - DISPLAYED_INDEX_OFFSET);
-        } catch (IndexOutOfBoundsException e) {
-            throw new ExamIndexOutOfBoundsException(e.getMessage());
-        }
-
-    }
 
     /**
      * Checks if the command can potentially change the exam data to be stored

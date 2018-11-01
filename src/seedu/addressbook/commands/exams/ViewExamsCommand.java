@@ -1,6 +1,6 @@
 package seedu.addressbook.commands.exams;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -8,7 +8,7 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 /**
  * Shows the non-private exams of the person identified using the last displayed index.
  */
-public class ViewExamsCommand extends Command {
+public class ViewExamsCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "viewexams";
 

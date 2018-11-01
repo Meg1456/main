@@ -1,6 +1,6 @@
 package seedu.addressbook.commands.exams;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyExam;
@@ -9,7 +9,7 @@ import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
 /**
  * Deletes a exam identified using its last displayed index from the exam book.
  */
-public class DeleteExamCommand extends Command {
+public class DeleteExamCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "deleteexam";
 

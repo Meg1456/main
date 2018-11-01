@@ -57,6 +57,11 @@ public class AddAssignmentStatistics extends Command {
     }
 
     @Override
+    public Category getCategory() {
+        return Category.ASSESSMENT;
+    }
+
+    @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;
     }

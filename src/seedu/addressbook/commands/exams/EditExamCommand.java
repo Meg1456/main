@@ -2,7 +2,7 @@ package seedu.addressbook.commands.exams;
 
 import java.util.Map;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -14,7 +14,7 @@ import seedu.addressbook.parser.ExamField;
 /**
  * Edits an exam identified using its last displayed index in the exam book.
  */
-public class EditExamCommand extends Command {
+public class EditExamCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "editexam";
 

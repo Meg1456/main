@@ -3,7 +3,8 @@ package seedu.addressbook.commands.attendance;
 import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Utils.isValidDate;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -13,7 +14,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  *  Replaces the already marked attendance for the given date.
  */
-public class ReplaceAttendanceCommand extends Command {
+public class ReplaceAttendanceCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "replaceAtten";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -31,7 +32,7 @@ public class ReplaceAttendanceCommand extends Command {
 
     // Constructor
     public ReplaceAttendanceCommand(int targetIndex, String date, boolean isPresent) throws IllegalValueException {
-        super(targetIndex); // super is calling the constructor of the parent function
+        setTargetIndex(targetIndex, ObjectTargeted.PERSON);
         if (!isValidDate(date) && !"0".equals(date)) {
             throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
         }
@@ -72,5 +73,10 @@ public class ReplaceAttendanceCommand extends Command {
     @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.ATTENDANCE;
     }
 }

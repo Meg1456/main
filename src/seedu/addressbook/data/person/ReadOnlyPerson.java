@@ -17,7 +17,6 @@ import seedu.addressbook.formatter.Formatter;
  * Implementations should guarantee: details are present and not null, field values are validated.
  */
 public interface ReadOnlyPerson {
-
     Name getName();
     Phone getPhone();
     Email getEmail();
@@ -48,7 +47,8 @@ public interface ReadOnlyPerson {
                 && other.getName().equals(this.getName()) // state checks here onwards
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
-                && other.getAddress().equals(this.getAddress()));
+                && other.getAddress().equals(this.getAddress())
+                && other.getAccount().equals(this.getAccount()));
     }
 
     /**

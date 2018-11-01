@@ -19,9 +19,12 @@ ClassRepo is *optimized for those who prefer to work with a Command Line Interfa
 .  Ensure you have Java version `9` or later installed in your Computer.
 .  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Double-click the file to start the app. The GUI should appear in a few seconds, as shown below.
 +
-image::UiNew.png[]
+
+[[fig-UI]]
+.UI of ClassRepo
+image::Ui.png[]
 
 == Commands Available
 
@@ -66,7 +69,7 @@ The default master password when first deploying ClassRepo is `default_pw`.
 ====
 
 ****
-Examples:
+Example(s):
 
 * `raise default_pw` +
 Raises your privilege level to Admin.
@@ -90,7 +93,7 @@ It is recommended to change the master password when first deploying ClassRepo.
 ====
 
 ****
-Examples:
+Example(s):
 
 * `editpw default_pw new_pw` +
 Changes the master password to "new_pw".
@@ -110,7 +113,7 @@ This is recommended to be only done on machines that you are certain only admini
 ====
 
 ****
-Examples:
+Example(s):
 
 * `raise default_pw` +
 `perm true` +
@@ -140,7 +143,7 @@ be seen using the `viewall` command.
 Persons can have any number of tags (including 0)
 ****
 
-Examples:
+Example(s):
 
 * `add John Doe p/98765432 e/johnd@gmail.com a/John street, block 123, #01-01`
 * `add Betsy Crowe pp/1234567 e/betsycrowe@gmail.com pa/Newgate Prison t/criminal t/friend`
@@ -164,7 +167,7 @@ Displays all persons (showing all non-private details) in the address book as a 
 Format: `listall` +
 
 ****
-Examples:
+Example(s):
 
 * `listall` +
 ****
@@ -180,7 +183,7 @@ The search is case sensitive, the order of the keywords does not matter, only th
 and persons matching at least one keyword will be returned (i.e. `OR` search).
 =====
 
-Examples:
+Example(s):
 
 * `find John` +
 Returns `John Doe` but not `john`.
@@ -198,7 +201,7 @@ Deletes the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent listing.
 ****
 
-Examples:
+Example(s):
 
 * `list` +
 `delete 2` +
@@ -218,7 +221,7 @@ Views the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent listing.
 ****
 
-Examples:
+Example(s):
 
 * `list` +
 `view 2` +
@@ -238,7 +241,7 @@ Views all details of the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent listing.
 ****
 
-Examples:
+Example(s):
 
 * `list` +
 `viewall 2` +
@@ -273,7 +276,7 @@ Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optiona
 Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
 
-Examples:
+Example(s):
 
 * `addexam e/Math 2018 Finals s/Mathematics d/01-12-2018 st/09:00 et/12:00 dt/At MPSH` +
 
@@ -308,7 +311,7 @@ Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optiona
 PRIVATE_STATUS is denoted by `y` for private and `n` for non-private.
 =====
 
-Examples:
+Example(s):
 
 * `examslist` +
 `editexam 2 p/y e/English 2018 Finals dt/In MPSH`
@@ -399,7 +402,7 @@ Fees are automatically marked as `private`. `private` details can only
 be seen using the `viewall` command, or for fees specifically, the `viewfees` command.
 ****
 
-Examples:
+Example(s):
 
 * `addfees 1 344.41`
 * `addfees 2 0.60`
@@ -414,7 +417,7 @@ Views the fees of the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent listing.
 ****
 
-Examples:
+Example(s):
 
 * `list` +
 `viewfees 2` +
@@ -441,7 +444,7 @@ USER_TYPE can be of type "Basic", "Tutor" or "Admin".
 =====
 
 ****
-Examples:
+Example(s):
 
 * `list`  +
 `addacc 1 JohnDoe1337 P455W0RD Admin` +
@@ -454,7 +457,7 @@ Format: `delacc INDEX`
 Deletes the account of the person with INDEX as specified by the last shown list. +
 
 ****
-Examples:
+Example(s):
 
 * `list`  +
 `delacc 1` +
@@ -468,7 +471,7 @@ Logs into the account with the given USERNAME and PASSWORD. +
 Sets the current privilege level to that of the account.
 
 ****
-Examples:
+Example(s):
 
 * `login 1 JohnDoe1337 P455W0RD Admin`
 Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
@@ -481,7 +484,7 @@ Logout from the currently signed in account. +
 Also resets the privilege back to the level of a Basic User.
 
 ****
-Examples:
+Example(s):
 
 * `logout`
 Logs out of the current account, provided there is privilege or account to relinquish.
@@ -509,7 +512,7 @@ name. Duplicate assessments cannot be added.
 
 ****
 
-Examples:
+Example(s):
 
 * `addassess CG2271 Midterm` +
 
@@ -547,7 +550,7 @@ i.e. Indices are selected after first carrying out the `list` and `listassess` c
 
 ****
 
-Examples:
+Example(s):
 
 * `list`
 * `listassess`
@@ -567,7 +570,7 @@ or student whose grades you want to view.
 
 ****
 
-Examples:
+Example(s):
 
 * `viewgrades 1` +
 *  The results will be displayed as a list of assessments the student has taken and their corresponding grades.
@@ -600,7 +603,7 @@ Format: `attendance INDEX d/DATE att/ATTENDANCE`
 Updates the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
 ~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
 ****
-Examples:
+Example(s):
 
 * `list`  +
 `attendance 1 d/29-09-2018 att/1` +
@@ -662,3 +665,15 @@ Shows a list of people who were present today. +
 Address book data are saved in the hard disk automatically after any command that changes the data.
 
 There is no need to save manually. Address book data are saved in a file called `addressbook.txt` in the project root folder.
+
+== Handling Errors
+
+1. ClassRepo does not start up when running the jar file. +
+*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` contains invalid data.
+*Solution*: Fix the data error in the problematic file. 
+Refer to `log.txt` to find the underlying error. +
+
+2. ClassRepo shuts down mid-operation. +
+*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` was set to read-only during
+a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data.
+*Solution*: Ensure that the data files are not set as read-only. 

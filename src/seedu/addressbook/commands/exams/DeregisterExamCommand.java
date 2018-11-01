@@ -1,6 +1,7 @@
 package seedu.addressbook.commands.exams;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Exam;
@@ -11,8 +12,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  * Deregisters a person identified using its last displayed index for an exam identified using its last displayed index.
  */
-public class DeregisterExamCommand extends Command {
-
+public class DeregisterExamCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "deregexam";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -37,7 +37,7 @@ public class DeregisterExamCommand extends Command {
     }
 
     public DeregisterExamCommand(int targetVisibleIndex, int targetExamIndex) {
-        super(targetVisibleIndex);
+        setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
         this.targetExamIndex = targetExamIndex;
     }
 

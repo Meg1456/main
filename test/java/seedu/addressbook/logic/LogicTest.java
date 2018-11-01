@@ -239,7 +239,7 @@ public class LogicTest {
         assertCommandBehavior("clear",
                 ClearCommand.MESSAGE_SUCCESS,
                 AddressBook.empty(),
-                false,
+                true,
                 Collections.emptyList(),
                 true);
     }
@@ -1674,7 +1674,7 @@ public class LogicTest {
                 ClearCommand.MESSAGE_SUCCESS,
                 AddressBook.empty(),
                 expectedExamBook,
-                false,
+                true,
                 false,
                 Collections.emptyList(),
                 Collections.emptyList());

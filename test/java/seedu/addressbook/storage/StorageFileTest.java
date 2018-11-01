@@ -87,15 +87,35 @@ public class StorageFileTest {
     @Test
     public void load_invalidAccountFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but does not match the AddressBook class
-        StorageFile storage = getStorage("InvalidAccountData.txt", "ValidExamData.txt",
+        StorageFile storage = getStorage("InvalidMissingAccountFieldData.txt", "ValidExamData.txt",
                 "ValidStatistics.txt");
         thrown.expect(StorageOperationException.class);
         storage.load();
     }
+
+    @Test
+    public void load_invalidFieldFormat_exceptionThrown() throws Exception {
+        // The file contains valid xml data, but contains an invalid field
+        StorageFile storage = getStorage("InvalidFieldData.txt", "ValidExamData.txt",
+                "ValidStatistics.txt");
+        thrown.expect(StorageOperationException.class);
+        final String errorMessage = "Error processing Ke$ha: Person names should be spaces or alphanumeric characters";
+        assertReturnsExceptionMessage(storage, errorMessage);
+    }
+
+    @Test
+    public void load_invalidDuplicateAccountData_exceptionThrown() throws Exception {
+        StorageFile storage = getStorage("InvalidDuplicateUsernameData.txt", "ValidExamData.txt",
+                "ValidStatistics.txt");
+        thrown.expect(StorageOperationException.class);
+        final String errorMessage = "Data contains duplicate username";
+        assertReturnsExceptionMessage(storage, errorMessage);
+    }
+
     @Test
     public void load_invalidFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but does not match the AddressBook class
-        StorageFile storage = getStorage("InvalidData.txt", "ValidExamData.txt",
+        StorageFile storage = getStorage("InvalidDuplicateUsernameData.txt", "ValidExamData.txt",
                 "InvalidStatistics.txt");
         thrown.expect(StorageOperationException.class);
         storage.load();
@@ -123,15 +143,15 @@ public class StorageFileTest {
     public void load_validFormat() throws Exception {
         List<Pair<String, AddressBook>> inputToExpectedOutputs = new ArrayList<>();
         inputToExpectedOutputs.add(new Pair<>(
-                "ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false, false)));
+                "ValidDataWithNewPassword.txt", getTestAddressBook(false, false)));
         inputToExpectedOutputs.add(new Pair<>(
-                "ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true, false)));
+                "ValidDataWithDefaultPassword.txt", getTestAddressBook(true, false)));
         inputToExpectedOutputs.add(new Pair<>(
                 "ValidEmptyData.txt", AddressBook.empty()));
         inputToExpectedOutputs.add(new Pair<>(
                 "ValidDataWithAccount.txt", getTestAddressBook(true, true)));
         inputToExpectedOutputs.add(new Pair<>(
-                "ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true, false)));
+                "ValidDataWithoutPassword.txt", getTestAddressBook(true, false)));
 
         for (Pair<String, AddressBook> inputToExpected: inputToExpectedOutputs) {
             final AddressBook actual = getStorage(inputToExpected.getFirst()).load();
@@ -197,14 +217,14 @@ public class StorageFileTest {
         storage.save(ab);
         storage.saveStatistics(sb);
         // Checks that the password and isPerm is saved as a new field
-        assertStorageFilesEqual(storage, getStorage("ValidDataWithDefaultPasswordLuc.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithDefaultPassword.txt"));
 
         ab = getTestAddressBook();
         storage = getTempStorage();
         storage.save(ab);
 
-        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPasswordLuc.txt"));
-        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPasswordLuc.txt", "ValidExamData.txt",
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPassword.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithNewPassword.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
 
         ab = getTestAddressBook(true, true);
@@ -266,6 +286,16 @@ public class StorageFileTest {
 
         storage.syncAddressBookExamBook(ab, eb);
         assertEquals(ab, ab2);
+    }
+
+    /** Asserts that loading StorageFile will return an Exception with expectedMessage*/
+    private void assertReturnsExceptionMessage(StorageFile storage, String expectedMessage) throws Exception {
+        try {
+            storage.load();
+        } catch (Exception e) {
+            assertEquals(expectedMessage, e.getMessage());
+            throw e;
+        }
     }
 
     /**

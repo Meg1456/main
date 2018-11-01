@@ -15,21 +15,15 @@ public class ListFeesCommand extends Command {
             + "Displays all names and fees in the address book.\n\t"
             + "Example: " + COMMAND_WORD;
 
-    /**
-     * Constructor used for Privileges
-     * Command constructed has no functionality
-     * */
-    public ListFeesCommand() {
-    }
-
     @Override
     public CommandResult execute() {
         return new CommandResult(getMessageForFeesListShownSummary(addressBook.listFeesPerson()),
                 addressBook.listFeesPerson(), PersonListFormat.FEES_DETAILS);
     }
+
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.FEES;
     }
 
     @Override
