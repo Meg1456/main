@@ -22,7 +22,7 @@ public class AddGradesCommand extends Command {
             + "Example: " + COMMAND_WORD
             + " 1 2 85";
 
-    public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added to %1$s for %2$s assessment" ;
+    public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added to %1$s for %2$s assessment";
 
     private final int assessIndex;
     private final int gradesVal;
