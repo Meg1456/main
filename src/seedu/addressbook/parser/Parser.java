@@ -18,44 +18,52 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import seedu.addressbook.commands.AddAccountCommand;
-import seedu.addressbook.commands.AddAssessmentCommand;
-import seedu.addressbook.commands.AddAssignmentStatistics;
-import seedu.addressbook.commands.AddCommand;
-import seedu.addressbook.commands.AddExamCommand;
-import seedu.addressbook.commands.AddFeesCommand;
-import seedu.addressbook.commands.ClearCommand;
-import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.DeleteAccountCommand;
-import seedu.addressbook.commands.DeleteAssessmentCommand;
-import seedu.addressbook.commands.DeleteCommand;
-import seedu.addressbook.commands.DeleteExamCommand;
 import seedu.addressbook.commands.DeregisterExamCommand;
-import seedu.addressbook.commands.EditExamCommand;
-import seedu.addressbook.commands.EditPasswordCommand;
-import seedu.addressbook.commands.ExamsListCommand;
-import seedu.addressbook.commands.ExitCommand;
-import seedu.addressbook.commands.FindCommand;
-import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.IncorrectCommand;
-import seedu.addressbook.commands.ListAssessmentCommand;
-import seedu.addressbook.commands.ListCommand;
-import seedu.addressbook.commands.ListFeesCommand;
-import seedu.addressbook.commands.LoginCommand;
-import seedu.addressbook.commands.LogoutCommand;
-import seedu.addressbook.commands.RaisePrivilegeCommand;
 import seedu.addressbook.commands.RegisterExamCommand;
-import seedu.addressbook.commands.ReplaceAttendanceCommand;
-import seedu.addressbook.commands.SetPermanentAdminCommand;
-import seedu.addressbook.commands.UpdateAttendanceCommand;
-import seedu.addressbook.commands.ViewAllCommand;
-import seedu.addressbook.commands.ViewAttendanceCommand;
-import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewExamsCommand;
-import seedu.addressbook.commands.ViewFeesCommand;
-import seedu.addressbook.commands.ViewPrivilegeCommand;
-import seedu.addressbook.commands.ViewSelfCommand;
+
+import seedu.addressbook.commands.account.AddAccountCommand;
+import seedu.addressbook.commands.account.DeleteAccountCommand;
+import seedu.addressbook.commands.account.ListAccountCommand;
+import seedu.addressbook.commands.account.LoginCommand;
+import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
+import seedu.addressbook.commands.assessment.AddGradesCommand;
+import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteGradesCommand;
+import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.ViewGradesCommand;
+import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
+import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
+import seedu.addressbook.commands.attendance.ViewAttendanceCommand;
+import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
+import seedu.addressbook.commands.exams.AddExamCommand;
+import seedu.addressbook.commands.exams.ClearExamsCommand;
+import seedu.addressbook.commands.exams.DeleteExamCommand;
+import seedu.addressbook.commands.exams.EditExamCommand;
+import seedu.addressbook.commands.exams.ExamsListCommand;
+import seedu.addressbook.commands.fees.AddFeesCommand;
+import seedu.addressbook.commands.fees.ListFeesCommand;
+import seedu.addressbook.commands.fees.ViewFeesCommand;
+import seedu.addressbook.commands.general.ExitCommand;
+import seedu.addressbook.commands.general.HelpCommand;
+import seedu.addressbook.commands.person.AddCommand;
+import seedu.addressbook.commands.person.ClearCommand;
+import seedu.addressbook.commands.person.DeleteCommand;
+import seedu.addressbook.commands.person.FindCommand;
+import seedu.addressbook.commands.person.ListAllCommand;
+import seedu.addressbook.commands.person.ListCommand;
+import seedu.addressbook.commands.person.ViewAllCommand;
+import seedu.addressbook.commands.person.ViewCommand;
+import seedu.addressbook.commands.person.ViewSelfCommand;
+import seedu.addressbook.commands.privilege.EditPasswordCommand;
+import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
+import seedu.addressbook.commands.privilege.SetPermanentAdminCommand;
+import seedu.addressbook.commands.privilege.ViewPrivilegeCommand;
+
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
@@ -63,24 +71,22 @@ import seedu.addressbook.data.exception.IllegalValueException;
  */
 public class Parser {
 
-    public static final Pattern PERSON_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
+    private static final Pattern PERSON_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
 
-    public static final Pattern BOOLEAN_ARGS_FORMAT = Pattern.compile("(?<boolean>.+)");
+    private static final Pattern BOOLEAN_ARGS_FORMAT = Pattern.compile("(?<boolean>.+)");
 
-    public static final Pattern KEYWORDS_ARGS_FORMAT =
+    private static final Pattern KEYWORDS_ARGS_FORMAT =
             Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
 
-    public static final Pattern SINGLE_KEYWORD_ARGS_FORMAT =
-            Pattern.compile("(?<keywords>\\S+\\s*)"); // one keyword separated by whitespace
-
-    public static final Pattern PERSON_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+    private static final Pattern PERSON_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<name>[^/]+)"
                     + " (?<isPhonePrivate>p?)p/(?<phone>[^/]+)"
                     + " (?<isEmailPrivate>p?)e/(?<email>[^/]+)"
                     + " (?<isAddressPrivate>p?)a/(?<address>[^/]+)"
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
-    public static final Pattern EXAM_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+
+    private static final Pattern EXAM_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<isPrivate>p?)e/(?<examName>[^/]+)"
                     + " s/(?<subjectName>[^/]+)"
                     + " d/(?<examDate>[^/]+)"
@@ -88,12 +94,12 @@ public class Parser {
                     + " et/(?<examEndTime>[^/]+)"
                     + " dt/(?<examDetails>[^/]+)");
 
-    public static final Pattern FEES_DATA_ARGS_FORMAT =
+    private static final Pattern FEES_DATA_ARGS_FORMAT =
             Pattern.compile("(?<index>[^/]+)"
                     + " (?<fees>[^/]+)"
                     + " (?<date>[^/]+)");
 
-    public static final Pattern STATISTICS_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+    private static final Pattern STATISTICS_DATA_ARGS_FORMAT = //'/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<subjectName>[^/]+)"
                     + " (?<isExamPrivate>p?)e/(?<examName>[^/]+)"
                     + " ts/(?<topScorer>[^/]+)"
@@ -103,27 +109,27 @@ public class Parser {
                     + " tp/(?<totalPass>[^/]+)"
                     + " mm/(?<maxMin>[^/]+)");
 
-    public static final Pattern ATTENDANCE_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+    private static final Pattern ATTENDANCE_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<targetIndex>.+)"
                     + " d/(?<date>[^/]+)"
                     + " att/(?<isPresent>[0-1])");
 
-    public static final Pattern EDIT_EXAM_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>[^/]+)"
-                    + "(p/(?<isPrivate>[^/]+))?"
-                    + "(e/(?<examName>[^/]+))?"
-                    + "(s/(?<subjectName>[^/]+))?"
-                    + "(d/(?<examDate>[^/]+))?" // '/' forward slashes are reserved for delimiter prefixes
-                    + "(st/(?<examStartTime>[^/]+))?"
-                    + "(et/(?<examEndTime>[^/]+))?"
-                    + "(dt/(?<examDetails>[^/]+))?");
+    private static final Pattern EDIT_EXAM_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>[^/]+)"
+            + "(p/(?<isPrivate>[^/]+))?"
+            + "(e/(?<examName>[^/]+))?"
+            + "(s/(?<subjectName>[^/]+))?"
+            + "(d/(?<examDate>[^/]+))?" // '/' forward slashes are reserved for delimiter prefixes
+            + "(st/(?<examStartTime>[^/]+))?"
+            + "(et/(?<examEndTime>[^/]+))?"
+            + "(dt/(?<examDetails>[^/]+))?");
 
-    public static final Pattern ASSESSMENT_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+    private static final Pattern ASSESSMENT_DATA_ARGS_FORMAT = //'/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<examName>[^/]+)");
 
     /**
      * Used for initial separation of command word and args.
      */
-    public static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+    private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
      * Signals that the user input could not be parsed.
@@ -156,55 +162,67 @@ public class Parser {
             return prepareFees(arguments);
 
         case DeleteCommand.COMMAND_WORD:
-            return prepareDelete(arguments);
+            return prepareSingleIndexCommand(arguments, new DeleteCommand());
 
         case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+            return prepareVoidCommand(arguments, new ClearCommand());
 
         case FindCommand.COMMAND_WORD:
             return prepareFind(arguments);
 
         case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+            return prepareVoidCommand(arguments, new ListCommand());
+
+        case ListAllCommand.COMMAND_WORD:
+            return prepareVoidCommand(arguments, new ListAllCommand());
 
         case ViewCommand.COMMAND_WORD:
-            return prepareView(arguments);
+            return prepareSingleIndexCommand(arguments, new ViewCommand());
 
         case ViewAllCommand.COMMAND_WORD:
-            return prepareViewAll(arguments);
+            return prepareSingleIndexCommand(arguments, new ViewAllCommand());
 
         case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
+            return prepareVoidCommand(arguments, new ExitCommand());
 
         case ViewPrivilegeCommand.COMMAND_WORD:
             return new ViewPrivilegeCommand();
 
         case ViewSelfCommand.COMMAND_WORD:
-            return new ViewSelfCommand();
+            return prepareVoidCommand(arguments, new ViewSelfCommand());
 
         case RaisePrivilegeCommand.COMMAND_WORD:
-            return prepareRaisePrivilege(arguments);
+            return prepareKeywordsCommand(arguments, new RaisePrivilegeCommand());
 
         case SetPermanentAdminCommand.COMMAND_WORD:
             return prepareSetPermAdmin(arguments);
 
         case EditPasswordCommand.COMMAND_WORD:
-            return prepareChangePassword(arguments);
+            return prepareKeywordsCommand(arguments, new EditPasswordCommand());
 
         case AddExamCommand.COMMAND_WORD:
             return prepareAddExam(arguments);
+
+        case AddGradesCommand.COMMAND_WORD:
+            return prepareAddGrades(arguments);
+
+        case ViewGradesCommand.COMMAND_WORD:
+            return prepareSingleIndexCommand(arguments, new ViewGradesCommand());
 
         case AddAccountCommand.COMMAND_WORD:
             return prepareAddAccount(arguments);
 
         case DeleteAccountCommand.COMMAND_WORD:
-            return prepareDeleteAccount(arguments);
+            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand());
+
+        case ListAccountCommand.COMMAND_WORD:
+            return prepareVoidCommand(arguments, new ListAccountCommand());
 
         case LoginCommand.COMMAND_WORD:
-            return prepareLogin(arguments);
+            return prepareKeywordsCommand(arguments, new LoginCommand());
 
         case LogoutCommand.COMMAND_WORD:
-            return new LogoutCommand();
+            return prepareVoidCommand(arguments, new LogoutCommand());
 
         case ViewFeesCommand.COMMAND_WORD:
             return prepareViewFees(arguments);
@@ -254,9 +272,13 @@ public class Parser {
         case ListAssessmentCommand.COMMAND_WORD:
             return new ListAssessmentCommand();
 
+        case DeleteGradesCommand.COMMAND_WORD:
+            return prepareDeleteGrades(arguments);
+
         case HelpCommand.COMMAND_WORD: // Fallthrough
-            return new HelpCommand();
+            return prepareVoidCommand(arguments, new HelpCommand());
         default:
+            // Do not call prepareVoidCommand as we should show the help message if commandWord is not recognised
             return new HelpCommand(MESSAGE_COMMAND_NOT_FOUND);
         }
     }
@@ -341,17 +363,19 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the delete person command.
+     * Parses arguments for commands which are in the form of COMMAND_WORD INDEX.
      *
      * @param args full command args string
      * @return the prepared command
      */
-    private Command prepareDelete(String args) {
+    private Command prepareSingleIndexCommand(String args, Command command) {
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new DeleteCommand(targetIndex);
+            command.setTargetIndex(targetIndex);
+            return command;
         } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    command.getCommandUsageMessage()));
         }
     }
 
@@ -380,39 +404,6 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the view command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareView(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new ViewCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewCommand.MESSAGE_USAGE));
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the view all command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareViewAll(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new ViewAllCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewAllCommand.MESSAGE_USAGE));
-        }
-    }
-
-
-    /**
      * Parses the given arguments string as a single index number.
      *
      * @param args arguments string to parse as index number
@@ -427,16 +418,6 @@ public class Parser {
         }
         return parseInt(matcher.group("targetIndex"));
     }
-
-    /*
-     * Parse the given arguments string as a float
-    private float parseArgsAsFloat(String args) throws ParseException, NumberFormatException {
-        final Matcher matcher = PERSON_INDEX_ARGS_FORMAT.matcher(args.trim());
-        if (!matcher.matches()) {
-            throw new ParseException("Could not find float number to parse");
-        }
-        return Float.parseFloat(matcher.group("targetIndex"));
-    }*/
 
     /**
      * Parses arguments in the context of the find person command.
@@ -458,25 +439,7 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the RaisePrivilege command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareRaisePrivilege(String args) {
-        final Matcher matcher = SINGLE_KEYWORD_ARGS_FORMAT.matcher(args.trim());
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    RaisePrivilegeCommand.MESSAGE_USAGE));
-        }
-
-        final String password = matcher.group("keywords");
-
-        return new RaisePrivilegeCommand(password);
-    }
-
-    /**
-     * Parses arguments in the context of the RaisePrivilege command.
+     * Parses arguments in the context of the SetPermAdmin command.
      * @param args full command args string
      * @return the prepared command
      */
@@ -487,15 +450,25 @@ public class Parser {
                     SetPermanentAdminCommand.MESSAGE_USAGE));
         }
 
-        final String booleanString = matcher.group("boolean").toLowerCase();
-        final boolean isPerm;
-        if (!"true".equals(booleanString) && !"false".equals(booleanString)) {
+        try {
+            final String booleanString = matcher.group("boolean").toLowerCase();
+            final boolean isPerm = parseStringToBoolean(booleanString);
+            return new SetPermanentAdminCommand(isPerm);
+        } catch (IllegalValueException ive) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     SetPermanentAdminCommand.MESSAGE_USAGE));
         }
-        isPerm = "true".equals(booleanString);
+    }
 
-        return new SetPermanentAdminCommand(isPerm);
+    /**
+     * Parses string into boolean, using "true" = true and "false" = false.
+     * @throws IllegalValueException if string is neither "true" nor "false".
+     */
+    private boolean parseStringToBoolean (String string) throws IllegalValueException {
+        if (!"true".equals(string) && !"false".equals(string)) {
+            throw new IllegalValueException(MESSAGE_INVALID_COMMAND_FORMAT);
+        }
+        return "true".equals(string);
     }
 
     /**
@@ -503,20 +476,38 @@ public class Parser {
      * @param args full command args string
      * @return the prepared command
      */
-    private Command prepareChangePassword(String args) {
-        // TODO Change the regex to match only 2 words
+    private Command prepareVoidCommand(String args, Command command) {
+        final boolean hasNoArguments = args.trim().isEmpty();
+        if (hasNoArguments) {
+            return command;
+        } else {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    command.getCommandUsageMessage()));
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the Keywords command.
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareKeywordsCommand(String args, KeywordsFormatCommand command) {
         final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        final String usageMessage = command.getCommandUsageMessage();
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditPasswordCommand.MESSAGE_USAGE));
+                    usageMessage));
         }
 
         // keywords delimited by whitespace
         final String[] keywords = matcher.group("keywords").split("\\s+");
-        try {
-            return new EditPasswordCommand(keywords);
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
+        final int numRequiredArg = command.getNumRequiredArg();
+        if (keywords.length == numRequiredArg) {
+            command.setUp(keywords);
+            return command;
+        } else {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS,
+                    numRequiredArg, keywords.length, usageMessage));
         }
     }
 
@@ -536,7 +527,8 @@ public class Parser {
         final String[] keywords = matcher.group("keywords").split("\\s+");
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(keywords[0]);
-            if (keywords.length != 4) {
+            final int requiredArgs = 4;
+            if (keywords.length != requiredArgs) {
                 final String message = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE);
                 throw new IllegalValueException(message);
             }
@@ -550,40 +542,31 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the Login command.
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareLogin(String args) {
-        // TODO Change the regex to match only 2 words
-        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    LoginCommand.MESSAGE_USAGE));
-        }
-
-        // keywords delimited by whitespace
-        final String[] keywords = matcher.group("keywords").split("\\s+");
-        try {
-            return new LoginCommand(keywords);
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the delete account command.
+     * Parses arguments in the context of the AddGrades command.
      *
      * @param args full command args string
      * @return the prepared command
      */
-    private Command prepareDeleteAccount(String args) {
+    private Command prepareAddGrades(String args) {
+        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddGradesCommand.MESSAGE_USAGE));
+        }
+
+        String[] arr = matcher.group("keywords").split("\\s+");
+        if (arr.length != 3) {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 3, arr.length,
+                    AddGradesCommand.MESSAGE_USAGE));
+        }
         try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new DeleteAccountCommand(targetIndex);
+            final int targetPersonIndex = parseArgsAsDisplayedIndex(arr[0]);
+            final int targetAssessmentIndex = parseArgsAsDisplayedIndex(arr[1]);
+            final int targetGrades = parseArgsAsDisplayedIndex(arr[2]);
+            return new AddGradesCommand(targetPersonIndex, targetAssessmentIndex, targetGrades);
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    DeleteAccountCommand.MESSAGE_USAGE));
+                    AddGradesCommand.MESSAGE_USAGE));
         }
     }
 
@@ -735,6 +718,34 @@ public class Parser {
             return new DeleteExamCommand(targetIndex);
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteExamCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the delete grades command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareDeleteGrades(String args) {
+        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteGradesCommand.MESSAGE_USAGE));
+        }
+
+        String[] arr = matcher.group("keywords").split("\\s+");
+        if (arr.length != 2) {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, arr.length,
+                    DeleteGradesCommand.MESSAGE_USAGE));
+        }
+        try {
+            final int targetIndex = parseArgsAsDisplayedIndex(arr[0]);
+            final int targetAssessmentIndex = parseArgsAsDisplayedIndex(arr[1]);
+            return new DeleteGradesCommand(targetIndex, targetAssessmentIndex);
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteGradesCommand.MESSAGE_USAGE));
         }
     }
 

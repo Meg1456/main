@@ -28,6 +28,7 @@ public interface ReadOnlyExam {
 
     /**
      * Returns true if the values inside this object is same as those of the other
+     * Does not include takers
      * (Note: interfaces cannot override .equals)
      */
     default boolean isSameStateAs(ReadOnlyExam other) {
@@ -39,6 +40,6 @@ public interface ReadOnlyExam {
                 && other.getExamStartTime().equals(this.getExamStartTime())
                 && other.getExamEndTime().equals(this.getExamEndTime())
                 && other.getExamDetails().equals(this.getExamDetails())
-                && (other.isPrivate() == this.isPrivate())); //Does not include takers
+                && (other.isPrivate() == this.isPrivate()));
     }
 }

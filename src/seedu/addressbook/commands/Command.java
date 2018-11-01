@@ -4,13 +4,16 @@ import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
 import java.util.List;
 
+import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege;
 
 /**
@@ -43,6 +46,15 @@ public abstract class Command {
      */
     public static class ExamIndexOutOfBoundsException extends IndexOutOfBoundsException {
         public ExamIndexOutOfBoundsException(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Signals that the target assessment index is out of bounds of the last viewed assessment listing
+     */
+    public static class AssessmentIndexOutOfBoundsException extends IndexOutOfBoundsException {
+        public AssessmentIndexOutOfBoundsException(String message) {
             super(message);
         }
     }
@@ -110,7 +122,8 @@ public abstract class Command {
         this.addressBook = addressBook;
         this.statisticsBook = statisticsBook;
         this.relevantPersons = relevantPersons;
-        this.privilege = privilege;
+        // Privilege is static
+        Command.privilege = privilege;
     }
 
     public void setData(AddressBook addressBook, List<? extends ReadOnlyPerson> relevantPersons,
@@ -123,21 +136,31 @@ public abstract class Command {
     }
 
     /**
-     * Extracts the target person in the last shown list from the given arguments.
+     * Extracts the the target (immutable) person in the last shown list from the given arguments.
      *
      * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
-    protected ReadOnlyPerson getTargetPerson() throws IndexOutOfBoundsException {
+    protected ReadOnlyPerson getTargetReadOnlyPerson() throws IndexOutOfBoundsException {
         return relevantPersons.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
     }
 
     /**
-     * Extracts the target person in the last shown list from the given arguments.
+     * Extracts the the target (mutable) person in the last shown list from the given arguments.
      *
      * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
-    protected Assessment getTargetAssessment() throws IndexOutOfBoundsException {
-        return relevantAssessments.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
+
+    protected Person getTargetPerson() throws IndexOutOfBoundsException, PersonNotFoundException {
+        return addressBook.findPerson(getTargetReadOnlyPerson());
+    }
+
+    /**
+     * Extracts the the target assessment in the last shown list from the given arguments.
+     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
+     */
+
+    protected Assessment getTargetAssessment(int targetIndex) throws IndexOutOfBoundsException {
+        return relevantAssessments.get(targetIndex - DISPLAYED_INDEX_OFFSET);
     }
 
     public int getTargetIndex() {

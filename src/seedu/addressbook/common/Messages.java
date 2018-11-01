@@ -13,7 +13,6 @@ public class Messages {
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE = "Launch command format: "
             + "java seedu.addressbook.Main [STORAGE_FILE_PATH]";
-    public static final String MESSAGE_WELCOME = "Welcome to your ClassRepo!";
     public static final String MESSAGE_USING_STORAGE_FILE = "Using storage file : %1$s";
     public static final String MESSAGE_INSUFFICIENT_PRIVILEGE = "Insufficient Privilege.\n"
             + "Requires privilege level of %s, but current level is %s";
@@ -32,4 +31,13 @@ public class Messages {
             + "Run the list/find command to generate a list of assessments.";
     public static final String MESSAGE_ASSESSMENT_NOT_IN_ADDRESSBOOK = "Assessment could not be found in address book!";
     public static final String MESSAGE_ASSESSMENTS_LISTED_OVERVIEW = "%1$d assessments listed!";
+    public static final String MESSAGE_WELCOME_ASCII_ART = "\n"
+            + "   _____ _               _____             ____   __      ____   ____  \n"
+            + "  / ____| |             |  __ \\           / __ \\  \\ \\    / /_ | |___ \\ \n"
+            + " | |    | | __ _ ___ ___| |__) |___ _ __ | |  | |  \\ \\  / / | |   __) |\n"
+            + " | |    | |/ _` / __/ __|  _  // _ \\ '_ \\| |  | |   \\ \\/ /  | |  |__ < \n"
+            + " | |____| | (_| \\__ \\__ \\ | \\ \\  __/ |_) | |__| |    \\  /   | |_ ___) |\n"
+            + "  \\_____|_|\\__,_|___/___/_|  \\_\\___| .__/ \\____/      \\/    |_(_)____/ \n"
+            + "                                   | |                                 \n"
+            + "                                   |_|                                 \n";
 }

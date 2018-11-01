@@ -29,6 +29,8 @@ public class ExamBook {
         this.examList = new UniqueExamList(examList);
     }
 
+
+
     public static ExamBook empty() {
         return new ExamBook();
     }
@@ -66,7 +68,7 @@ public class ExamBook {
     }
 
     /**
-     * Edits a exam in the ExamBook
+     * Edits a exam in the ExamBook, potentially changing its index number when listing again
      *
      * @throws ExamNotFoundException if no such exam could be found.
      * @throws DuplicateExamException if the new exam already exists in the exam book.
@@ -92,9 +94,10 @@ public class ExamBook {
     }
 
     /**
-     * Updates a particular exam to its new value
+     * Updates a particular exam to its new value at the same index number
      * @param exam the original exam
      * @param newExam the new exam to be updated to
+     * @throws ExamNotFoundException if no such Exam could be found
      */
     public void updateExam(Exam exam, Exam newExam) throws ExamNotFoundException {
         examList.updateExam(exam, newExam);

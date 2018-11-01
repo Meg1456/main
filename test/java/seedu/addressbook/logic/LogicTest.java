@@ -22,53 +22,56 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
-import seedu.addressbook.commands.AddAssessmentCommand;
-import seedu.addressbook.commands.AddAssignmentStatistics;
-import seedu.addressbook.commands.AddCommand;
-import seedu.addressbook.commands.AddExamCommand;
-import seedu.addressbook.commands.ClearCommand;
-import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.CommandResult;
-import seedu.addressbook.commands.DeleteCommand;
-import seedu.addressbook.commands.DeleteExamCommand;
 import seedu.addressbook.commands.DeregisterExamCommand;
-import seedu.addressbook.commands.EditExamCommand;
-import seedu.addressbook.commands.EditPasswordCommand;
-import seedu.addressbook.commands.ExitCommand;
-import seedu.addressbook.commands.FindCommand;
-import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.RegisterExamCommand;
-import seedu.addressbook.commands.ReplaceAttendanceCommand;
-import seedu.addressbook.commands.UpdateAttendanceCommand;
-import seedu.addressbook.commands.ViewAllCommand;
-import seedu.addressbook.commands.ViewAttendanceCommand;
-import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewExamsCommand;
-import seedu.addressbook.commands.ViewFeesCommand;
-import seedu.addressbook.commands.ViewSelfCommand;
+import seedu.addressbook.commands.account.ListAccountCommand;
+import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
+import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
+import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
+import seedu.addressbook.commands.attendance.ViewAttendanceCommand;
+import seedu.addressbook.commands.commandresult.MessageType;
+import seedu.addressbook.commands.exams.AddExamCommand;
+import seedu.addressbook.commands.exams.ClearExamsCommand;
+import seedu.addressbook.commands.exams.DeleteExamCommand;
+import seedu.addressbook.commands.exams.EditExamCommand;
+import seedu.addressbook.commands.fees.ViewFeesCommand;
+import seedu.addressbook.commands.general.ExitCommand;
+import seedu.addressbook.commands.general.HelpCommand;
+import seedu.addressbook.commands.person.AddCommand;
+import seedu.addressbook.commands.person.ClearCommand;
+import seedu.addressbook.commands.person.DeleteCommand;
+import seedu.addressbook.commands.person.FindCommand;
+import seedu.addressbook.commands.person.ListAllCommand;
+import seedu.addressbook.commands.person.ListCommand;
+import seedu.addressbook.commands.person.ViewAllCommand;
+import seedu.addressbook.commands.person.ViewCommand;
+import seedu.addressbook.commands.person.ViewSelfCommand;
+import seedu.addressbook.commands.privilege.EditPasswordCommand;
 import seedu.addressbook.common.Messages;
+import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
-import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
-
-//import seedu.addressbook.commands.AddFeesCommand;
 
 public class LogicTest {
 
@@ -110,14 +113,6 @@ public class LogicTest {
         saveFile.save(addressBook);
     }
 
-    @Test
-    public void constructor() {
-        //Constructor is called in the setup() method which executes before every test, no need to call it here again.
-
-        //Confirm the last shown list is empty
-        assertEquals(Collections.emptyList(), logic.getLastShownList());
-    }
-
     private void setUpThreePerson(AddressBook addressBook,
                                   AddressBook expected,
                                   Logic logic,
@@ -149,9 +144,29 @@ public class LogicTest {
     private List<Person> setUpThreePersonsStandardExam(TestDataHelper helper) throws Exception {
         Person p1 = helper.generatePerson(1, true, 2, true, 2);
         Person p2 = helper.generatePerson(2, true, 2, true, 2);
-        Person p3 = helper.generatePerson(3, true, 3, false , 1);
+        Person p3 = helper.generatePerson(3, true, 3, false, 1);
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
         return threePersons;
+    }
+
+    @Test
+    public void constructor() {
+        //Constructor is called in the setup() method which executes before every test, no need to call it here again.
+
+        //Confirm the last shown list is empty
+        assertEquals(Collections.emptyList(), logic.getLastShownList());
+    }
+
+    /** Checks if logic's privilege is raised to Admin when calling initPrivilege with AB of isPerm = true.*/
+    @Test
+    public void initIsPermSuccess() {
+        final AddressBook ab = new AddressBook();
+        ab.setPermAdmin(true);
+        logic.setAddressBook(ab);
+        privilege.resetPrivilege();
+
+        logic.initPrivilege();
+        assertEquals(new AdminUser(), privilege.getUser());
     }
 
     @Test
@@ -175,20 +190,38 @@ public class LogicTest {
         final HelpCommand helpCommand = new HelpCommand();
         helpCommand.setData(addressBook, statisticBook, new ArrayList<>(), privilege);
         String unknownCommand = "uicfhmowqewca";
-        assertCommandBehavior(unknownCommand, MESSAGE_COMMAND_NOT_FOUND, helpCommand.makeHelpManual());
+        assertCommandBehavior(unknownCommand, MESSAGE_COMMAND_NOT_FOUND, HelpCommand.makeHelpManual());
+    }
+
+    // Checks if all void commands is rejected if there is a trailing argument.
+    @Test
+    public void execute_voidCommandsInvalidCommandReturned() throws Exception {
+        List<Pair<String, Command>> inputToExpectedOutput = List.of(
+                new Pair<>("clear", new ClearCommand()),
+                new Pair<>("list", new ListCommand()),
+                new Pair<>("listall", new ListAllCommand()),
+                new Pair<>("viewself", new ViewSelfCommand()),
+                new Pair<>("listacc", new ListAccountCommand()),
+                new Pair<>("logout", new LogoutCommand()),
+                new Pair<>("help", new HelpCommand()));
+
+        for (Pair<String, Command> inputToOutput: inputToExpectedOutput) {
+            assertCommandBehavior(inputToOutput.getFirst() + " garbage",
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, inputToOutput.getSecond().getCommandUsageMessage()));
+        }
     }
 
     @Test
     public void executeHelp() throws Exception {
         final HelpCommand helpCommand = new HelpCommand();
         helpCommand.setData(addressBook, statisticBook, new ArrayList<>(), privilege);
-        assertCommandBehavior("help", helpCommand.makeHelpManual(), CommandResult.MessageType.OUTPUT);
+        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
 
         privilege.raiseToTutor();
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), CommandResult.MessageType.OUTPUT);
+        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
 
         privilege.raiseToAdmin();
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), CommandResult.MessageType.OUTPUT);
+        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
     }
 
     @Test
@@ -200,8 +233,6 @@ public class LogicTest {
     @Test
     public void executeClearSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        // TODO: refactor this elsewhere
-        logic.setStorage(saveFile);
         // generates the 3 test people and execute the add command
         for (int i = 1; i <= 3; ++i) {
             final Person testPerson = helper.generatePerson(i, true);
@@ -258,8 +289,8 @@ public class LogicTest {
         assertCommandBehavior(helper.generateAddCommand(toBeAdded),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
                 expected,
-                false,
-                Collections.emptyList(),
+                true,
+                List.of(toBeAdded),
                 true);
 
     }
@@ -482,8 +513,25 @@ public class LogicTest {
         // prepare address book state
         helper.addToAddressBook(addressBook, false, true);
 
-
         assertCommandBehavior("list",
+                Command.getMessageForPersonListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
+    }
+
+
+    @Test
+    public void executeListAllShowsAllPersons() throws Exception {
+        // prepare expectations
+        TestDataHelper helper = new TestDataHelper();
+        AddressBook expected = helper.generateAddressBook(false, true);
+        List<? extends ReadOnlyPerson> expectedList = expected.getAllPersons().immutableListView();
+
+        // prepare address book state
+        helper.addToAddressBook(addressBook, false, true);
+
+        assertCommandBehavior("listall",
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
@@ -515,14 +563,16 @@ public class LogicTest {
         logic.setLastShownList(lastShownList);
 
         assertCommandBehavior("view 1",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getAsTextHidePrivate()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
+                p1.getAsTextHidePrivate(),
                 expected,
                 false,
                 lastShownList);
 
 
         assertCommandBehavior("view 2",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextHidePrivate()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextHidePrivate(),
                 expected,
                 false,
                 lastShownList);
@@ -574,14 +624,16 @@ public class LogicTest {
 
 
         assertCommandBehavior("viewall 1",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getAsTextShowAll()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
+                p1.getAsTextShowAll(),
                 expected,
                 false,
                 lastShownList);
 
 
         assertCommandBehavior("viewall 2",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextShowAll()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
                 expected,
                 false,
                 lastShownList);
@@ -664,12 +716,13 @@ public class LogicTest {
 
         final Person p2 = threePersons.getExpectedPerson(2);
         expected.removePerson(p2);
+        threePersons.getExpected().remove(p2);
 
         assertCommandBehavior("delete 2",
                 String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, p2),
                 expected,
-                false,
-                threePersons.getActual(),
+                true,
+                threePersons.getExpected(),
                 true);
     }
 
@@ -687,7 +740,7 @@ public class LogicTest {
                 DeleteCommand.MESSAGE_DELETING_SELF,
                 expected,
                 false,
-                threePersons.getActual(),
+                threePersons.getExpected(),
                 true);
     }
 
@@ -822,7 +875,7 @@ public class LogicTest {
 
     @Test
     public void executeChangePasswordSameAsOldPassword() throws Exception {
-        String expectedMessage = EditPasswordCommand.MESSAGE_SAME_AS_OLDPASSWORD;
+        String expectedMessage = EditPasswordCommand.MESSAGE_SAME_AS_OLD_PASSWORD;
         assertCommandBehavior("editpw default_pw default_pw", expectedMessage);
         addressBook.setMasterPassword("new_password");
         assertCommandBehavior("editpw new_password new_password", expectedMessage);
@@ -863,11 +916,11 @@ public class LogicTest {
         final Person p2 = threePersons.getActualPerson(2);
         privilege.setMyPerson(p2);
         assertCommandBehavior("viewself",
-                "",
-                String.format(ViewSelfCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextShowAll()),
+                String.format(ViewSelfCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
                 expected,
                 false,
-                threePersons.getActual());
+                threePersons.getExpected());
     }
 
     @Test
@@ -1695,9 +1748,9 @@ public class LogicTest {
                 String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, p2),
                 expectedAddressBook,
                 expectedExamBook,
+                true,
                 false,
-                false,
-                logic.getLastShownList(),
+                newList,
                 Collections.emptyList());
     }
 
@@ -1817,13 +1870,15 @@ public class LogicTest {
         AddressBook expected = helper.generateAddressBook(lastShownList);
 
         assertCommandBehavior("viewall 1",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getAsTextShowAll()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
+                p1.getAsTextShowAll(),
                 expected,
                 false,
                 lastShownList);
 
         assertCommandBehavior("viewall 2",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextShowAll()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
                 expected,
                 false,
                 lastShownList);

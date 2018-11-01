@@ -17,15 +17,15 @@ import java.util.StringJoiner;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.account.Account;
-import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -52,7 +52,7 @@ public class TestDataHelper {
         String startTime = "09:00";
         String endTime = "12:00";
         String details = "Held in MPSH";
-        Boolean isPrivate = false;
+        boolean isPrivate = false;
         return new Exam(examName, subjectName, date, startTime, endTime, details, isPrivate);
     }
 

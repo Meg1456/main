@@ -1,13 +1,15 @@
 package seedu.addressbook.data.person;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 import seedu.addressbook.data.account.Account;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -24,8 +26,8 @@ public class Person implements ReadOnlyPerson {
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
     private final Set<Exam> exams = new HashSet<>();
+    private final Set<Assessment> assessments = new HashSet<>();
     private Attendance attendance;
-    private List<Assessment> assessments;
 
     /**
      * Assumption: Every field must be present and not null.
@@ -38,7 +40,6 @@ public class Person implements ReadOnlyPerson {
         this.tags.addAll(tags);
         attendance = new Attendance();
         this.fees = new Fees();
-        this.assessments = new ArrayList<>();
     }
 
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
@@ -66,9 +67,9 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
-     * Only update the fees when called in AddFeesCommand
+     * Only update the assessment when called in AddAssessmentCommand
      */
-    public void setAssessments(Assessment assessment) {
+    public void addAssessment(Assessment assessment) {
         this.assessments.add(assessment);
     }
 
@@ -130,8 +131,27 @@ public class Person implements ReadOnlyPerson {
         account = null;
     }
 
-    public List<Assessment> getAssessments() {
-        return new ArrayList<>(assessments);
+    public Set<Assessment> getAssessments() {
+        return new HashSet<>(assessments);
+    }
+
+    /**
+     * Checks if the assessment is already added
+     */
+    public boolean isAssessmentPresent(Assessment assessment) {
+        boolean assessmentPresent = false;
+        if (assessments.contains(assessment)) {
+            assessmentPresent = true;
+        }
+        return assessmentPresent;
+    }
+
+    /**
+     * Removes the specified assessment
+     * @param assessment to remove from person
+     */
+    public void removeAssessment(Assessment assessment) {
+        assessments.remove(assessment);
     }
 
     @Override
