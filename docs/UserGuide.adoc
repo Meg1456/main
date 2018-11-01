@@ -542,7 +542,7 @@ Example:
 Adds grades to selected student/person for a specific assessment listed in addressbook. +
 Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 
-- Grades can be in the form of numbers of letters. No restriction! It is up to the teacher to decide.
+- Grades can be in the form of numbers or letters. No restriction! It is up to the teacher to decide.
 
 ****
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
