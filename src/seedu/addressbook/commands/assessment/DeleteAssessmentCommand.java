@@ -26,7 +26,7 @@ public class DeleteAssessmentCommand extends IndexFormatCommand {
             final Assessment target = getTargetAssessment();
             addressBook.removeAssessment(target);
             return new CommandResult(String.format(MESSAGE_DELETE_ASSESSMENT_SUCCESS, target));
-        } catch (AssessmentIndexOutOfBoundsException aie) {
+        } catch (IndexOutOfBoundsException aie) {
             return new CommandResult(Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX);
         } catch (AssessmentNotFoundException nfe) {
             return new CommandResult(Messages.MESSAGE_ASSESSMENT_NOT_IN_ADDRESSBOOK);
