@@ -84,6 +84,12 @@ public interface ReadOnlyPerson {
                 builder.append("}");
             }
         }
+
+        for (Assessment assessment : getAssessments()) {
+            builder.append("\n");
+            builder.append("Assessment: ").append(assessment).append(" ").append(assessment.getGrade(this));
+        }
+
         getAccount().ifPresent(a -> builder.append('\n')
                 .append("User Type:")
                 .append(a.getPrintableString(true)));
