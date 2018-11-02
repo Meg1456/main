@@ -1,3 +1,2 @@
 :stylesDir: stylesheets
-:imagesDir: images
 include::../README.adoc[]

@@ -20,7 +20,6 @@ public class ListFeesCommand extends Command {
         return new CommandResult(getMessageForFeesListShownSummary(addressBook.listFeesPerson()),
                 addressBook.listFeesPerson(), PersonListFormat.FEES_DETAILS);
     }
-
     @Override
     public Category getCategory() {
         return Category.FEES;

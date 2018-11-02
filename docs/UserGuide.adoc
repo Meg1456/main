@@ -4,10 +4,13 @@
 :toc-title: 
 :imagesDir: images
 :stylesDir: stylesheets
+:xrefstyle: full
+:experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
+:repoURL: https://github.com/CS2113-AY1819S1-F10-1/main
 
 == Introduction
 ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing their school details*.
@@ -21,8 +24,6 @@ ClassRepo is *optimized for those who prefer to work with a Command Line Interfa
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds, as shown below.
 +
-
-[[fig-UI]]
 .UI of ClassRepo
 image::Ui.png[]
 
@@ -387,13 +388,17 @@ Clears all entries from the exam book. All exams will be cleared in the address 
 Format: `clearexams`
 //end::Exam[]
 
+//tag::Fees[]
+[[Fees]]
 === Fees Commands
 Below are the commands that deals with fees data:
 
-==== Adding fees to a person: `addfees` image:Admin.png[16,16]
+==== Editing fees of a person: `editfees` image:Admin.png[16,16]
 
-Adds a numerical fee to a person in the address book. +
-Format: `add INDEX FEE`
+Edits the numerical fees of a person in the address book. +
+Format: `editfees INDEX FEE DUE_DATE` +
+FEE must have the form of 2 decimal places +
+DUE_DATE must have the form of DD-MM-YYYY
 
 ****
 Words in `UPPER_CASE` are the parameters, the order of parameters are fixed.
@@ -404,10 +409,11 @@ be seen using the `viewall` command, or for fees specifically, the `viewfees` co
 
 Example(s):
 
-* `addfees 1 344.41`
-* `addfees 2 0.60`
+* `list` +
+`editfees 1 344.41 31-10-2018`
+* `editfees 2 0.60 01-01-2019`
 
-==== View fees of a person : `viewfees`  image:Admin.png[16,16]
+==== View fees of a person : `viewfees`  image:Tutor.png[16,16]
 
 Displays the fees(private) of the specified person. +
 Format: `viewfees INDEX`
@@ -426,6 +432,36 @@ Views fees of the 2nd person in the address book.
 * `find Betsy` +
 `viewall 1` +
 Views fees of the 1st person in the results of the `find` command.
+
+==== List all fees of every person : `listfees`  image:Tutor.png[16,16]
+
+Displays the fees(private) of all the people in the AddressBook. +
+Format: `listfees`
+
+****
+Views the fees of all the people with respect to their INDEX.
+Shows only the index, name and fees.
+****
+
+==== List only people with due fees : `listdue`  image:Tutor.png[16,16]
+
+Displays the fees(private) of all the people in the AddressBook with overdue Fees. +
+Format: `listdue`
+
+****
+Views the fees of all the people with overdue fees.
+Shows only the index, name, fee and due status.
+Adds a "feesdue" tag to the people shown for easier tracking in the future.
+****
+
+Examples:
+
+* `listdue` +
+`viewall 1` +
+Views all information of the 1st person in the results of the `listdue` command. +
+Including the "feesdue" tag.
+
+//end::Fees[]
 
 // tag::account[]
 [[account]]
