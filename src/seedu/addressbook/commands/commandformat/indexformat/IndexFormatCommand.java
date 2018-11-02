@@ -36,11 +36,14 @@ public abstract class IndexFormatCommand extends Command {
     }
 
     /**
-     * Extracts the the target person in the last shown list from the given arguments.
-     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
+     * Extracts the the target assessment in the last shown list from the given arguments.
      */
-    protected Assessment getTargetAssessment() throws IndexOutOfBoundsException {
-        return relevantAssessments.get(targetMap.get(ObjectTargeted.ASSESSMENT) - DISPLAYED_INDEX_OFFSET);
+    protected Assessment getTargetAssessment() throws AssessmentIndexOutOfBoundsException {
+        try {
+            return relevantAssessments.get(targetMap.get(ObjectTargeted.ASSESSMENT) - DISPLAYED_INDEX_OFFSET);
+        } catch (IndexOutOfBoundsException iob) {
+            throw new AssessmentIndexOutOfBoundsException(iob.getMessage());
+        }
     }
 
     /**

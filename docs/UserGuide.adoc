@@ -575,7 +575,7 @@ Example:
 Adds grades to selected student/person for a specific assessment listed in addressbook. +
 Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 
-- Grades can be in the form of numbers or letters. No restriction! It is up to the teacher to decide.
+- Grades are numeric. No restriction on upper limit! It is up to the teacher to decide what the total marks are.
 
 ****
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
@@ -624,8 +624,9 @@ The index refers to the index number shown in the most recent person and assessm
 
 Example:
 
-* `deletegrades 1 2` +
-Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
+* `deletegrades 1 2`
+* `listassess` -- Check the updated list
+- Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
 - *IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
 for the assessment in second index as seen in list assess command.
 // end::Grades[]
