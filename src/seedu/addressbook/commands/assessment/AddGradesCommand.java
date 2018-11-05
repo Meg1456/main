@@ -8,6 +8,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.UniqueAssessmentsList;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**

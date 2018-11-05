@@ -29,6 +29,16 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
         }
     }
 
+
+    /**
+     * Signals that an operation would have violated the 'no duplicates' property of the list.
+     */
+    public static class DuplicateGradesException extends DuplicateDataException {
+        protected DuplicateGradesException() {
+            super("Operation would result in duplicate assessments");
+        }
+    }
+
     /**
      * Signals that an operation targeting a specified assessment in the list would fail because
      * there is no such matching assessment in the list.
@@ -54,7 +64,7 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     /**
      * Constructs a list from the items in the given collection.
      * @param assessments a collection of assessments
-     * @throws DuplicateAssessmentException if the {@code persons} contains duplicate persons
+     * @throws DuplicateAssessmentException if the {@code persons} contains duplicate assessments
      */
     public UniqueAssessmentsList(Collection<Assessment> assessments) throws DuplicateAssessmentException {
         if (!Utils.elementsAreUnique(assessments)) {

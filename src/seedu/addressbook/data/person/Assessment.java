@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateGradesException;
 
 /**
  * Represents an assessment of the student
@@ -42,7 +43,7 @@ public class Assessment {
         return this.grade.get(person);
     }
 
-    public void addGrade(Person person, Grades grades) {
+    public void addGrade(Person person, Grades grades) throws DuplicateGradesException {
         grade.put(person, grades);
     }
 
