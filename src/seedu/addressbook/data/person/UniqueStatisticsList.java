@@ -71,7 +71,7 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     }
 
     /**
-     * Unmodifiable java List view with elements cast as immutable {@link ReadOnlyPerson}s.
+     * Unmodifiable java List view with elements cast as immutable {@link AssignmentStatistics}s.
      * For use with other methods/libraries.
      * Any changes to the internal list/elements are immediately visible in the returned list.
      */

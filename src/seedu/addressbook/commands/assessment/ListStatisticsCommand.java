@@ -4,6 +4,7 @@ import java.util.List;
 
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.data.person.AssignmentStatistics;
 
 /**
@@ -20,12 +21,13 @@ public class ListStatisticsCommand extends Command {
     @Override
     public CommandResult execute() {
         List<AssignmentStatistics> allStatistics = statisticsBook.getAllStatistics().immutableListView();
-        return new CommandResult(getMessageForStatisticsListShownSummary(allStatistics), allStatistics);
+        return new CommandResult(getMessageForStatisticsListShownSummary(allStatistics), allStatistics,
+                ListType.STATISTICS);
     }
 
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.ASSESSMENT;
     }
 
     @Override
