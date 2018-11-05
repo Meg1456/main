@@ -5,6 +5,17 @@ import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
+import static seedu.addressbook.parser.RegexPattern.ASSESSMENT_DATA_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.ATTENDANCE_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.ATTENDANCE_VIEW_DATE_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.BASIC_COMMAND_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.BOOLEAN_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.EDIT_EXAM_INDEX_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.EXAM_DATA_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.FEES_DATA_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.KEYWORDS_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.PERSON_DATA_ARGS_FORMAT;
+import static seedu.addressbook.parser.RegexPattern.PERSON_INDEX_ARGS_FORMAT;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -16,7 +27,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.IncorrectCommand;
@@ -73,60 +83,6 @@ import seedu.addressbook.data.exception.IllegalValueException;
  * Parses user input.
  */
 public class Parser {
-
-    private static final Pattern PERSON_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
-
-    private static final Pattern BOOLEAN_ARGS_FORMAT = Pattern.compile("(?<boolean>.+)");
-
-    private static final Pattern KEYWORDS_ARGS_FORMAT =
-            Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
-
-    private static final Pattern PERSON_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<name>[^/]+)"
-                    + " (?<isPhonePrivate>p?)p/(?<phone>[^/]+)"
-                    + " (?<isEmailPrivate>p?)e/(?<email>[^/]+)"
-                    + " (?<isAddressPrivate>p?)a/(?<address>[^/]+)"
-                    + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
-
-
-    private static final Pattern EXAM_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<isPrivate>p?)e/(?<examName>[^/]+)"
-                    + " s/(?<subjectName>[^/]+)"
-                    + " d/(?<examDate>[^/]+)"
-                    + " st/(?<examStartTime>[^/]+)"
-                    + " et/(?<examEndTime>[^/]+)"
-                    + " dt/(?<examDetails>[^/]+)");
-
-    private static final Pattern FEES_DATA_ARGS_FORMAT =
-            Pattern.compile("(?<index>[^/]+)"
-                    + " (?<fees>[^/]+)"
-                    + " (?<date>[^/]+)");
-
-    private static final Pattern ATTENDANCE_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<targetIndex>.+)"
-                    + " d/(?<date>[^/]+)"
-                    + " att/(?<isPresent>[0-1])");
-
-    private static final Pattern ATTENDANCE_VIEW_DATE_FORMAT =
-            Pattern.compile("d/(?<date>[^/]+)"); // '/' forward slashes are reserved for delimiter prefixes
-
-    private static final Pattern EDIT_EXAM_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>[^/]+)"
-            + "(p/(?<isPrivate>[^/]+))?"
-            + "(e/(?<examName>[^/]+))?"
-            + "(s/(?<subjectName>[^/]+))?"
-            + "(d/(?<examDate>[^/]+))?" // '/' forward slashes are reserved for delimiter prefixes
-            + "(st/(?<examStartTime>[^/]+))?"
-            + "(et/(?<examEndTime>[^/]+))?"
-            + "(dt/(?<examDetails>[^/]+))?");
-
-    private static final Pattern ASSESSMENT_DATA_ARGS_FORMAT = //'/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<examName>[^/]+)");
-
-    /**
-     * Used for initial separation of command word and args.
-     */
-    private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-
     /**
      * Signals that the user input could not be parsed.
      */
@@ -151,6 +107,7 @@ public class Parser {
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
+
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
 
@@ -209,8 +166,7 @@ public class Parser {
             return prepareAddAccount(arguments);
 
         case DeleteAccountCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand(),
-                    ObjectTargeted.PERSON);
+            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand(), ObjectTargeted.PERSON);
 
         case ListAccountCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ListAccountCommand());
@@ -226,6 +182,9 @@ public class Parser {
 
         case AddAssignmentStatistics.COMMAND_WORD:
             return prepareSingleIndexCommand(arguments, new AddAssignmentStatistics(), ObjectTargeted.ASSESSMENT);
+
+        case ListStatisticsCommand.COMMAND_WORD:
+            return prepareVoidCommand(arguments, new ListStatisticsCommand());
 
         case UpdateAttendanceCommand.COMMAND_WORD:
             return prepareUpdateAttendance(arguments);
@@ -275,14 +234,12 @@ public class Parser {
         case ListAssessmentCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ListAssessmentCommand());
 
-        case ListStatisticsCommand.COMMAND_WORD:
-            return prepareVoidCommand(arguments, new ListStatisticsCommand());
-
         case DeleteGradesCommand.COMMAND_WORD:
             return prepareDeleteGrades(arguments);
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
             return prepareVoidCommand(arguments, new HelpCommand());
+
         default:
             // Do not call prepareVoidCommand as we should show the help message if commandWord is not recognised
             return new HelpCommand(MESSAGE_COMMAND_NOT_FOUND);
