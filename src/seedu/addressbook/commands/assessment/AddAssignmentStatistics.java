@@ -61,7 +61,7 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
         examName = assessName.getExamName();
         double maxGrade = 0;
         double minGrade = 100000;
-        int total = 0;
+        double total = 0;
         int count = 0;
         grade = assessName.getAllGrades();
         for (Grades gradeVal : grade.values()) {
@@ -78,9 +78,9 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
         totalExamTakers = count;
         maxScore = maxGrade;
         minScore = minGrade;
-//        if (statisticsBook.containsStatistic(toAdd)) {
-//
-//        }
+        // if (statisticsBook.containsStatistic(toAdd)) {
+        //
+        // }
         try {
             this.toAdd = new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
             statisticsBook.addStatistic(toAdd);

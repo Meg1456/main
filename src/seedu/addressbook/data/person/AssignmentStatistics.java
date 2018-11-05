@@ -2,7 +2,6 @@ package seedu.addressbook.data.person;
 
 import java.util.Objects;
 
-import seedu.addressbook.data.exception.IllegalValueException;
 /**
  * Represents a statistic in the statistics book.
  */
@@ -57,9 +56,19 @@ public class AssignmentStatistics implements Printable {
 
     @Override
     public String getPrintableString(boolean showPrivate) {
-        return "Exam: " + examName + " " + averageScore + " " + totalExamTakers + " " + maxScore + " " + minScore;
+        return "Exam: " + examName + " || Average: " + averageScore + " || Attendees: "
+                + totalExamTakers + " || Max: " + maxScore + " || Min: " + minScore;
     }
 
+    /**
+     * Formats the assessment as text to show all.
+     */
+    public String getAsTextShowAll() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = getPrintableString(true);
+        builder.append(stringChain);
+        return builder.toString();
+    }
 
     public String getExamName() {
         return examName;
