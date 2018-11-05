@@ -3,6 +3,7 @@ package seedu.addressbook.data.person;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -67,6 +68,15 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
      */
     public UniqueStatisticsList(UniqueStatisticsList source) {
         internalList.addAll(source.internalList);
+    }
+
+    /**
+     * Unmodifiable java List view with elements cast as immutable {@link ReadOnlyPerson}s.
+     * For use with other methods/libraries.
+     * Any changes to the internal list/elements are immediately visible in the returned list.
+     */
+    public List<AssignmentStatistics> immutableListView() {
+        return Collections.unmodifiableList(internalList);
     }
 
     /**

@@ -31,6 +31,7 @@ import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
 import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.ListStatisticsCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
@@ -100,16 +101,6 @@ public class Parser {
             Pattern.compile("(?<index>[^/]+)"
                     + " (?<fees>[^/]+)"
                     + " (?<date>[^/]+)");
-
-    private static final Pattern STATISTICS_DATA_ARGS_FORMAT = //'/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<subjectName>[^/]+)"
-                    + " (?<isExamPrivate>p?)e/(?<examName>[^/]+)"
-                    + " ts/(?<topScorer>[^/]+)"
-                    + " av/(?<averageScore>[^/]+)"
-                    + " te/(?<totalExamTakers>[^/]+)"
-                    + " ab/(?<numberAbsent>[^/]+)"
-                    + " tp/(?<totalPass>[^/]+)"
-                    + " mm/(?<maxMin>[^/]+)");
 
     private static final Pattern ATTENDANCE_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<targetIndex>.+)"
@@ -234,7 +225,7 @@ public class Parser {
             return prepareViewFees(arguments);
 
         case AddAssignmentStatistics.COMMAND_WORD:
-            return prepareAddStatistics(arguments);
+            return prepareSingleIndexCommand(arguments, new AddAssignmentStatistics(), ObjectTargeted.ASSESSMENT);
 
         case UpdateAttendanceCommand.COMMAND_WORD:
             return prepareUpdateAttendance(arguments);
@@ -282,7 +273,10 @@ public class Parser {
             return prepareSingleIndexCommand(arguments, new DeleteAssessmentCommand(), ObjectTargeted.ASSESSMENT);
 
         case ListAssessmentCommand.COMMAND_WORD:
-            return new ListAssessmentCommand();
+            return prepareVoidCommand(arguments, new ListAssessmentCommand());
+
+        case ListStatisticsCommand.COMMAND_WORD:
+            return prepareVoidCommand(arguments, new ListStatisticsCommand());
 
         case DeleteGradesCommand.COMMAND_WORD:
             return prepareDeleteGrades(arguments);
@@ -590,33 +584,6 @@ public class Parser {
                     matcher.group("examEndTime"),
                     matcher.group("examDetails"),
                     isPrivatePrefixPresent(matcher.group("isPrivate"))
-            );
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the add assignment statistics command.
-     */
-    private Command prepareAddStatistics(String args) {
-        final Matcher matcher = STATISTICS_DATA_ARGS_FORMAT.matcher(args.trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    AddAssignmentStatistics.MESSAGE_USAGE));
-        }
-        try {
-            return new AddAssignmentStatistics(
-                    matcher.group("subjectName"),
-                    matcher.group("examName"),
-                    matcher.group("topScorer"),
-                    matcher.group("averageScore"),
-                    matcher.group("totalExamTakers"),
-                    matcher.group("numberAbsent"),
-                    matcher.group("totalPass"),
-                    matcher.group("maxMin"),
-                    isPrivatePrefixPresent(matcher.group("isExamPrivate"))
             );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());

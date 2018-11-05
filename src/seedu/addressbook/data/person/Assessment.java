@@ -46,6 +46,10 @@ public class Assessment {
         grade.put(person, grades);
     }
 
+    public Map<Person, Grades> getAllGrades() {
+        return grade;
+    }
+
     public String getExamName() {
         return examName;
     }

@@ -10,6 +10,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
@@ -95,6 +96,16 @@ public abstract class Command {
      */
     public static String getMessageForExamListShownSummary(List<? extends ReadOnlyExam> examsDisplayed) {
         return String.format(Messages.MESSAGE_EXAMS_LISTED_OVERVIEW, examsDisplayed.size());
+    }
+
+    /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of statistics.
+     *
+     * @param statisticsDisplayed used to generate summary
+     * @return summary message for persons displayed
+     */
+    public static String getMessageForStatisticsListShownSummary(List<? extends AssignmentStatistics> statisticsDisplayed) {
+        return String.format(Messages.MESSAGE_STATISTICS_LISTED_OVERVIEW, statisticsDisplayed.size());
     }
 
     /**

@@ -65,17 +65,12 @@ public class TestDataHelper {
 
     /** Test exam for testing**/
     public AssignmentStatistics stat() throws Exception {
-        String subjectName = "Spanish";
-        String examName = "Quiz";
-        String topScorer = "Pedro";
-        String averageScore = "95";
-        String totalExamTakers = "10";
-        String numberAbsent = "3";
-        String totalPass = "7";
-        String maxMin = "100 87";
-        boolean isPrivate = false;
-        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
-                totalPass, maxMin, isPrivate);
+        String examName = "Spanish Quiz";
+        double averageScore = 85.8;
+        int totalExamTakers = 60;
+        double maxScore = 100;
+        double minScore = 54.9;
+        return new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 
     /** Test assessment for testing**/
@@ -275,24 +270,10 @@ public class TestDataHelper {
     /** Generates the correct add statistics command based on the exam given */
     public String generateAddAssignmentStatistics(AssignmentStatistics s) {
         StringJoiner cmd = new StringJoiner(" ");
-        String subjectField = s.getSubjectName();
-        String examNameField = getExamNamePrefix(s.isPrivate()) + s.getExamName();
-        String topScorerField = getTopScorerPrefix(s.getTopScorer()) + s.getTopScorer();
-        String averageScoreField = getAverageScorePrefix(s.getAverageScore()) + s.getAverageScore();
-        String totalExamTakersField = getTotalExamTakersPrefix(s.getTotalExamTakers()) + s.getTotalExamTakers();
-        String numberAbsentField = getNumberAbsentPrefix(s.getNumberAbsent()) + s.getNumberAbsent();
-        String totalPassField = getTotalPassPrefix(s.getTotalPass()) + s.getTotalPass();
-        String maxMinField = getMaxMinPrefix(s.getMaxMin()) + s.getMaxMin();
+        String examNameField = s.getExamName();
 
         cmd.add("addstatistics");
-        cmd.add(subjectField);
         cmd.add(examNameField);
-        cmd.add(topScorerField);
-        cmd.add(averageScoreField);
-        cmd.add(totalExamTakersField);
-        cmd.add(numberAbsentField);
-        cmd.add(totalPassField);
-        cmd.add(maxMinField);
         return cmd.toString();
     }
 

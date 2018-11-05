@@ -23,6 +23,7 @@ public class Messages {
     public static final String MESSAGE_USING_EXAMS_FILE = "Using exams file : %1$s";
     public static final String MESSAGE_EXAMS_LISTED_OVERVIEW = "%1$d exams listed!";
     public static final String MESSAGE_USING_STATISTICS_FILE = "Using statistics file : %1$s";
+    public static final String MESSAGE_STATISTICS_LISTED_OVERVIEW = "%1$d statistics listed!";
     public static final String MESSAGE_EXAM_NOT_IN_EXAMBOOK = "Exam could not be found in exam book!";
     public static final String MESSAGE_INVALID_EXAM_DISPLAYED_INDEX = "The exam index provided is invalid. "
             + "Run the examslist command to generate a list of exams.";

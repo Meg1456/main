@@ -362,10 +362,8 @@ public class StorageFileTest {
 
     private StatisticsBook getTestStatisticsBook() throws Exception {
         StatisticsBook sb = new StatisticsBook();
-        sb.addStatistic(new AssignmentStatistics("Mathematics", "Midterms", "John",
-                "72", "102", "4", "98", "95 32", false));
-        sb.addStatistic(new AssignmentStatistics("English", "final", "Mark",
-                "83", "71", "0", "70", "90 26", true));
+        sb.addStatistic(new AssignmentStatistics("Mathematics midterms", 72, 102, 98, 32));
+        sb.addStatistic(new AssignmentStatistics("Spanish final", 88, 67, 97, 52));
         return sb;
     }
 
