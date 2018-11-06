@@ -208,7 +208,7 @@ public class Parser {
             return new ListDueFeesCommand();
 
         case DeleteExamCommand.COMMAND_WORD:
-            return prepareDeleteExam(arguments);
+            return prepareSingleIndexCommand(arguments, new DeleteExamCommand(), ObjectTargeted.EXAM);
 
         case ClearExamsCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ClearExamsCommand());
@@ -657,21 +657,6 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the edit exam command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareDeleteExam(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new DeleteExamCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteExamCommand.MESSAGE_USAGE));
-        }
-    }
-
-    /**
      * Parses arguments in the context of the delete grades command.
      *
      * @param args full command args string
@@ -731,6 +716,7 @@ public class Parser {
      */
     private Command prepareRegisterExam(String args) {
         final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     RegisterExamCommand.MESSAGE_USAGE));
@@ -760,6 +746,7 @@ public class Parser {
      */
     private Command prepareDeregisterExam(String args) {
         final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     DeregisterExamCommand.MESSAGE_USAGE));

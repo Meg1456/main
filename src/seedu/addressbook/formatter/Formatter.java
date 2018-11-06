@@ -149,12 +149,32 @@ public class Formatter {
         return format(asIndexedList(formattedAssessments));
     }
 
-    /** Formats the given list of exams for displaying to the admin user. */
+    /** Formats the given list of statistics for displaying to the admin user. */
     public static String formatStatistics(List<? extends AssignmentStatistics> statistics) {
         final List<String> formattedStatistics = new ArrayList<>();
         for (AssignmentStatistics stats : statistics) {
             formattedStatistics.add(stats.getAsTextShowAll());
         }
         return format(asIndexedList(formattedStatistics));
+    }
+
+    /**
+     * Formats a string for an exam to be printed
+     */
+    public static String getPrintableExam(String examName, String subjectName, String examDate, String examStartTime,
+                                          String examEndTime, String examDetails, int takers, boolean isPrivate) {
+        final String examFormat = "%1$sExam: %2$s %3$s %4$s %5$s %6$s %7$s. %9$s: %8$d";
+        final String takerWord;
+        if (takers == 1) {
+            takerWord = "Taker";
+        } else {
+            takerWord = "Takers";
+        }
+        if (isPrivate) {
+            return String.format(examFormat, "private ", examName, subjectName, examDate,
+                    examStartTime, examEndTime, examDetails, takers, takerWord);
+        }
+        return String.format(examFormat, "", examName, subjectName, examDate,
+                examStartTime, examEndTime, examDetails, takers, takerWord);
     }
 }

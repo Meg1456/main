@@ -2,20 +2,17 @@ package seedu.addressbook;
 
 import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.StringJoiner;
 
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
@@ -66,10 +63,10 @@ public class TestDataHelper {
     /** Test exam for testing**/
     public AssignmentStatistics stat() throws Exception {
         String examName = "Spanish Quiz";
-        double averageScore = 85.8;
+        double averageScore = 85;
         int totalExamTakers = 60;
         double maxScore = 100;
-        double minScore = 54.9;
+        double minScore = 54;
         return new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 
@@ -125,6 +122,7 @@ public class TestDataHelper {
 
     /**
      * Generates a valid exam using the given seed.
+     * Takers is left as 0.
      * Running this function with the same parameter values guarantees the returned exam will have the same state.
      * Each unique seed will generate a unique Exam object.
      *
@@ -146,8 +144,7 @@ public class TestDataHelper {
      * @param takers used to determine the number of exam-takers
      */
     public Exam generateExam(int seed, boolean isExamPrivate, int takers) throws Exception {
-        Exam exam = new Exam(("Exam " + seed), ("Subject " + seed), "01-02-2018",
-                "10:00", "12:00", ("Held in " + seed), isExamPrivate);
+        Exam exam = generateExam(seed, isExamPrivate);
         exam.setTakers(takers);
         return exam;
     }
@@ -187,30 +184,6 @@ public class TestDataHelper {
 
     public String getDetailsPrefix() {
         return (" dt/");
-    }
-
-    public String getTopScorerPrefix (String value) {
-        return (" ts/");
-    }
-
-    public String getAverageScorePrefix (String value) {
-        return (" av/");
-    }
-
-    public String getTotalExamTakersPrefix (String value) {
-        return (" te/");
-    }
-
-    public String getNumberAbsentPrefix (String value) {
-        return (" ab/");
-    }
-
-    public String getTotalPassPrefix (String value) {
-        return (" tp/");
-    }
-
-    public String getMaxMinPrefix (String value) {
-        return (" mm/");
     }
 
     public String getPrivatePrefix (Boolean isPrivate) {
@@ -267,13 +240,22 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct add statistics command based on the exam given */
+    /** Generates the correct addstatistics command based on the person given */
     public String generateAddAssignmentStatistics(AssignmentStatistics s) {
         StringJoiner cmd = new StringJoiner(" ");
-        String examNameField = s.getExamName();
+        String examName = s.getExamName();
+        double averageScore = s.getAverageScore();
+        int totalExamTakers = s.getTotalExamTakers();
+        double maxScore = s.getMaxScore();
+        double minScore = s.getMinScore();
 
-        cmd.add("addstatistics");
-        cmd.add(examNameField);
+        cmd.add("addassess");
+        cmd.add(examName);
+        cmd.add(Double.toString(averageScore));
+        cmd.add(Integer.toString(totalExamTakers));
+        cmd.add(Double.toString(maxScore));
+        cmd.add(Double.toString(minScore));
+
         return cmd.toString();
     }
 
@@ -327,11 +309,23 @@ public class TestDataHelper {
     }
 
     /**
-     * Removes special characters in a string for exam values
+     * Generates a StatisticsBook based on the list of Statistics given.
      */
-    public String removeSpecialChar(String value) {
-        String newValue = value.replaceAll("[^a-zA-Z0-9!@\\.,]", "");
-        return newValue;
+    public StatisticsBook generateStatisticsBook(List<AssignmentStatistics> statistics) throws Exception {
+        StatisticsBook statisticsBook = new StatisticsBook();
+        addToStatisticsBook(statisticsBook, statistics);
+        return statisticsBook;
+    }
+
+
+    /**
+     * Adds the given list of statistics to the given StatisticsBook
+     */
+    public void addToStatisticsBook(StatisticsBook statisticsBook, List<AssignmentStatistics> statisticsToAdd)
+            throws Exception {
+        for (AssignmentStatistics s: statisticsToAdd) {
+            statisticsBook.addStatistic(s);
+        }
     }
 
     /**
@@ -374,7 +368,7 @@ public class TestDataHelper {
     }
 
     /**
-     * Creates a list of Persons based on the give Person objects.
+     * Creates a list of Persons based on the given Person objects.
      */
     public List<Person> generatePersonList(Person... persons) {
         return new ArrayList<>(Arrays.asList(persons));
@@ -408,7 +402,7 @@ public class TestDataHelper {
     }
 
     /**
-     * Creates a list of Exams based on the give Exam objects.
+     * Creates a list of Exams based on the given Exam objects.
      */
     public List<Exam> generateExamList(Exam... exams) {
         return new ArrayList<>(Arrays.asList(exams));
@@ -422,54 +416,10 @@ public class TestDataHelper {
     public List<Exam> generateExamList(Boolean... isPrivateStatuses) throws Exception {
         List<Exam> exams = new ArrayList<>();
         int i = 1;
-        for (Boolean p: isPrivateStatuses) {
+        for (Boolean p : isPrivateStatuses) {
             exams.add(generateExam(i++, p));
         }
         return exams;
-    }
-
-    /**
-     * Generates a valid date using a seed
-     */
-    public String generateDate(int seed) {
-        Long max = 0L;
-        Long min = 100000000000L;
-        SimpleDateFormat spf = new SimpleDateFormat("dd-MM-yyyy");
-        Random rnd = new Random(seed);
-        Long randomLong = (rnd.nextLong() % (max - min)) + min;
-        Date date = new Date(randomLong);
-        return removeSpecialChar(spf.format(date));
-    }
-
-    /**
-     * Generates a valid time using a seed
-     */
-    public String generateTime(int seed) {
-        Long max = 0L;
-        Long min = 100000000000L;
-        SimpleDateFormat spf = new SimpleDateFormat("HH:mm");
-        Random rnd = new Random(seed);
-        Long randomLong = (rnd.nextLong() % (max - min)) + min;
-        Date date = new Date(randomLong);
-        return removeSpecialChar(spf.format(date));
-    }
-
-    /**
-     * Generate the next time
-     */
-    public String addTimeInterval(String time) {
-        String timeString = new StringBuilder(time).insert(2, ":").toString();
-        SimpleDateFormat spf = new SimpleDateFormat("HH:mm");
-        try {
-            Date date = spf.parse(timeString);
-            Long nextTime = date.getTime();
-            nextTime += (2 * 60 * 60 * 1000);
-            Date nextDate = new Date(nextTime);
-            return removeSpecialChar(spf.format(nextDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return time;
     }
 
     /**
