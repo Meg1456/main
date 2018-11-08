@@ -23,7 +23,7 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
             + "on index of assessment, as per the last listing of listassessment.\n\t"
             + "Parameters: EXAMNAME\n\t"
             + "Example: " + COMMAND_WORD
-            + " Mathematics midterm";
+            + " 1";
 
     public static final String MESSAGE_SUCCESS = "New statistic added : %1$s";
     public static final String MESSAGE_DUPLICATE_STATISTIC = "This statistic already exists in the statistics book!";
@@ -74,13 +74,11 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
             total = total + (gradeVal.getValue());
             count = count + 1;
         }
-        averageScore = (double) (total / count);
+        averageScore = total / count;
         totalExamTakers = count;
         maxScore = maxGrade;
         minScore = minGrade;
-        // if (statisticsBook.containsStatistic(toAdd)) {
-        //
-        // }
+
         try {
             this.toAdd = new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
             statisticsBook.addStatistic(toAdd);

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateGradesException;
+import seedu.addressbook.formatter.Formatter;
 
 /**
  * Represents an assessment of the student
@@ -65,16 +66,13 @@ public class Assessment {
         return getAsTextShowAll();
     }
 
-    public String getPrintableAssessmentString(boolean showPrivate) {
-        return examName;
-    }
 
     /**
      * Formats the assessment as text to show all.
      */
     public String getAsTextShowAll() {
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = getPrintableAssessmentString(true);
+        final String stringChain = Formatter.getPrintableAssessment(examName);
         builder.append(stringChain);
         return builder.toString();
     }

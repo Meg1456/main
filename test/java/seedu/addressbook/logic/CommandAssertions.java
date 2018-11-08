@@ -13,6 +13,7 @@ import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
@@ -186,6 +187,30 @@ public class CommandAssertions {
                                              boolean isRelevantPersonsExpected,
                                              List<? extends ReadOnlyPerson> lastShownList,
                                              boolean writesToFile) throws Exception {
+        assertCommandBehavior(inputCommand, expectedStatusMessage, expectedOutputMessage, expectedAddressBook,
+                isRelevantPersonsExpected, lastShownList, false, Collections.emptyList(),
+                writesToFile);
+
+    }
+
+    /**
+     * Executes the command and confirms that the result message is correct and
+     * also confirms that the following three parts of the Logic object's state are as expected:<br>
+     *      - the internal address book data are same as those in the {@code expectedAddressBook} <br>
+     *      - the internal 'last shown list' matches the {@code lastShownList} <br>
+     *
+     *      if the command will write to file
+     *      - the storage file content matches data in {@code expectedAddressBook} <br>
+     */
+    public static void assertCommandBehavior(String inputCommand,
+                                             String expectedStatusMessage,
+                                             String expectedOutputMessage,
+                                             AddressBook expectedAddressBook,
+                                             boolean isRelevantPersonsExpected,
+                                             List<? extends ReadOnlyPerson> lastShownList,
+                                             boolean isRelevantAssessmentsExpected,
+                                             List<? extends Assessment> lastShownAssessmentsList,
+                                             boolean writesToFile) throws Exception {
         // If we need to test if the command writes to file correctly
         // Injects the saveFile object to check
         if (writesToFile) {
@@ -207,6 +232,9 @@ public class CommandAssertions {
         assertEquals(lastShownList, logic.getLastShownList());
         if (writesToFile) {
             assertEquals(addressBook, saveFile.load());
+        }
+        if (isRelevantAssessmentsExpected) {
+            assertEquals(lastShownAssessmentsList, logic.getLastShownAssessmentList());
         }
     }
 
@@ -417,8 +445,18 @@ public class CommandAssertions {
      * @param commandWord to test assuming it targets a single person in the last shown list based on visible index.
      */
     public static void assertInvalidIndexBehaviorForCommand(String commandWord) throws Exception {
+        assertInvalidIndexBehaviorForCommand(commandWord, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    /**
+     * Confirms the 'invalid argument index number behaviour' for the given command
+     * targeting a single person in the last shown list, using visible index.
+     * Used for commands in the form of COMMAND_WORD INDEX
+     * @param commandWord to test assuming it targets a single person in the last shown list based on visible index.
+     */
+    public static void assertInvalidIndexBehaviorForCommand(String commandWord, String messageFormat) throws Exception {
         final String[] commands = {commandWord + " 0", commandWord + " -1", commandWord + " 3"};
-        assertInvalidIndexBehaviour(commands);
+        assertInvalidIndexBehaviour(commands, messageFormat);
     }
 
     /**
@@ -435,7 +473,7 @@ public class CommandAssertions {
         final String[] commands = {String.format("%s %s 0 %s", commandWord, prefix, suffix),
                 String.format("%s %s -1 %s", commandWord, prefix, suffix),
                 String.format("%s %s 3 %s", commandWord, prefix, suffix)};
-        assertInvalidIndexBehaviour(commands);
+        assertInvalidIndexBehaviour(commands, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     /**
@@ -444,14 +482,14 @@ public class CommandAssertions {
      *
      * @param commands to test assuming it targets a single person in the last shown list based on visible index.
      */
-    private static void assertInvalidIndexBehaviour(String[] commands) throws Exception {
+    private static void assertInvalidIndexBehaviour(String[] commands, String messageFormat) throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Person> lastShownList = helper.generatePersonList(false, true);
 
         logic.setLastShownList(lastShownList);
 
         for (String command: commands) {
-            assertCommandBehavior(command, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+            assertCommandBehavior(command, messageFormat,
                     AddressBook.empty(), false, lastShownList);
         }
     }

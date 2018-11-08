@@ -40,6 +40,7 @@ import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
+import seedu.addressbook.commands.assessment.DeleteStatisticsCommand;
 import seedu.addressbook.commands.assessment.ListAssessmentCommand;
 import seedu.addressbook.commands.assessment.ListStatisticsCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
@@ -233,6 +234,9 @@ public class Parser {
 
         case ListAssessmentCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ListAssessmentCommand());
+
+        case DeleteStatisticsCommand.COMMAND_WORD:
+            return prepareSingleIndexCommand(arguments, new DeleteStatisticsCommand(), ObjectTargeted.STATISTIC);
 
         case DeleteGradesCommand.COMMAND_WORD:
             return prepareDeleteGrades(arguments);

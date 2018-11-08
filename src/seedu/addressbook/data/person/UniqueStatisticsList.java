@@ -89,7 +89,7 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     /**
      * Adds a result to the list.
      *
-     * @throws DuplicateStatisticsException if the person to add is a duplicate of an existing stastic in the list.
+     * @throws DuplicateStatisticsException if the person to add is a duplicate of an existing statistic in the list.
      */
     public void add(AssignmentStatistics toAdd) throws DuplicateStatisticsException {
         if (contains(toAdd)) {

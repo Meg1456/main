@@ -8,9 +8,10 @@ import java.util.Objects;
 public class AssignmentStatistics implements Printable {
 
     public static final String EXAM_NAME_EXAMPLE = "Math Midterms";
-    public static final String AVERAGESCORE_EXAMPLE = "21.5";
-    public static final String TOTALEXAMTAKERS_EXAMPLE = "84"; //Number of students who attended test
-    public static final String MAXMIN_EXAMAPLE = "27 10"; //maximum score and minimum score
+    public static final double AVERAGE_SCORE_EXAMPLE = 80.5;
+    public static final int TOTAL_EXAM_TAKERS_EXAMPLE = 84; //Number of students who attended test
+    public static final double MAX_SCORE_EXAMPLE = 87; //maximum score
+    public static final double MIN_SCORE_EXAMPLE = 60; //minimum score
 
     private String examName;
     private double averageScore;

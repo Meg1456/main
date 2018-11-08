@@ -40,6 +40,7 @@ public abstract class Command {
     protected List<? extends ReadOnlyPerson> relevantPersons;
     protected List<? extends Assessment> relevantAssessments;
     protected List<? extends ReadOnlyExam> relevantExams;
+    protected List<? extends AssignmentStatistics> relevantStatistics;
 
     /**
      * Signals that the target exam index is out of bounds of the last viewed exams listing
@@ -104,7 +105,8 @@ public abstract class Command {
      * @param statisticsDisplayed used to generate summary
      * @return summary message for persons displayed
      */
-    public static String getMessageForStatisticsListShownSummary(List<? extends AssignmentStatistics> statisticsDisplayed) {
+    public static String getMessageForStatisticsListShownSummary(List<? extends AssignmentStatistics>
+                                                                         statisticsDisplayed) {
         return String.format(Messages.MESSAGE_STATISTICS_LISTED_OVERVIEW, statisticsDisplayed.size());
     }
 
@@ -127,11 +129,13 @@ public abstract class Command {
 
     public void setData(AddressBook addressBook, List<? extends ReadOnlyPerson> relevantPersons,
                         List<? extends ReadOnlyExam> relevantExams, List<? extends Assessment> relevantAssessments,
-                        Privilege privilege, ExamBook exambook, StatisticsBook statisticsBook) {
+                        Privilege privilege, ExamBook exambook, StatisticsBook statisticsBook,
+                        List<? extends AssignmentStatistics> relevantStatistics) {
         setData(addressBook, statisticsBook, relevantPersons, privilege);
         this.examBook = exambook;
         this.relevantExams = relevantExams;
         this.relevantAssessments = relevantAssessments;
+        this.relevantStatistics = relevantStatistics;
     }
 
     //TODO: Fix potato code
