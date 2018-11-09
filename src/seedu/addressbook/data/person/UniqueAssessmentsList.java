@@ -46,12 +46,12 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     public static class AssessmentNotFoundException extends Exception {}
 
     /**
-     * Constructs empty person list.
+     * Constructs empty assessment list.
      */
     public UniqueAssessmentsList() {}
 
     /**
-     * Constructs a person list with the given persons.
+     * Constructs an assessment list with the given assessments.
      */
     public UniqueAssessmentsList(Assessment... assessments) throws DuplicateAssessmentException {
         final List<Assessment> initialTags = Arrays.asList(assessments);
@@ -64,7 +64,7 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     /**
      * Constructs a list from the items in the given collection.
      * @param assessments a collection of assessments
-     * @throws DuplicateAssessmentException if the {@code persons} contains duplicate assessments
+     * @throws DuplicateAssessmentException if the {@code assessment} contains duplicate assessments
      */
     public UniqueAssessmentsList(Collection<Assessment> assessments) throws DuplicateAssessmentException {
         if (!Utils.elementsAreUnique(assessments)) {
@@ -81,7 +81,7 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     }
 
     /**
-     * Unmodifiable java List view with elements cast as immutable {@link ReadOnlyPerson}s.
+     * Unmodifiable java List view with elements cast as immutable {@link Assessment}s.
      * For use with other methods/libraries.
      * Any changes to the internal list/elements are immediately visible in the returned list.
      */
@@ -100,7 +100,8 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     /**
      * Adds an assessment to the list.
      *
-     * @throws DuplicateAssessmentException if the person to add is a duplicate of an existing person in the list.
+     * @throws DuplicateAssessmentException if the assessment to add is a duplicate of an existing assessment in the
+     * list.
      */
     public void add(Assessment toAdd) throws DuplicateAssessmentException {
         if (contains(toAdd)) {
@@ -110,9 +111,9 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     }
 
     /**
-     * Finds the equivalent person from the list.
+     * Finds the equivalent assessment from the list.
      *
-     * @throws AssessmentNotFoundException if no such person could be found in the list.
+     * @throws AssessmentNotFoundException if no such assessment could be found in the list.
      */
     public Assessment find(Assessment assessment) throws AssessmentNotFoundException {
         for (Assessment p: internalList) {
@@ -124,9 +125,9 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     }
 
     /**
-     * Removes the equivalent person from the list.
+     * Removes the equivalent assessment from the list.
      *
-     * @throws AssessmentNotFoundException if no such person could be found in the list.
+     * @throws AssessmentNotFoundException if no such assessment could be found in the list.
      */
     public void remove(Assessment toRemove) throws AssessmentNotFoundException {
         final boolean assessmentFoundAndDeleted = internalList.remove(toRemove);
@@ -136,15 +137,15 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
     }
 
     /**
-     * Clears all persons in list.
+     * Clears all assessments in list.
      */
     public void clear() {
         internalList.clear();
     }
 
-    /** Finds and returns the Person who has the given username in its Account
+    /** Finds and returns the assessment which has the given name
      * @param examName
-     * @return The Person who matches the username. This should be guaranteed to be unique.
+     * @return The assessment which matches the name. This should be guaranteed to be unique.
      * @throws AssessmentNotFoundException
      */
     public Assessment findAssessmentByName(String examName) throws AssessmentNotFoundException {
@@ -154,19 +155,6 @@ public class UniqueAssessmentsList implements Iterable<Assessment> {
             }
         }
         throw new AssessmentNotFoundException();
-    }
-
-    /**Checks if UniquePersonList holds a Person who has given username in its Account
-     * @param examName
-     * @return true if such a Person exists. False otherwise
-     */
-    public Boolean containsAssessmentWithExamName(String examName) {
-        try {
-            findAssessmentByName(examName);
-            return true;
-        } catch (AssessmentNotFoundException pne) {
-            return false;
-        }
     }
 
     @Override

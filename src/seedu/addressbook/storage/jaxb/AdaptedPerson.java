@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlValue;
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -44,6 +45,7 @@ public class AdaptedPerson {
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
+
     @XmlElement
     private AdaptedAccount account;
 
@@ -155,6 +157,7 @@ public class AdaptedPerson {
             for (AdaptedExam exam : exams) {
                 examList.add(exam.toModelType());
             }
+
             final Name name = new Name(this.name);
             final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
             final Email email = new Email(this.email.value, this.email.isPrivate);

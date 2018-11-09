@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import seedu.addressbook.common.Utils;
+import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.exception.DuplicateDataException;
 
 /**
@@ -19,6 +20,7 @@ import seedu.addressbook.data.exception.DuplicateDataException;
 public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
 
     private final List<AssignmentStatistics> internalList = new ArrayList<>();
+    private final AddressBook addressBook = new AddressBook();
 
     /**
      * Signals that an operation would have violated the 'no duplicates' property of the list.
@@ -89,7 +91,7 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     /**
      * Adds a result to the list.
      *
-     * @throws DuplicateStatisticsException if the person to add is a duplicate of an existing statistic in the list.
+     * @throws DuplicateStatisticsException if the statistic to add is a duplicate of an existing statistic in the list.
      */
     public void add(AssignmentStatistics toAdd) throws DuplicateStatisticsException {
         if (contains(toAdd)) {
