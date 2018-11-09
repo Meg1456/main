@@ -76,7 +76,7 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
                 count = count + 1;
             }
             if (count > 0) {
-                averageScore = (total / count);
+                averageScore = (double) Math.round((total / count) * 100) / 100;
             } else {
                 averageScore = 0; //to account for empty grades
             }

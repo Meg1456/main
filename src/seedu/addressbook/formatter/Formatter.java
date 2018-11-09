@@ -182,8 +182,7 @@ public class Formatter {
      * Formats a string for an exam to be printed
      */
     public static String getPrintableAssessment(String examName) {
-        final String assessmentFormat = "Exam Name: %1$s";
-        return String.format(assessmentFormat, examName);
+        return examName;
     }
 
 }

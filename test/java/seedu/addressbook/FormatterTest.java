@@ -202,7 +202,7 @@ public class FormatterTest {
     public void formatAssessment() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Assessment a1 = helper.generateAssessment(1);
-        String expected = "Exam Name: 1";
+        String expected = "1";
         assertEquals(expected, Formatter.getPrintableAssessment(a1.getExamName()));
     }
 
@@ -212,7 +212,7 @@ public class FormatterTest {
         Assessment assessment1 = new Assessment(Integer.toString(1));
         Assessment assessment2 = new Assessment(Integer.toString(2));
         List<Assessment> assessmentList = helper.generateAssessmentsList(assessment1, assessment2);
-        final String assessmentFormat = " %1$d. Exam Name: %1$d" + NEWLINE;
+        final String assessmentFormat = " %1$d. %1$d" + NEWLINE;
         String expected = String.format(assessmentFormat, 1) + String.format(assessmentFormat, 2) + " " + NEWLINE;
         assertEquals(expected, Formatter.formatAssessments(assessmentList));
     }
