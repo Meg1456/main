@@ -1,7 +1,6 @@
 package seedu.addressbook.data;
 
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.UniqueAssessmentsList;
 import seedu.addressbook.data.person.UniqueStatisticsList;
 import seedu.addressbook.data.person.UniqueStatisticsList.DuplicateStatisticsException;
 import seedu.addressbook.data.person.UniqueStatisticsList.StatisticsNotFoundException;

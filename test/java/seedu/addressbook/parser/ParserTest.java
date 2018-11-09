@@ -38,7 +38,6 @@ import seedu.addressbook.commands.person.ViewCommand;
 import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -195,11 +194,7 @@ public class ParserTest {
      */
     @Test
     public void addGradesCommand_invalidArgs() {
-        final String[] inputs = {
-                "addgrades",
-                "addgrades ",
-                "addgrades wrong args format",
-        };
+        final String[] inputs = {"addgrades", "addgrades ", "addgrades wrong args format"};
         final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGradesCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
@@ -213,7 +208,8 @@ public class ParserTest {
                 //Missing grades value
                 String.format("addgrades 1 2"),
         };
-        final String resultMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS, 3, 2, AddGradesCommand.MESSAGE_USAGE);
+        final String resultMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS, 3, 2,
+                AddGradesCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
@@ -235,14 +231,14 @@ public class ParserTest {
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
-//    @Test
-//    public void deleteGradesCommand_numericArg_indexParsedCorrectly() {
-//        final int testIndex1 = 1;
-//        final int testIndex2 = 2;
-//        final String input = "deletegrades " + testIndex1 + testIndex2;
-//        final DeleteGradesCommand result = parseAndAssertCommandType(input, DeleteGradesCommand.class);
-//        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex1);
-//    }
+    //    @Test
+    //    public void deleteGradesCommand_numericArg_indexParsedCorrectly() {
+    //        final int testIndex1 = 1;
+    //        final int testIndex2 = 2;
+    //        final String input = "deletegrades " + testIndex1 + testIndex2;
+    //        final DeleteGradesCommand result = parseAndAssertCommandType(input, DeleteGradesCommand.class);
+    //        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex1);
+    //    }
 
     /**
      * Test find persons by keyword in name command

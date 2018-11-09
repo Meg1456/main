@@ -10,7 +10,6 @@ import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.UniqueAssessmentsList;
 import seedu.addressbook.data.person.UniqueStatisticsList;
 
 /**
@@ -59,37 +58,35 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
     @Override
     public CommandResult execute() {
         try {
-        Assessment assessName = getTargetAssessment();
-        examName = assessName.getExamName();
-        double maxGrade = 0;
-        double minGrade = 1000000;
-        double total = 0;
-        int count = 0;
-        grade = assessName.getAllGrades();
-        for (Grades gradeVal : grade.values()) {
-            if (gradeVal.getValue() > maxGrade) {
-                maxGrade = gradeVal.getValue();
+            Assessment assessName = getTargetAssessment();
+            examName = assessName.getExamName();
+            double maxGrade = 0;
+            double minGrade = 1000000;
+            double total = 0;
+            int count = 0;
+            grade = assessName.getAllGrades();
+            for (Grades gradeVal : grade.values()) {
+                if (gradeVal.getValue() > maxGrade) {
+                    maxGrade = gradeVal.getValue();
+                }
+                if (gradeVal.getValue() < minGrade) {
+                    minGrade = gradeVal.getValue();
+                }
+                total = total + (gradeVal.getValue());
+                count = count + 1;
             }
-            if (gradeVal.getValue() < minGrade) {
-                minGrade = gradeVal.getValue();
+            if (count > 0) {
+                averageScore = (total / count);
+            } else {
+                averageScore = 0; //to account for empty grades
             }
-            total = total + (gradeVal.getValue());
-            count = count + 1;
-        }
-
-        if (count > 0) {
-            averageScore = (total / count);
-        } else {
-            averageScore = 0; //to account for empty grades
-        }
-        totalExamTakers = count;
-        maxScore = maxGrade;
-        if (minGrade == 1000000) { //to account for empty grades
-            minScore = 0;
-        }
-        else {
-            minScore = minGrade;
-        }
+            totalExamTakers = count;
+            maxScore = maxGrade;
+            if (minGrade == 1000000) { //to account for empty grades
+                minScore = 0;
+            } else {
+                minScore = minGrade;
+            }
             this.toAdd = new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
             statisticsBook.addStatistic(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));

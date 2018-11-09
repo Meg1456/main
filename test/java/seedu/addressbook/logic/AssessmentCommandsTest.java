@@ -17,16 +17,12 @@ import org.junit.rules.TemporaryFolder;
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
-import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteStatisticsCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Grades;
-import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -142,41 +138,41 @@ public class AssessmentCommandsTest {
                 false);
     }
 
-//    @Test
-//    public void executeAddAssignmentStatisticsSuccessful() throws Exception {
-//        // setup expectations
-//        TestDataHelper helper = new TestDataHelper();
-//        AssignmentStatistics toBeAdded = helper.stat();
-//        StatisticsBook expected = new StatisticsBook();
-//        expected.addStatistic(toBeAdded);
-//
-//        // execute command and verify result
-//        Assessment assessment = new Assessment("Spanish Quiz");
-//        addressBook.addAssessment(assessment);
-//        Person person1 = helper.adam();
-//        Grades grade = new Grades(100);
-//        assessment.addGrade(person1, grade);
-//
-//        assertCommandBehavior(helper.generateAddAssignmentStatistics(),
-//                String.format(AddAssignmentStatistics.MESSAGE_SUCCESS, toBeAdded),
-//                expected, false);
-//    }
-//
-//    @Test
-//    public void executeAddAssignmentStatisticsDuplicateNotAllowed() throws Exception {
-//        // setup expectations
-//        TestDataHelper helper = new TestDataHelper();
-//        AssignmentStatistics toBeAdded = helper.stat();
-//        StatisticsBook expected = new StatisticsBook();
-//        expected.addStatistic(toBeAdded);
-//
-//        // setup starting state
-//        statisticBook.addStatistic(toBeAdded); // statistic already in internal statistic book
-//
-//        // execute command and verify result
-//        assertCommandBehavior(helper.generateAddAssignmentStatistics(),
-//                AddAssignmentStatistics.MESSAGE_DUPLICATE_STATISTIC, expected, false);
-//    }
+    //    @Test
+    //    public void executeAddAssignmentStatisticsSuccessful() throws Exception {
+    //        // setup expectations
+    //        TestDataHelper helper = new TestDataHelper();
+    //        AssignmentStatistics toBeAdded = helper.stat();
+    //        StatisticsBook expected = new StatisticsBook();
+    //        expected.addStatistic(toBeAdded);
+    //
+    //        // execute command and verify result
+    //        Assessment assessment = new Assessment("Spanish Quiz");
+    //        addressBook.addAssessment(assessment);
+    //        Person person1 = helper.adam();
+    //        Grades grade = new Grades(100);
+    //        assessment.addGrade(person1, grade);
+    //
+    //        assertCommandBehavior(helper.generateAddAssignmentStatistics(),
+    //                String.format(AddAssignmentStatistics.MESSAGE_SUCCESS, toBeAdded),
+    //                expected, false);
+    //    }
+    //
+    //    @Test
+    //    public void executeAddAssignmentStatisticsDuplicateNotAllowed() throws Exception {
+    //        setup expectations
+    //        TestDataHelper helper = new TestDataHelper();
+    //        AssignmentStatistics toBeAdded = helper.stat();
+    //        StatisticsBook expected = new StatisticsBook();
+    //        expected.addStatistic(toBeAdded);
+    //
+    //        setup starting state
+    //        statisticBook.addStatistic(toBeAdded); // statistic already in internal statistic book
+    //
+    //       execute command and verify result
+    //       assertCommandBehavior(helper.generateAddAssignmentStatistics(),
+    //       AddAssignmentStatistics.MESSAGE_DUPLICATE_STATISTIC, expected, false);
+    // }
 
     @Test
     public void executeDeleteStatisticsInvalidArgsFormat() throws Exception {
