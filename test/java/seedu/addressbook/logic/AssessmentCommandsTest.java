@@ -42,7 +42,6 @@ public class AssessmentCommandsTest {
 
     private AddressBook addressBook;
     private StatisticsBook statisticBook;
-    private Logic logic;
     //private Logic logic; Temporary left as local variable
 
     @Before

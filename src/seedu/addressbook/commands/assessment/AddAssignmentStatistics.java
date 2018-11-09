@@ -29,7 +29,6 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
     public static final String MESSAGE_DUPLICATE_STATISTIC = "This statistic already exists in the statistics book!";
 
     private AssignmentStatistics toAdd;
-    private Map<Person, Grades> grade;
 
     private String examName;
     private double averageScore;
@@ -58,6 +57,7 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
     @Override
     public CommandResult execute() {
         try {
+            final Map<Person, Grades> grade;
             Assessment assessName = getTargetAssessment();
             examName = assessName.getExamName();
             double maxGrade = 0;

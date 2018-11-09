@@ -20,7 +20,6 @@ import seedu.addressbook.data.exception.DuplicateDataException;
 public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
 
     private final List<AssignmentStatistics> internalList = new ArrayList<>();
-    private final AddressBook addressBook = new AddressBook();
 
     /**
      * Signals that an operation would have violated the 'no duplicates' property of the list.
