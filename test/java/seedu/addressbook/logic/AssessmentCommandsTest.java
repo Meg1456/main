@@ -203,73 +203,6 @@ public class AssessmentCommandsTest {
     }
 
     @Test
-    public void executeAddGrades_validArgs_success() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Assessment a1 = helper.generateAssessment(1);
-        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
-        addressBook.addAssessment(a1);
-        logic.setLastShownAssessmentList(singleAssessment);
-
-        Person p1 = helper.generatePerson(1, false);
-        List<Person> personList = helper.generatePersonList(p1);
-        addressBook.addPerson(p1);
-        logic.setLastShownList(personList);
-
-        Assessment a1Expected = helper.generateAssessment(1);
-        List<Assessment> singleAssessmentExpected = helper.generateAssessmentsList(a1Expected);
-
-        Person p1Expected = helper.generatePerson(1, false, 1, 100);
-        List<Person> personListExpected = helper.generatePersonList(p1Expected);
-        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
-        helper.addAssessmentsToAddressBook(expectedBook, singleAssessmentExpected);
-
-        assertCommandBehavior("addgrades 1 1 100",
-                String.format(AddGradesCommand.MESSAGE_ADD_GRADE_SUCCESS, p1Expected), " ",
-                expectedBook, false, logic.getLastShownList(), false,
-                logic.getLastShownAssessmentList(), false);
-    }
-
-    @Test
-    public void executeAddGrades_invalidArgsForPersonIndex_invalidPersonIndexMessage() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Assessment a1 = helper.generateAssessment(1);
-        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
-        addressBook.addAssessment(a1);
-        logic.setLastShownAssessmentList(singleAssessment);
-
-        Person p1 = helper.generatePerson(1, false);
-        List<Person> personList = helper.generatePersonList(p1);
-        addressBook.addPerson(p1);
-        logic.setLastShownList(personList);
-
-        assertCommandBehavior("addgrades 2 1", Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
-                "", addressBook, false, logic.getLastShownList(),
-                false, logic.getLastShownAssessmentList(), false);
-
-        assertCommandBehavior("addgrades 2 2", Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
-                "", addressBook, false, logic.getLastShownList(),
-                false, logic.getLastShownAssessmentList(), false);
-    }
-
-    @Test
-    public void executeAddGrades_invalidArgsForAssessmentIndex_invalidAssessmentIndexMessage() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        Assessment a1 = helper.generateAssessment(1);
-        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
-        addressBook.addAssessment(a1);
-        logic.setLastShownAssessmentList(singleAssessment);
-
-        Person p1 = helper.generatePerson(1, false);
-        List<Person> personList = helper.generatePersonList(p1);
-        addressBook.addPerson(p1);
-        logic.setLastShownList(personList);
-
-        assertCommandBehavior("addgrades 1 2", Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX,
-                "", addressBook, false, logic.getLastShownList(),
-                false, logic.getLastShownAssessmentList(), false);
-    }
-
-    @Test
     public void executeDeleteGrades_noArgs_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteGradesCommand.MESSAGE_USAGE);
         assertCommandBehavior("deletegrades", expectedMessage);
@@ -308,27 +241,6 @@ public class AssessmentCommandsTest {
     @Test
     public void executeViewGrades_invalidIndex_invalidIndexMessage() throws Exception {
         assertInvalidIndexBehaviorForCommand("viewgrades");
-    }
-
-    @Test
-    public void executeAddAssignmentStatistics_validArgs_successful() throws Exception {
-        // setup expectations
-        TestDataHelper helper = new TestDataHelper();
-        AssignmentStatistics toBeAdded = helper.stat();
-        statisticBook.addStatistic(toBeAdded);
-
-        StatisticsBook expected = new StatisticsBook();
-        Assessment assessment = new Assessment("Spanish Quiz");
-        addressBook.addAssessment(assessment);
-        Person person1 = helper.adam();
-        Grades grade = new Grades(100);
-        assessment.addGrade(person1, grade);
-        addressBook.addPerson(person1);
-
-        assertCommandBehavior("addstatistics 1", "",
-                String.format(AddAssignmentStatistics.MESSAGE_SUCCESS, toBeAdded),
-                expected, false, logic.getLastShownList(), false,
-                logic.getLastShownAssessmentList(), false);
     }
 
     @Test
