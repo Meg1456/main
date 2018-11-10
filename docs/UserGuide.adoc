@@ -786,4 +786,4 @@ a data saving operation. ClassRepo shuts itself down to ensure synchronisation o
 *Solution*: Ensure that the data files are not set as read-only. 
 
 == Known Bugs
-1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
+1. ClassRepo ASCII art may be incorrectly formatted on OS's such as Mac.
