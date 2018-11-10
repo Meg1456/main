@@ -24,9 +24,11 @@ import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Attendance;
 import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
@@ -215,6 +217,15 @@ public class StorageFileTest {
     }
 
     @Test
+    public void loadAssessments_validFormat() throws Exception {
+        AddressBook actual = getStorage("ValidDataWithAssessments.txt").load();
+        AddressBook expected = getTestAddressBookWithAssessment();
+
+        // ensure loaded AddressBook is properly constructed with test data
+        assertEquals(actual, expected);
+    }
+
+    @Test
     public void save_nullAddressBook_exceptionThrown() throws Exception {
         StorageFile storage = getTempStorage();
         thrown.expect(NullPointerException.class);
@@ -282,6 +293,34 @@ public class StorageFileTest {
         assertStatisticsFilesEqual(storage, getStorage("ValidData.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
     }
+
+
+    @Test
+    public void save_validAddressBookWithAssessments() throws Exception {
+        AddressBook ab = getTestAddressBookWithAssessment(true, false);
+        ExamBook eb = getTestExamBook();
+        StatisticsBook sb = getTestStatisticsBook();
+        StorageFile storage = getTempStorage();
+        storage.saveExam(eb);
+        storage.save(ab);
+        storage.saveStatistics(sb);
+        // Checks that the password and isPerm is saved as a new field
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt"));
+
+        ab = getTestAddressBookWithAssessment();
+        storage = getTempStorage();
+        storage.save(ab);
+
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt", "ValidExamData.txt",
+                "ValidStatisticsData.txt"));
+
+        ab = getTestAddressBookWithAssessment(true, false);
+        storage = getTempStorage();
+        storage.save(ab);
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt"));
+    }
+
 
     @Test
     public void personHasMissingExamInExamBook_exceptionThrown() throws Exception {
@@ -416,6 +455,34 @@ public class StorageFileTest {
         sb.addStatistic(new AssignmentStatistics("Mathematics midterms", 72, 102, 98, 32));
         sb.addStatistic(new AssignmentStatistics("Spanish final", 88, 67, 97, 52));
         return sb;
+    }
+
+    private AddressBook getTestAddressBookWithAssessment() throws Exception {
+        return getTestAddressBookWithAssessment(false, false);
+    }
+
+    private AddressBook getTestAddressBookWithAssessment(boolean isUsingDefaultPassword, boolean hasAccount) throws
+            Exception {
+        AddressBook ab = new AddressBook();
+        final Person john = new Person(new Name("John Doe"),
+                new Phone("98765432", false),
+                new Email("johnd@gmail.com", false),
+                new Address("John street, block 123, #01-01", false),
+                Collections.emptySet());
+        Assessment assessment = new Assessment("Math Midterms");
+        ab.addAssessment(assessment);
+        Grades gradeVal = new Grades(95);
+        assessment.addGrade(john, gradeVal);
+        if (hasAccount) {
+            john.setAccount(new Account("user", "pw", "Admin"));
+        }
+        ab.addPerson(john);
+
+        if (!isUsingDefaultPassword) {
+            ab.setMasterPassword("default_pw");
+        }
+
+        return ab;
     }
 
     private AddressBook getTestAddressBookWithAttendance() throws Exception {

@@ -18,6 +18,7 @@ import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
+import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
@@ -66,7 +67,7 @@ public class TestDataHelper {
         double averageScore = 100;
         int totalExamTakers = 1;
         double maxScore = 100;
-        double minScore = 1000;
+        double minScore = 0;
         return new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 
@@ -117,6 +118,32 @@ public class TestDataHelper {
         Exam e1 = generateExam(examSeed, isExamPrivate);
         e1.setTakers(takers);
         p1.addExam(e1);
+        return p1;
+    }
+
+    /**
+     * Generates a valid person with a valid assessment and grades using the given seeds.
+     * Running this function with the same parameter values guarantees the returned person will have the same state.
+     * Each unique seed will generate a unique Person object.
+     *
+     * @param seed used to generate the person data field values
+     * @param isAllFieldsPrivate determines if private-able fields (phone, email, address) will be private
+     * @param assessmentSeed used to generate the assessment data field values
+     * @param gradeSeed used to generate the grades data field values
+     */
+    public Person generatePerson(int seed, boolean isAllFieldsPrivate, int assessmentSeed, int gradeSeed) throws
+            Exception {
+        Person p1 = new Person(
+                new Name("Person " + seed),
+                new Phone("" + Math.abs(seed), isAllFieldsPrivate),
+                new Email(seed + "@email", isAllFieldsPrivate),
+                new Address("House of " + seed, isAllFieldsPrivate),
+                new HashSet<>(Arrays.asList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))))
+        );
+
+        Assessment a1 = generateAssessment(assessmentSeed);
+        Grades grades = new Grades(gradeSeed);
+        a1.addGrade(p1, grades);
         return p1;
     }
 
