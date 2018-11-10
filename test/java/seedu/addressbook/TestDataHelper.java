@@ -55,10 +55,10 @@ public class TestDataHelper {
     }
 
     /** Test fees for testing**/
-    public Fees fees () throws Exception {
-        String test = "123.45";
-        String testdate = "01-01-2018";
-        return new Fees(test, testdate);
+    public Fees fees (int seed) throws Exception {
+        String value = seed + ".45";
+        String dueDate = "01-0" + seed + "-2018";
+        return new Fees(value, dueDate);
     }
 
     /** Test statistics for testing**/
@@ -249,7 +249,7 @@ public class TestDataHelper {
         StringJoiner cmd = new StringJoiner(" ");
         cmd.add("editfees");
         cmd.add("2");
-        cmd.add("123.45");
+        cmd.add("1.45");
         cmd.add("01-01-2018");
         return cmd.toString();
     }

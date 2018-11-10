@@ -62,6 +62,7 @@ import seedu.addressbook.commands.exams.ViewExamsCommand;
 import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.fees.ListDueFeesCommand;
 import seedu.addressbook.commands.fees.ListFeesCommand;
+import seedu.addressbook.commands.fees.PaidFeesCommand;
 import seedu.addressbook.commands.fees.ViewFeesCommand;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.commands.general.HelpCommand;
@@ -114,6 +115,9 @@ public class Parser {
 
         case EditFeesCommand.COMMAND_WORD:
             return prepareFees(arguments);
+
+        case PaidFeesCommand.COMMAND_WORD:
+            return prepareSingleIndexCommand(arguments, new PaidFeesCommand(), ObjectTargeted.PERSON);
 
         case DeleteCommand.COMMAND_WORD:
             return prepareSingleIndexCommand(arguments, new DeleteCommand(), ObjectTargeted.PERSON);
