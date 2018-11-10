@@ -246,6 +246,50 @@ public class CommandAssertions {
     }
 
     /**
+     * Executes the command and confirms that the result message is correct and
+     * also confirms that the following three parts of the Logic object's state are as expected:<br>
+     *      - the internal address book data are same as those in the {@code expectedAddressBook} <br>
+     *      - the internal 'last shown list' matches the {@code lastShownList} <br>
+     *
+     *      if the command will write to file
+     *      - the storage file content matches data in {@code expectedAddressBook} <br>
+     */
+    public static void assertCommandBehavior(String inputCommand,
+                                             String expectedStatusMessage,
+                                             String expectedOutputMessage,
+                                             StatisticsBook expectedStatisticsBook,
+                                             boolean isRelevantPersonsExpected,
+                                             List<? extends ReadOnlyPerson> lastShownList,
+                                             boolean isRelevantAssessmentsExpected,
+                                             List<? extends Assessment> lastShownAssessmentsList,
+                                             boolean hasStorageTested) throws Exception {
+        // Injects the saveFile object to check
+        if (hasStorageTested) {
+            logic.setStorage(saveFile);
+        }
+        //Execute the command
+        CommandResult r = logic.execute(inputCommand);
+
+        //Confirm the result contains the right data
+        assertEquals(expectedOutputMessage, r.getOutputConsoleMessage());
+        assertEquals(expectedStatusMessage, r.getStatusConsoleMessage());
+        assertEquals(r.getRelevantPersons().isPresent(), isRelevantPersonsExpected);
+        if (isRelevantPersonsExpected) {
+            assertEquals(lastShownList, r.getRelevantPersons().get());
+        }
+
+        //Confirm the state of data is as expected
+        assertEquals(expectedStatisticsBook, statisticsBook);
+        assertEquals(lastShownList, logic.getLastShownList());
+        if (hasStorageTested) {
+            assertEquals(statisticsBook, saveFile.load());
+        }
+        if (isRelevantAssessmentsExpected) {
+            assertEquals(lastShownAssessmentsList, logic.getLastShownAssessmentList());
+        }
+    }
+
+    /**
      * Executes the command and confirms that the result messages are correct and
      * Assumes the storage to not be tested
      * @see #assertCommandBehavior(String, String, ExamBook, boolean, List, boolean)

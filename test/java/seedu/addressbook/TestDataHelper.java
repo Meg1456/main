@@ -394,7 +394,7 @@ public class TestDataHelper {
     /**
      * Adds the given list of Assessments to the given AddressBook
      */
-    public void addToAddressBook(AddressBook addressBook, List<Assessment> assessmentsToAdd, String empty)
+    public void addAssessmentsToAddressBook(AddressBook addressBook, List<Assessment> assessmentsToAdd)
             throws Exception {
         for (Assessment a: assessmentsToAdd) {
             addressBook.addAssessment(a);

@@ -1,7 +1,10 @@
 package seedu.addressbook.commands.assessment;
 
+import java.util.List;
+
 import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.UniqueStatisticsList;
@@ -27,7 +30,9 @@ public class DeleteStatisticsCommand extends IndexFormatCommand {
         try {
             final AssignmentStatistics target = getTargetStatistic();
             statisticsBook.removeStatistic(target);
-            return new CommandResult(String.format(MESSAGE_DELETE_STATISTICS_SUCCESS, target));
+            final List<AssignmentStatistics> updatedList = statisticsBook.getAllStatistics().immutableListView();
+            return new CommandResult(String.format(MESSAGE_DELETE_STATISTICS_SUCCESS, target), updatedList,
+                    ListType.STATISTICS);
         } catch (IndexOutOfBoundsException iob) {
             return new CommandResult(Messages.MESSAGE_INVALID_STATISTICS_DISPLAYED_INDEX);
         } catch (UniqueStatisticsList.StatisticsNotFoundException nfe) {

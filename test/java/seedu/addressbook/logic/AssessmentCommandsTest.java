@@ -95,7 +95,7 @@ public class AssessmentCommandsTest {
     }
 
     @Test
-    public void executeAddAssessmentDuplicateNotAllowed() throws Exception {
+    public void executeAddAssessment_duplicateData_duplicateMessage() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Assessment toBeAdded = helper.assess();
@@ -112,26 +112,26 @@ public class AssessmentCommandsTest {
     }
 
     @Test
-    public void executeAddAssessmentInvalidArgsFormat() throws Exception {
+    public void executeAddAssessment_invalidArgs_invalidMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAssessmentCommand.MESSAGE_USAGE);
         assertCommandBehavior("addassess", expectedMessage);
         assertCommandBehavior("addassess ", expectedMessage);
     }
 
     @Test
-    public void executeDeleteAssessmentInvalidArgsFormat() throws Exception {
+    public void executeDeleteAssessment_invalidArgs_invalidMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAssessmentCommand.MESSAGE_USAGE);
         assertCommandBehavior("deleteassess ", expectedMessage);
         assertCommandBehavior("deleteassess arg not number", expectedMessage);
     }
 
     @Test
-    public void executeDeleteAssessmentInvalidIndex() throws Exception {
+    public void executeDeleteAssessment_invalidIndex_invalidIndexMessage() throws Exception {
         assertInvalidIndexBehaviorForCommand("deleteassess", MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX);
     }
 
     @Test
-    public void executeListAssessmentsShowsAllAssessments() throws Exception {
+    public void executeListAssessments_validArgs_successfulList() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
         AddressBook expected = helper.generateAddressBook(false, true);
@@ -158,7 +158,7 @@ public class AssessmentCommandsTest {
     }
 
     @Test
-    public void executeListAssessmentInvalidArgsFormat() throws Exception {
+    public void executeListAssessment_invalidArgs_invalidMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAssessmentCommand.MESSAGE_USAGE);
         assertCommandBehavior("listassess 1 2", expectedMessage);
         assertCommandBehavior("listassess any other arg", expectedMessage);
@@ -221,10 +221,10 @@ public class AssessmentCommandsTest {
         Person p1Expected = helper.generatePerson(1, false, 1, 100);
         List<Person> personListExpected = helper.generatePersonList(p1Expected);
         AddressBook expectedBook = helper.generateAddressBook(personListExpected);
-        helper.addToAddressBook(expectedBook, singleAssessmentExpected, "");
+        helper.addAssessmentsToAddressBook(expectedBook, singleAssessmentExpected);
 
         assertCommandBehavior("addgrades 1 1 100",
-                String.format(AddGradesCommand.MESSAGE_ADD_GRADE_SUCCESS, p1Expected), "",
+                String.format(AddGradesCommand.MESSAGE_ADD_GRADE_SUCCESS, p1Expected), " ",
                 expectedBook, false, logic.getLastShownList(), false,
                 logic.getLastShownAssessmentList(), false);
     }
@@ -310,7 +310,7 @@ public class AssessmentCommandsTest {
         assertInvalidIndexBehaviorForCommand("viewgrades");
     }
 
-   /* @Test
+    @Test
     public void executeAddAssignmentStatistics_validArgs_successful() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
@@ -329,22 +329,22 @@ public class AssessmentCommandsTest {
                 String.format(AddAssignmentStatistics.MESSAGE_SUCCESS, toBeAdded),
                 expected, false, logic.getLastShownList(), false,
                 logic.getLastShownAssessmentList(), false);
-    }*/
+    }
 
     @Test
-    public void executeDeleteStatisticsInvalidArgsFormat() throws Exception {
+    public void executeDeleteStatistics_invalidArgs_invalidMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteStatisticsCommand.MESSAGE_USAGE);
         assertCommandBehavior("deletestatistics ", expectedMessage);
         assertCommandBehavior("deletestatistics arg not number", expectedMessage);
     }
 
     @Test
-    public void executeDeleteStatisticsInvalidIndex() throws Exception {
+    public void executeDeleteStatistics_invalidIndex_invalidIndexMessage() throws Exception {
         assertInvalidIndexBehaviorForCommand("deletestatistics", MESSAGE_INVALID_STATISTICS_DISPLAYED_INDEX);
     }
 
     @Test
-    public void executeListStatisticsInvalidArgsFormat() throws Exception {
+    public void executeListStatistics_invalidArgs_invalidMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListStatisticsCommand.MESSAGE_USAGE);
         assertCommandBehavior("liststatistics 1 2", expectedMessage);
         assertCommandBehavior("liststatistics any other args", expectedMessage);
