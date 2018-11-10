@@ -399,21 +399,23 @@ The usage of enums also allows us to keep a reference to the created User object
 
 ==== Current Implementation
 There is a master StatisticsBook which contains all the statistics for various exams. There is also a list of assessments
-being stored in the AddressBook. The current set of commands include:
+and the grades for these assessments being stored in the AddressBook. The current set of commands include:
 
-. `Adding a new statistics`
 . `Adding a new assessment`
 . `Listing all assessments'
 . `Deleting an assessment`
 . `Adding grades for a student`
 . `Viewing all grades for a student`
 . `Deleting a specific grade for a student`
+. `Adding statistics for an assessment`
+. `Listing all statistics`
+. `Deleting a statistic`
 
 An Example of how feature 2 - `Adding a new assessment to the AddressBook` works:
 
 . The user (teacher/ admin) will be able to use the 'addassess' command to add a new assessment.
-. This assessment will only be added to the Address Book if it is not already present. i.e. duplicate assessments will
-  not be entered.
+. This assessment will only be added to the Address Book if it is not already present. i.e. check for duplicate assessments
+is done.
 . These assessments reflect the exams/homework of the school in general. This list of assessments can then be used to add
   grades to a particular student.
 
