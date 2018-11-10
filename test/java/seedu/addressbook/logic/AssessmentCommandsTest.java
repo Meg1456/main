@@ -20,7 +20,6 @@ import org.junit.rules.TemporaryFolder;
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
-import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
@@ -28,14 +27,10 @@ import seedu.addressbook.commands.assessment.DeleteStatisticsCommand;
 import seedu.addressbook.commands.assessment.ListAssessmentCommand;
 import seedu.addressbook.commands.assessment.ListStatisticsCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
-import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Grades;
-import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -55,7 +50,6 @@ public class AssessmentCommandsTest {
 
     private AddressBook addressBook;
     private StatisticsBook statisticBook;
-    private Logic logic;
 
     @Before
     public void setUp() throws Exception {
