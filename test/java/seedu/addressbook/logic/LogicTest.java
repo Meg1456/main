@@ -232,7 +232,7 @@ public class LogicTest {
     public void executeAdd_validData_success() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Person toBeAdded = helper.adam();
+        Person toBeAdded = helper.makeAdam();
         AddressBook expected = new AddressBook();
         expected.addPerson(toBeAdded);
 
@@ -249,7 +249,7 @@ public class LogicTest {
     public void executeAdd_duplicateData_duplicateNotAllowed() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Person toBeAdded = helper.adam();
+        Person toBeAdded = helper.makeAdam();
         AddressBook expected = new AddressBook();
         expected.addPerson(toBeAdded);
 
@@ -380,7 +380,7 @@ public class LogicTest {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, true);
         Person p2 = helper.generatePerson(2, false);
-        p1.setFees(helper.fees(1));
+        p1.setFees(helper.makeFees(1));
         List<Person> lastShownList = helper.generatePersonList(p1, p2);
         AddressBook expected = helper.generateAddressBook(lastShownList);
         helper.addToAddressBook(addressBook, lastShownList);

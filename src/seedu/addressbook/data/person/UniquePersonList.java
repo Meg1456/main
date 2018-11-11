@@ -119,7 +119,7 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
-     * loops through list and appends data to string person.
+     * Loops through list and appends data to string person.
      *
      */
     public List<ReadOnlyPerson> listdueFees(String date) {
@@ -158,7 +158,7 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
-     * loops through list and appends data to string person.
+     * Loops through list and appends data to string person.
      *
      */
     public List<ReadOnlyPerson> listFees() {

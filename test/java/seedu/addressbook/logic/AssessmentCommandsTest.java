@@ -20,6 +20,7 @@ import org.junit.rules.TemporaryFolder;
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
@@ -31,6 +32,9 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
+import seedu.addressbook.data.person.Grades;
+import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -49,6 +53,7 @@ public class AssessmentCommandsTest {
 
     private AddressBook addressBook;
     private StatisticsBook statisticBook;
+    private Logic logic;
 
     @Before
     public void setUp() throws Exception {
@@ -63,7 +68,7 @@ public class AssessmentCommandsTest {
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
 
-        Logic logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
+        logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
         CommandAssertions.setData(stubFile, addressBook, logic, examBook, statisticBook);
     }
 
@@ -71,7 +76,7 @@ public class AssessmentCommandsTest {
     public void executeAddAssessment_validArgs_successful() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Assessment toBeAdded = helper.assess();
+        Assessment toBeAdded = helper.makeAssess();
         AddressBook expected = new AddressBook();
         expected.addAssessment(toBeAdded);
         List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
@@ -86,7 +91,7 @@ public class AssessmentCommandsTest {
     public void executeAddAssessment_duplicateData_duplicateMessage() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Assessment toBeAdded = helper.assess();
+        Assessment toBeAdded = helper.makeAssess();
         AddressBook expected = new AddressBook();
         expected.addAssessment(toBeAdded);
         List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
@@ -150,6 +155,33 @@ public class AssessmentCommandsTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAssessmentCommand.MESSAGE_USAGE);
         assertCommandBehavior("listassess 1 2", expectedMessage);
         assertCommandBehavior("listassess any other arg", expectedMessage);
+    }
+
+    @Test
+    public void executeAddGrades_validArgs_success() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Assessment a1 = helper.generateAssessment(1);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        addressBook.addPerson(p1);
+        logic.setLastShownList(personList);
+
+        Assessment a1Expected = helper.generateAssessment(1);
+        List<Assessment> singleAssessmentExpected = helper.generateAssessmentsList(a1Expected);
+
+        Person p1Expected = helper.generatePerson(1, false, 1, 100);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+        helper.addAssessmentsToAddressBook(expectedBook, singleAssessmentExpected);
+
+        assertCommandBehavior("addgrades 1 1 100",
+                String.format(AddGradesCommand.MESSAGE_ADD_GRADE_SUCCESS, p1Expected.getName(), a1Expected), "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
     }
 
     @Test
@@ -229,6 +261,28 @@ public class AssessmentCommandsTest {
     @Test
     public void executeViewGrades_invalidIndex_invalidIndexMessage() throws Exception {
         assertInvalidIndexBehaviorForCommand("viewgrades");
+    }
+
+    @Test
+    public void executeAddAssignmentStatistics_validArgs_successful() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        AssignmentStatistics toBeAdded = helper.stat();
+
+        StatisticsBook expected = new StatisticsBook();
+        expected.addStatistic(toBeAdded);
+        Assessment assessment = new Assessment("Spanish Quiz");
+        addressBook.addAssessment(assessment);
+        Person person1 = helper.makeAdam();
+        Grades grade = new Grades(100);
+        assessment.addGrade(person1, grade);
+        addressBook.addPerson(person1);
+
+        List<Assessment> singleAssessment = List.of(assessment);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        assertCommandBehavior("addstatistics 1", String.format(AddAssignmentStatistics.MESSAGE_SUCCESS,
+                toBeAdded), expected, false);
     }
 
     @Test

@@ -11,7 +11,7 @@ import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege.SelfModifyingException;
 
 /**
- * Deletes the account of a person identified using it's last displayed index from the address book.
+ * Deletes the account of a person identified using their last displayed index from the address book.
  */
 public class DeleteAccountCommand extends IndexFormatCommand {
 

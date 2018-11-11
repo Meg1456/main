@@ -75,7 +75,7 @@ public class PrivilegeTest {
     @Test
     public void executeSay_loggedIn_success() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        final Person testPerson = helper.adam();
+        final Person testPerson = helper.makeAdam();
         final String feedbackFormat = String.format(ViewPrivilegeCommand.MESSAGE_LOGGED_IN, testPerson.getName())
                 + ViewPrivilegeCommand.MESSAGE_PRIVILEGE_FORMAT;
 
@@ -141,7 +141,7 @@ public class PrivilegeTest {
     @Test
     public void executeRaisePrivilege_loggedIn_loggedInMessageShown() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Person person = helper.adam();
+        Person person = helper.makeAdam();
         privilege.setMyPerson(person);
         String expectedMessage = String.format(RaisePrivilegeCommand.MESSAGE_LOGGED_IN, person.getName());
         assertCommandBehavior("raise default_pw", expectedMessage

@@ -231,15 +231,6 @@ public class ParserTest {
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
-    //    @Test
-    //    public void deleteGradesCommand_numericArg_indexParsedCorrectly() {
-    //        final int testIndex1 = 1;
-    //        final int testIndex2 = 2;
-    //        final String input = "deletegrades " + testIndex1 + testIndex2;
-    //        final DeleteGradesCommand result = parseAndAssertCommandType(input, DeleteGradesCommand.class);
-    //        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex1);
-    //    }
-
     /**
      * Test find persons by keyword in name command
      */

@@ -78,7 +78,7 @@ public class FeesCommandsTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
 
         AddressBook expected = helper.generateAddressBook(threePersons);
-        expected.findPerson(p2).setFees(helper.fees(1));
+        expected.findPerson(p2).setFees(helper.makeFees(1));
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
@@ -157,7 +157,7 @@ public class FeesCommandsTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
 
         AddressBook expected = helper.generateAddressBook(threePersons);
-        expected.findPerson(p2).setFees(helper.fees(1));
+        expected.findPerson(p2).setFees(helper.makeFees(1));
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
@@ -211,9 +211,9 @@ public class FeesCommandsTest {
         Person p1 = helper.generatePerson(1, false);
         Person p2 = helper.generatePerson(2, true);
         Person p3 = helper.generatePerson(3, true);
-        p1.setFees(helper.fees(1));
-        p2.setFees(helper.fees(3));
-        p3.setFees(helper.fees(2));
+        p1.setFees(helper.makeFees(1));
+        p2.setFees(helper.makeFees(3));
+        p3.setFees(helper.makeFees(2));
 
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
         AddressBook expected = helper.generateAddressBook(threePersons);
@@ -240,7 +240,7 @@ public class FeesCommandsTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
 
         AddressBook expected = helper.generateAddressBook(threePersons);
-        expected.findPerson(p2).setFees(helper.fees(1));
+        expected.findPerson(p2).setFees(helper.makeFees(1));
 
         List<Person> threePerson = helper.generatePersonList(p1, p2, p3);
 
@@ -335,7 +335,7 @@ public class FeesCommandsTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
 
         AddressBook expected = helper.generateAddressBook(threePersons);
-        expected.findPerson(p2).setFees(helper.fees(1));
+        expected.findPerson(p2).setFees(helper.makeFees(1));
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);

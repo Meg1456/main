@@ -138,7 +138,7 @@ public class Formatter {
         return format(asIndexedList(formattedExams));
     }
 
-    /** Formats the given list of exams for displaying to the admin user. */
+    /** Formats the given list of assessments for displaying to the user. */
     public static String formatAssessments(List<? extends Assessment> assessments) {
         final List<String> formattedAssessments = new ArrayList<>();
         for (Assessment assessment : assessments) {
@@ -148,7 +148,7 @@ public class Formatter {
         return format(asIndexedList(formattedAssessments));
     }
 
-    /** Formats the given list of statistics for displaying to the admin user. */
+    /** Formats the given list of statistics for displaying to the user. */
     public static String formatStatistics(List<? extends AssignmentStatistics> statistics) {
         final List<String> formattedStatistics = new ArrayList<>();
         for (AssignmentStatistics stats : statistics) {
@@ -178,7 +178,7 @@ public class Formatter {
     }
 
     /**
-     * Formats a string for an exam to be printed
+     * Formats a string for an assessment to be printed
      */
     public static String getPrintableAssessment(String examName) {
         return examName;

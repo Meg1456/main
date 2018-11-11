@@ -78,7 +78,7 @@ public class ExamCommandsTest {
     public void executeAddExam_validData_success() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Exam toBeAdded = helper.math();
+        Exam toBeAdded = helper.makeMathExam();
         ExamBook expected = new ExamBook();
         expected.addExam(toBeAdded);
 
@@ -93,7 +93,7 @@ public class ExamCommandsTest {
     public void executeAddExam_duplicateData_duplicateMessage() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Exam toBeAdded = helper.math();
+        Exam toBeAdded = helper.makeMathExam();
         ExamBook expected = new ExamBook();
         expected.addExam(toBeAdded);
 
@@ -126,7 +126,7 @@ public class ExamCommandsTest {
                 + " %s %s %s dt/" + Exam.EXAM_DETAILS_EXAMPLE;
 
         TestDataHelper helper = new TestDataHelper();
-        Exam toBeAdded = helper.math();
+        Exam toBeAdded = helper.makeMathExam();
         ExamBook expected = new ExamBook();
         expected.addExam(toBeAdded);
 

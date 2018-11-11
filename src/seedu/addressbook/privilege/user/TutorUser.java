@@ -5,10 +5,11 @@ import java.util.List;
 
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
-import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteStatisticsCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
@@ -46,12 +47,13 @@ public class TutorUser extends BasicUser {
             new ListFeesCommand(),
             new ListDueFeesCommand(),
             new AddAssessmentCommand(),
-            new ListAssessmentCommand(),
             new DeleteAssessmentCommand(),
             new AddGradesCommand(),
             new ViewGradesCommand(),
             new DeleteGradesCommand(),
-            new ViewFeesCommand()
+            new ViewFeesCommand(),
+            new AddAssignmentStatistics(),
+            new DeleteStatisticsCommand()
     );
 
     public TutorUser() {
