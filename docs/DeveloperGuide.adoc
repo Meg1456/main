@@ -1297,7 +1297,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 .. Test case: `delete 1` +
    Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
-.. Other commands of different privilege to try: `examslist`, `listall`, `deleteexam 1` +
+.. Other commands of different privilege to try: `listexams`, `listall`, `deleteexam 1` +
    Expected: Similar to previous.
 
 === Adding a duplicate person
@@ -1305,7 +1305,7 @@ These instructions only provide a starting point for testers to work on; testers
 . Add a person while it already exists in the address book.  
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
    Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
-.. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was preformed. +
+.. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was performed. +
    Expected: No person is added. Error details shown in the status console. Console bar remains the same.
 .. Other similar commands to try: `addexam`, `addassess` +
    Expected: Similar to previous.   
@@ -1319,7 +1319,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Edit a field of a person such that it is invalid, eg. the field of `phone` is changed to `notANumber`.
 .. Run the application again. +
    Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
-.. Other similar edits can be made to `exams.txt` and statistics.txt` to try. +
+.. Other similar edits can be made to `exams.txt` and `statistics.txt` to try. +
    Expected: Similar to previous.      
 
 . _{explain how to simulate a missing/corrupted file and the expected behaviour}_

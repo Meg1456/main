@@ -162,7 +162,8 @@ public class Formatter {
      */
     public static String getPrintableExam(String examName, String subjectName, String examDate, String examStartTime,
                                           String examEndTime, String examDetails, int takers, boolean isPrivate) {
-        final String examFormat = "%1$sExam: %2$s %3$s %4$s %5$s %6$s %7$s. %9$s: %8$d";
+        final String examFormat = "%1$sExam: %2$s || Subject: %3$s || Date: %4$s || Starts: %5$s || "
+            + "Ends: %6$s || Details: %7$s || %9$s: %8$d";
         final String takerWord;
         if (takers == 1) {
             takerWord = "Taker";

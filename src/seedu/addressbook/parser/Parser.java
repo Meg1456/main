@@ -56,7 +56,7 @@ import seedu.addressbook.commands.exams.ClearExamsCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
 import seedu.addressbook.commands.exams.DeregisterExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
-import seedu.addressbook.commands.exams.ExamsListCommand;
+import seedu.addressbook.commands.exams.ListExamsCommand;
 import seedu.addressbook.commands.exams.RegisterExamCommand;
 import seedu.addressbook.commands.exams.ViewExamsCommand;
 import seedu.addressbook.commands.fees.EditFeesCommand;
@@ -203,8 +203,8 @@ public class Parser {
         case ViewAttendanceDateCommand.COMMAND_WORD:
             return prepareViewDateAttendance(arguments);
 
-        case ExamsListCommand.COMMAND_WORD:
-            return prepareVoidCommand(arguments, new ExamsListCommand());
+        case ListExamsCommand.COMMAND_WORD:
+            return prepareVoidCommand(arguments, new ListExamsCommand());
 
         case ListFeesCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ListFeesCommand());
@@ -513,7 +513,8 @@ public class Parser {
         }
 
         String[] arr = matcher.group("keywords").split("\\s+");
-        if (arr.length != 3) {
+        final int requiredArgs = 3;
+        if (arr.length != requiredArgs) {
             return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 3, arr.length,
                     AddGradesCommand.MESSAGE_USAGE));
         }
@@ -674,7 +675,8 @@ public class Parser {
         }
 
         String[] arr = matcher.group("keywords").split("\\s+");
-        if (arr.length != 2) {
+        final int requiredArgs = 2;
+        if (arr.length != requiredArgs) {
             return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, arr.length,
                     DeleteGradesCommand.MESSAGE_USAGE));
         }

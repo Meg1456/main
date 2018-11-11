@@ -178,7 +178,7 @@ public class TestDataHelper {
 
     /**
      * Generates a valid assessment using the given seed.
-     * Running this function with the same parameter values guarantees the returned person will have the same state.
+     * Running this function with the same parameter values guarantees the returned assessment will have the same state.
      * Each unique seed will generate a unique Assessment object.
      *
      * @param seed used to generate the assessment
@@ -244,7 +244,7 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct edit fees command based on the person given */
+    /** Generates a standard correct edit fees command*/
     public String generateEditFeesCommand() {
         StringJoiner cmd = new StringJoiner(" ");
         cmd.add("editfees");

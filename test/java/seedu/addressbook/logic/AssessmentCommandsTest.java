@@ -50,9 +50,7 @@ public class AssessmentCommandsTest {
      */
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
-
     private AddressBook addressBook;
-    private StatisticsBook statisticBook;
     private Logic logic;
 
     @Before
@@ -63,7 +61,7 @@ public class AssessmentCommandsTest {
 
         addressBook = new AddressBook();
         ExamBook examBook = new ExamBook();
-        statisticBook = new StatisticsBook();
+        StatisticsBook statisticBook = new StatisticsBook();
         // Privilege set to admin to allow all commands.
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
@@ -97,7 +95,7 @@ public class AssessmentCommandsTest {
         List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
 
         // setup starting state
-        addressBook.addAssessment(toBeAdded); // statistic already in internal statistic book
+        addressBook.addAssessment(toBeAdded); // assessment already in internal address book
 
         // execute command and verify result
         assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
@@ -188,20 +186,13 @@ public class AssessmentCommandsTest {
     public void executeAddGrades_invalidParsedArgs_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGradesCommand.MESSAGE_USAGE);
 
-        assertCommandBehaviorForExam("addgrades 1 1 not_a_number", expectedMessage
-        );
-        assertCommandBehaviorForExam("addgrades 1 not_a_number 1", expectedMessage
-        );
-        assertCommandBehaviorForExam("addgrades 1 not_a_number not_a_number", expectedMessage
-        );
-        assertCommandBehaviorForExam("addgrades not_a_number 1 1", expectedMessage
-        );
-        assertCommandBehaviorForExam("addgrades not_a_number 1 not_a_number", expectedMessage
-        );
-        assertCommandBehaviorForExam("addgrades not_a_number not_a_number 1", expectedMessage
-        );
-        assertCommandBehaviorForExam("addgrades not_a_number not_a_number not_a_number", expectedMessage
-        );
+        assertCommandBehaviorForExam("addgrades 1 1 not_a_number", expectedMessage);
+        assertCommandBehaviorForExam("addgrades 1 not_a_number 1", expectedMessage);
+        assertCommandBehaviorForExam("addgrades 1 not_a_number not_a_number", expectedMessage);
+        assertCommandBehaviorForExam("addgrades not_a_number 1 1", expectedMessage);
+        assertCommandBehaviorForExam("addgrades not_a_number 1 not_a_number", expectedMessage);
+        assertCommandBehaviorForExam("addgrades not_a_number not_a_number 1", expectedMessage);
+        assertCommandBehaviorForExam("addgrades not_a_number not_a_number not_a_number", expectedMessage);
     }
 
     @Test
@@ -243,12 +234,9 @@ public class AssessmentCommandsTest {
     @Test
     public void executeDeleteGrades_invalidParsedArgs_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteGradesCommand.MESSAGE_USAGE);
-        assertCommandBehavior("deletegrades not_a_number 1", expectedMessage
-        );
-        assertCommandBehavior("deletegrades 1 not_a_number", expectedMessage
-        );
-        assertCommandBehavior("deletegrades not_a_number not_a_number", expectedMessage
-        );
+        assertCommandBehavior("deletegrades not_a_number 1", expectedMessage);
+        assertCommandBehavior("deletegrades 1 not_a_number", expectedMessage);
+        assertCommandBehavior("deletegrades not_a_number not_a_number", expectedMessage);
     }
 
     @Test

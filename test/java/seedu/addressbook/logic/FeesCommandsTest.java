@@ -65,8 +65,7 @@ public class FeesCommandsTest {
 
     @Test
     public void executeEditFees_invalidData_invalidMessage() throws Exception {
-        assertCommandBehavior(
-                "editfees 2 1.111 01-01-2018", Fees.MESSAGE_FEES_CONSTRAINTS);
+        assertCommandBehavior("editfees 2 1.111 01-01-2018", Fees.MESSAGE_FEES_CONSTRAINTS);
     }
 
     @Test
@@ -106,7 +105,7 @@ public class FeesCommandsTest {
         logic.setLastShownList(threePersons);
 
         assertCommandBehavior("editfees 1 0.00 00-00-0000",
-                String.format(MESSAGE_DATE_CONSTRAINTS),
+                MESSAGE_DATE_CONSTRAINTS,
                 expected,
                 false,
                 threePersons,

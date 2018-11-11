@@ -25,7 +25,7 @@ import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
-import seedu.addressbook.commands.exams.ExamsListCommand;
+import seedu.addressbook.commands.exams.ListExamsCommand;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.commands.general.HelpCommand;
 import seedu.addressbook.commands.person.AddCommand;
@@ -535,8 +535,8 @@ public class ParserTest {
 
     @Test
     public void examsListCommand_parsedCorrectly() {
-        final String input = "examslist";
-        parseAndAssertCommandType(input, ExamsListCommand.class);
+        final String input = "listexams";
+        parseAndAssertCommandType(input, ListExamsCommand.class);
     }
 
     /** **/
