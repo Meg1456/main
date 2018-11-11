@@ -852,3 +852,4 @@ a data saving operation. ClassRepo shuts itself down to ensure synchronisation o
 
 == Known Issues
 1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
+image:asciiArt.png[500,500]

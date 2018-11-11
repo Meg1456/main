@@ -732,6 +732,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |tutor/admin |add grades to a student for a particular assessment | keep track of all grades and update student about their performance
 
+|`* * *` |tutor/admin |add a new statistic | view general performance of students in assessments
+
+|`* * *` |student/tutor/admin |view a list of all statistics|know about performance of students in school examinations
+
 |`* *` |user |view my privilege |know what commands I have access to
 
 |`* *` |user |view my own details |know my details
@@ -1108,6 +1112,52 @@ Use case resumes at step 4.
 Use case resumes at step 4.
 
 [discrete]
+=== Use case: Add statistic
+[discrete]
+==== System: ClassRop
+[discrete]
+==== Actor: Tutor, Admin
+<<mss, *MSS*>>
+
+1. User requests to list assessments.
+2. ClassRepo displays an indexed list of all assessments in the addressbook.
+3. User requests to add a statistic for a specific assessment.
+4. ClassRepo calculates statistics for the assessment and adds it to the list
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty. +
+Use case ends.
+[none]
+* 3a. The given assessment index is invalid. +
+** 5a1. ClassRepo shows an error message. +
+Use case resumes at step 2.
+
+
+[discrete]
+=== Use case: Viewing the statistics list
+[discrete]
+==== System: ClassRepo
+[discrete]
+==== Actor: Student, Tutor, Admin
+<<mss, *MSS*>>
+
+1.  User requests to list all statistics.
+2.  ClassRepo displays an indexed list of statistics.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
 === Use case: View the user's own details
 
 <<mss, *MSS*>> 
@@ -1326,7 +1376,8 @@ _{More to be added}_
 
 .  Should work on any <<mainstream-os, mainstream OS>> as long as it has Java `9` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
+able to accomplish most of the tasks faster using commands than using the mouse.
 
 _{More to be added}_
 
