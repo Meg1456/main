@@ -236,13 +236,13 @@ public class AccountTest {
     @Test
     public void executeDeleteAccount_invalidArgsFormat_invalidMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAccountCommand.MESSAGE_USAGE);
-        assertCommandBehavior("delacc ", expectedMessage);
-        assertCommandBehavior("delacc arg not number", expectedMessage);
+        assertCommandBehavior("deleteacc ", expectedMessage);
+        assertCommandBehavior("deleteacc arg not number", expectedMessage);
     }
 
     @Test
     public void executeDeleteAccount_invalidIndex_invalidIndexMessageShown() throws Exception {
-        assertInvalidIndexBehaviorForCommand("delacc");
+        assertInvalidIndexBehaviorForCommand("deleteacc");
     }
 
     @Test
@@ -258,7 +258,7 @@ public class AccountTest {
         addressBook.removePerson(p2);
         expected.removePerson(expectedP2);
 
-        assertCommandBehavior("delacc 2",
+        assertCommandBehavior("deleteacc 2",
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
@@ -273,7 +273,7 @@ public class AccountTest {
         TestDataHelper.ThreePersons threePersons = helper.generateThreePersons();
 
         setUpThreePerson(addressBook, expected, logic, threePersons);
-        assertCommandBehavior("delacc 2",
+        assertCommandBehavior("deleteacc 2",
                 DeleteAccountCommand.MESSAGE_PERSON_ACCOUNT_ABSENT,
                 expected,
                 false,
@@ -295,7 +295,7 @@ public class AccountTest {
         final Person self = threePersons.getActualPerson(1);
         privilege.setMyPerson(self);
 
-        assertCommandBehavior("delacc 1",
+        assertCommandBehavior("deleteacc 1",
                 DeleteAccountCommand.MESSAGE_DELETING_SELF,
                 expected,
                 false,
@@ -316,7 +316,7 @@ public class AccountTest {
         final Person p2 = threePersons.getActualPerson(2);
         p2.setAccount(new Account("user2", "pw2", "basic"));
 
-        assertCommandBehavior("delacc 2",
+        assertCommandBehavior("deleteacc 2",
                 String.format(DeleteAccountCommand.MESSAGE_DELETE_ACCOUNT_PERSON_SUCCESS, p2.getName()),
                 expected,
                 true,

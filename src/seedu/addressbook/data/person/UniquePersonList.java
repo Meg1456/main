@@ -96,14 +96,11 @@ public class UniquePersonList implements Iterable<Person> {
      *
      * @throws PersonNotFoundException if no such person could be found in the list.
      */
-    public Person find(ReadOnlyPerson person) throws PersonNotFoundException {
-        //TODO: Fix potato
-        for (Person p: internalList) {
-            if (p.equals(person)) {
-                return p;
-            }
-        }
-        throw new PersonNotFoundException();
+    public Person find(ReadOnlyPerson readOnlyPerson) throws PersonNotFoundException {
+        return internalList.stream()
+                .filter(p -> p.equals(readOnlyPerson))
+                .findAny()
+                .orElseThrow(PersonNotFoundException:: new);
     }
 
     /**

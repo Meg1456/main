@@ -189,7 +189,7 @@ The Privilege feature aims to only restrict the user's to their allowed commands
 The figure below shows the class diagram describing the implementation of the Privilege/Account feature.
 [[fig-PrivilegeDiagram]]
 .Class Diagram of the Privilege Component
-image::Privilege.png[width="600"]
+image::PrivilegeClassDiagram.png[width="600"]
 
 ==== Current Implementation
 
@@ -1420,8 +1420,8 @@ _{ more test cases ... }_
 
 === Instructions for Manual Testing
 
-. Dealing with missing/corrupted data files
+. Loading of sample data into program
 
-.. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
-
-_{ more test cases ... }_
+.. Move the `jar` file into the working directory.
+.. Copy the sample data from the link:{repoURL}/sample_data[GitHub Repo] into the working directory.
+.. Launch the `jar` file. Type `list` into the CLI to confirm that the data is loaded into the system.

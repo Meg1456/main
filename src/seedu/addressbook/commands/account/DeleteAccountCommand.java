@@ -15,7 +15,7 @@ import seedu.addressbook.privilege.Privilege.SelfModifyingException;
  */
 public class DeleteAccountCommand extends IndexFormatCommand {
 
-    public static final String COMMAND_WORD = "delacc";
+    public static final String COMMAND_WORD = "deleteacc";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Deletes the account of the person identified by the index number used in the last person listing.\n\t"

@@ -282,9 +282,9 @@ Example(s):
 Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin` 
 to the first person in the list.
 
-==== Delete the account of a person: `delacc` image:Admin.png[16,16]
+==== Delete the account of a person: `deleteacc` image:Admin.png[16,16]
 Deletes the account of the target person. +
-Format: `delacc INDEX`
+Format: `deleteacc INDEX`
 
 ****
 Deletes the account of the person with INDEX as specified by the last shown list.
@@ -293,7 +293,7 @@ Deletes the account of the person with INDEX as specified by the last shown list
 Example(s):
 
 * `list`  +
-`delacc 1` +
+`deleteacc 1` +
 Deletes the account of the first person in the list, provided that he has an account.
 
 ==== Login to an account: `login` image:Basic.png[16,16]
