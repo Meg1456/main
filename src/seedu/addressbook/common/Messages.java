@@ -47,7 +47,7 @@ public class Messages {
             + "  \\_____|_|\\__,_|___/___/_|  \\_\\___| .__/ \\____/      \\/    |_(_)____/ \n"
             + "                                   | |                                 \n"
             + "                                   |_|                                 \n";
-    public static final String MESSAGE_NO_NON_PRIVATE_EXAMS = "This person has no non-private exams.";
-    public static final String MESSAGE_NOT_LOGGED_IN_OR_WRONG_TARGET =
-            "You must login and can only check your own details.";
+    public static final String MESSAGE_NO_NON_PRIVATE_EXAMS = "%1$s has no non-private exams.";
+    public static final String MESSAGE_NO_EXAMS = "%1$s has no exams.";
+    public static final String MESSAGE_WRONG_TARGET = "You cannot check the exams of others.";
 }
