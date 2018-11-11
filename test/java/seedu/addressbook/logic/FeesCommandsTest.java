@@ -307,7 +307,7 @@ public class FeesCommandsTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
 
         AddressBook expected = helper.generateAddressBook(threePersons);
-        expected.findPerson(p2).setFees(helper.fees(1));
+        expected.findPerson(p2).setFees(helper.makeFees(1));
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);

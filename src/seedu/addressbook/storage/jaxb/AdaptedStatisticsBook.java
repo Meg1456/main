@@ -51,7 +51,8 @@ public class AdaptedStatisticsBook {
 
 
     /**
-     * Converts this jaxb-friendly {@code AdaptedStatisticsBook} object into the corresponding(@code StatisticsBook} object.
+     * Converts this jaxb-friendly {@code AdaptedStatisticsBook} object into the corresponding(@code StatisticsBook}
+     * object.
      * @throws IllegalValueException if there were any data constraints violated in the adapted statistics
      */
     public StatisticsBook toModelType() throws IllegalValueException {
