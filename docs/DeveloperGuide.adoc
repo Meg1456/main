@@ -1126,6 +1126,7 @@ Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
+
 <<mss, *MSS*>> 
 
 1. User requests to increase his privilege
@@ -1150,6 +1151,7 @@ Use case ends
 === Use case: Change master password
 [discrete]
 ==== Actor: Admin
+
 <<mss, *MSS*>> 
 
 1. User requests to change the master password
@@ -1176,6 +1178,7 @@ User case resumes from step 4
 === Use case: Add account to a person
 [discrete]
 ==== Actor: Admin
+
 <<mss, *MSS*>> 
 
 1.  User requests to list persons
