@@ -306,7 +306,7 @@ and the grades for these assessments being stored in the AddressBook. The curren
 This is the class diagram for the assessments, grades and statistics combined:
 [[fig-AddAssessmentDiagram]]
 .Class Diagram
-image::AssessmentClassDiagram.png[width="800"]
+image::assessmentClassDiagram.png[width="800"]
 
 . A list of unique assessments can be stored in the addressbook.
 . Each assessment object contains a Hashmap, with Person as the Key and Grades as the Value. Hence, the grades of all
@@ -726,6 +726,12 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |tutor/admin |view the lists of exams|manage the exams
 
+|`* * *` |tutor/admin |add a new assessments | keep track of all assessments conducted in the semester
+
+|`* * *` |student/tutor/admin |view a list of all assessments|know about upcoming assessments and have a record of all past ones as well
+
+|`* * *` |tutor/admin |add grades to a student for a particular assessment | keep track of all grades and update student about their performance
+
 |`* *` |user |view my privilege |know what commands I have access to
 
 |`* *` |user |view my own details |know my details
@@ -1017,6 +1023,89 @@ Use case ends.
 ** 4a1. ClassRepo shows a list of his non-private exams. +
 Use case ends.
 
+[discrete]
+=== Use case: Add assessment
+[discrete]
+==== System: ClassRop
+[discrete]
+==== Actor: Tutor, Admin
+<<mss, *MSS*>>
+
+1. User requests to add an assessment.
+2. ClassRepo expects the name of the assessment to add.
+3. User enters the name of the assessment.
+4. ClassRepo adds the assessment to the AddressBook.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. The details entered are in an invalid format. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends. +
+[none]
+* 3b. The assessment to add already exists in ClassRepo. +
+** 3b1. ClassRepo shows an error message (duplication of assessment). +
+Use case ends.
+
+[discrete]
+=== Use case: Viewing the assessments list
+[discrete]
+==== System: ClassRepo
+[discrete]
+==== Actor: Student, Tutor, Admin
+<<mss, *MSS*>>
+
+1.  User requests to list all assessments.
+2.  ClassRepo displays an indexed list of assessments.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Add grades for an assessment
+[discrete]
+==== System: ClassRepo
+[discrete]
+==== Actor: Tutor, Admin
+<<mss, *MSS*>>
+
+1.  User requests to list persons.
+2.  ClassRepo displays an indexed list of all persons in the addressbook.
+3.  User requests to list assessments.
+4.  ClassRepo displays an indexed list of all assessments in the addressbook.
+5.  User requests to add grades to a specific person in the person list for a specific assessment in the assessments list.
+6.  ClassRepo adds the grades to the appropriate person.
+
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty. +
+Use case ends.
+[none]
+* 4a. The list is empty. +
+Use case ends.
+[none]
+* 5a. The given person index is invalid. +
+** 5a1. ClassRepo shows an error message. +
+Use case resumes at step 4.
+[none]
+* 5b. The given assessment index is invalid. +
+** 5b1. ClassRepo shows an error message. +
+Use case resumes at step 4.
+* 5c. The given grades value is invalid. +
+** 5b1. ClassRepo shows an error message. +
+Use case resumes at step 4.
 
 [discrete]
 === Use case: View the user's own details
