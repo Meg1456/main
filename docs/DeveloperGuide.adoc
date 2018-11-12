@@ -306,7 +306,7 @@ and the grades for these assessments being stored in the AddressBook. The curren
 This is the class diagram for the assessments, grades and statistics combined:
 [[fig-AddAssessmentDiagram]]
 .Class Diagram
-image::assessmentClassDiagram.png[width="800"]
+image::AssessmentClassDiagram.png[width="800"]
 
 . A list of unique assessments can be stored in the addressbook.
 . Each assessment object contains a Hash Map, with Person as the Key and Grades as the Value. Hence, the grades of all
