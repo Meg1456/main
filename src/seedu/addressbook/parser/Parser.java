@@ -578,7 +578,8 @@ public class Parser {
                     matcher.group("date"),
                     isPresentBool);
         } catch (NumberFormatException nfe) { //do the most specific catch on top
-            return new IncorrectCommand(nfe.getMessage());
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UpdateAttendanceCommand.MESSAGE_USAGE));
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS);
         } catch (IllegalValueException ive) {
@@ -612,12 +613,12 @@ public class Parser {
                     matcher.group("date"),
                     isPresentBool);
         } catch (NumberFormatException nfe) { //do the most specific catch on top
-            return new IncorrectCommand(nfe.getMessage());
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ReplaceAttendanceCommand.MESSAGE_USAGE));
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS);
         } catch (IllegalValueException ive) {
-            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS + MESSAGE_DATE_CONSTRAINTS
-                    + ReplaceAttendanceCommand.MESSAGE_USAGE);
+            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS + ReplaceAttendanceCommand.MESSAGE_USAGE);
         }
 
     }
@@ -637,7 +638,8 @@ public class Parser {
             final int targetIndex = parseInt(matcher.group("targetIndex"));
             return new ViewAttendancePersonCommand(targetIndex);
         } catch (NumberFormatException nfe) { //do the most specific catch on top
-            return new IncorrectCommand(nfe.getMessage());
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewAttendancePersonCommand.MESSAGE_USAGE));
         }
     }
 

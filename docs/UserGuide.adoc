@@ -16,7 +16,7 @@ endif::[]
 
 image::Banner.png[450,290]
 
-ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school related
+ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school-related
 information*.
 ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). +
 
@@ -139,8 +139,8 @@ Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
 
 ****
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional,
-items with `...` after them can have multiple instances. Order of parameters are fixed. +
-Put a `p` before the phone / email / address prefixes to mark it as `private`. `private` details can only
+items with `...` after them can have multiple instances. Order of parameters is fixed. +
+Put a `p` before the phone/ email/address prefixes to mark it as `private`. `private` details can only
 be seen using the `viewall` command. +
 Persons can have any number of tags (including 0).
 ****
@@ -165,7 +165,7 @@ Format: `list`
 [[listall]]
 ==== Listing all persons (detailed view) : `listall` image:Tutor.png[16,16]
 Displays all persons (showing all non-private details) in the address book as a list with index numbers. +
-Format: `listall` 
+Format: `listall`
 
 ==== Finding all persons containing any keyword in their name: `find` image:Basic.png[16,16]
 
@@ -279,7 +279,7 @@ Example(s):
 
 * `list`  +
 `addacc 1 JohnDoe1337 P455W0RD Admin` +
-Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin` 
+Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin`
 to the first person in the list.
 
 ==== Delete the account of a person: `deleteacc` image:Admin.png[16,16]
@@ -333,13 +333,13 @@ Format: `listacc`
 === Exam Commands
 Below are the commands that deals with exam data:
 
-==== Adding an exam : `addexam` image:Tutor.png[16,16]
+==== Adding an exam : `addexam` image:Admin.png[16,16]
 
 Adds an exam to the exam book, with the number of takers initialised as `0`. +
 Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
 
 ****
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. +
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters is fixed. +
 Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
 
@@ -354,7 +354,7 @@ Example(s):
 Shows a list of all exams in the exam book. +
 Format: `listexams`
 
-==== Deleting an exam : `deleteexam` image:Tutor.png[16,16]
+==== Deleting an exam : `deleteexam` image:Admin.png[16,16]
 Deletes the specified exam from the exam book. Irreversible. Persons registered for the corresponding exam will have the exam deleted as well. +
 Format: `deleteexam INDEX`
 
@@ -369,14 +369,14 @@ Example(s):
 `deleteexam 2` +
 Deletes the 2nd exam in the exam book.
 
-==== Editing an exam : `editexam` image:Tutor.png[16,16]
+==== Editing an exam : `editexam` image:Admin.png[16,16]
 Edits the specified exam from the exam book. Persons registered for the corresponding exam will have the exam details updated as well. +
 Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXAM_DATE] [st/EXAM_START_TIME] [et/EXAM_END_TIME] [dt/EXAM_DETAILS]`
 
 ****
 Edits the exam at the specified `INDEX`.
 The index refers to the index number shown in the most recent exams listing.
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters is fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
 ****
 
 [NOTE]
@@ -436,7 +436,7 @@ Deregisters the 2nd person in the address book for the 2nd exam in the exam book
 
 ==== Viewing exams : `viewexams` image:Basic.png[16,16]
 
-View the exams for a specificied person in the address book. +
+View the exams for a specified person in the address book. +
 Format: `viewexams INDEX`
 
 ****
@@ -462,7 +462,7 @@ Views the non-private exams of the 1st person in the address book, *if the logge
 `viewexams 1` +
 Views the exams of the 1st person in the address book, *if the logged-account belongs to a tutor/admin*.
 
-==== Clearing all entries : `clearexams` image:Tutor.png[16,16]
+==== Clearing all entries : `clearexams` image:Admin.png[16,16]
 
 Clears all entries from the exam book. All exams will be cleared in the address book as well. +
 Format: `clearexams`
@@ -481,7 +481,7 @@ FEE must have the form of 2 decimal places +
 DUE_DATE must have the form of DD-MM-YYYY
 
 ****
-Words in `UPPER_CASE` are the parameters, the order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, the order of parameters is fixed.
 
 Fees are automatically marked as `private`. `private` details can only
 be seen using the `viewall` command, or for fees specifically, the `viewfees` command.
@@ -583,7 +583,7 @@ Example(s):
 
 * `addassess Mathematics final class test`
 
-==== Listing all assessments : `listassess` image:Tutor.png[16,16]
+==== Listing all assessments : `listassess` image:Basic.png[16,16]
 
 Shows a list of all assessments in the address book, along with an index for each +
 Format: `listassess`
@@ -599,7 +599,7 @@ The index refers to the index number shown in the most recent assessments listin
 
 Example(s):
 
-* `listassess` + 
+* `listassess` +
 `deleteassess 1`
 
 ==== Adding grades to a person : `addgrades` image:Tutor.png[16,16]
@@ -641,7 +641,8 @@ Using `list` command
 
 Example(s):
 
-* `viewgrades 1` +
+* `list` +
+`viewgrades 1` +
 The results will be displayed as a list of assessments the student has taken and their corresponding grades.
 
 ==== Deleting a grade : `deletegrades` image:Tutor.png[16,16]
@@ -696,7 +697,7 @@ If you change/ update grades after already generating a statistic, you must dele
 statistics book to ensure that it is up to date.
 ====
 
-==== Listing all statistics : `liststatistics` image:Tutor.png[16,16]
+==== Listing all statistics : `liststatistics` image:Basic.png[16,16]
 
 Shows a list of all statistics in the statistics book, along with an index for each +
 Format: `liststatistics`
@@ -704,7 +705,7 @@ Format: `liststatistics`
 [NOTE]
 ====
 If you delete an assessment after generating its statistics, this statistic will still remain in the statistics book. This
-is to ensure that the school can maintain a record of all its statistics over time, if needed, even though the assessment
+is to ensure that the school can maintain a record of all its statistics over time if needed, even though the assessment
 may have ended and the grades are awarded to students. It is up to the school to decide how long they want to store their
 statistics for.
 ====
@@ -727,7 +728,7 @@ Example(s):
 // tag::attendance[]
 === Attendance Commands
 
-Below are the commands that deals with attendance data:
+Below are the commands that deal with attendance data:
 
 ==== Updates the attendance of a person: `attendance` image:Tutor.png[16,16]
 Updates the attendance of the target person. +
@@ -808,7 +809,7 @@ Example(s):
 `replaceAtten 1 d/29-09-2018 att/1` +
 Replaces the attendance of the first person in the list as present for the date 29th September 2018.
 
-=== Coming is v2.0:
+==== Coming in v2.0:
 ==== Update multiple people attendance: `multiAtten` image:Tutor.png[16,16]
 Updates the attendance of multiple people based on the list of index. +
 Format: `multiAtten i/MULTIPLE_INDEX d/DATE att/ATTENDANCE`
@@ -828,8 +829,6 @@ Marks the attendance of the people with index 1, 2, 4 and 5 in the list as prese
 * `list`  +
 `attendance i/0  d/0 att/0` +
 Marks the attendance of everybody on the list as absent for today's date.
-
-
 // end::attendance[]
 
 == Saving the data
@@ -853,3 +852,62 @@ a data saving operation. ClassRepo shuts itself down to ensure synchronisation o
 == Known Issues
 1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
 image:asciiArt.png[500,500]
+
+== Summary of All Commands
+Commands are sorted in terms of increasing privileges needed to run them.
++++ <details><summary> +++
+Click to Expand
++++ </summary><div> +++
+
+[width="50%",cols="22%,<20%,<20%,<20%",options="header",]
+|=======================================================================
+|Command |Basic |Tutor |Admin
+|help |Y |Y |Y
+|exit |Y |Y |Y
+|help |Y |Y |Y
+|raise |Y |Y |Y
+|viewpri |Y |Y |Y
+|view |Y |Y |Y
+|list |Y |Y |Y
+|find |Y |Y |Y
+|login |Y |Y |Y
+|logout |Y |Y |Y
+|listacc |Y |Y |Y
+|viewexams |Y |Y |Y
+|listall |N |Y |Y
+|viewall |N |Y |Y
+|listexams |N |Y |Y
+|regexam |N |Y |Y
+|deregexam |N |Y |Y
+|viewfees |N |Y |Y
+|listfees |N |Y |Y
+|listdue |N |Y |Y
+|addassess |N |Y |Y
+|listassess |Y |Y |Y
+|deleteassess |N |Y |Y
+|addgrades |N |Y |Y
+|viewgrades |N |Y |Y
+|deletegrades |N |Y |Y
+|addstatistics |N |Y |Y
+|liststatistics |Y |Y |Y
+|deletestatistics |N |Y |Y
+|attendance |N |Y |Y
+|replaceAtten |N |Y |Y
+|viewAttenPerson |N |Y |Y
+|viewAttenDate |N |Y |Y
+|editpw |N |N |Y
+|perm |N |N |Y
+|add |N |N |Y
+|delete |N |N |Y
+|clear |N |N |Y
+|addexam |N |N |Y
+|deleteexam |N |N |Y
+|editexam |N |N |Y
+|clearexams |N |N |Y
+|addacc |N |N |Y
+|deleteacc |N |N |Y
+|editfees |N |N |Y
+|paidfees |N |N |Y
+|=======================================================================
++++ </div></details> +++
+>>>>>>> 3b8fb61ad0ae230e49c7c6661e5823334267d226
